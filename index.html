@@ -962,7 +962,7 @@
 
     const isAccident = type === "Anunt accident";
     emergencyNote.style.display = isAccident ? 'flex' : 'none';
-    descField.style.display = isAccident ? 'none' : 'block';
+    descField.style.display = 'block';
     document.getElementById('f-description').required = !isAccident;
   }
 
@@ -999,7 +999,7 @@
       phone: document.getElementById('f-phone').value.trim(),
       email: document.getElementById('f-email').value.trim() || null,
       address: document.getElementById('f-address').value.trim(),
-      description: selectedType === 'Anunt accident' ? null : document.getElementById('f-description').value.trim(),
+      description: document.getElementById('f-description').value.trim() || null,
     };
 
     const { data: ticketNumber, error } = await supabaseClient.rpc('create_ticket', {
