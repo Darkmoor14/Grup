@@ -250,6 +250,27 @@
   }
   .map-label strong{color:var(--copper-600);font-weight:500;}
   .map-svg-wrap{position:relative;width:100%;aspect-ratio:16/9;}
+  .wire-line{stroke:var(--copper-500);stroke-width:1.4;fill:none;opacity:0.4;}
+  .wire-joint{fill:var(--copper-500);opacity:0.55;}
+  .hub-dot{
+    position:absolute;left:50%;top:50%;width:16px;height:16px;
+    background:var(--copper-500);border:2px solid var(--paper-050);
+    border-radius:50%;transform:translate(-50%,-50%);
+    cursor:pointer;z-index:4;
+  }
+  .hub-dot::before,.hub-dot::after{
+    content:"";position:absolute;inset:0;border-radius:50%;
+    background:var(--copper-500);
+    animation:hub-pulse 2.4s ease-out infinite;
+  }
+  .hub-dot::after{animation-delay:1.2s;}
+  @keyframes hub-pulse{
+    0%{transform:scale(1);opacity:0.55;}
+    100%{transform:scale(3.2);opacity:0;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .hub-dot::before,.hub-dot::after{animation:none;display:none;}
+  }
   .node-dot{
     position:absolute;width:11px;height:11px;
     background:var(--copper-500);border:2px solid var(--paper-050);
@@ -466,10 +487,9 @@
       <a href="#despre">Despre noi</a>
       <a href="#servicii">Servicii</a>
       <a href="#proiecte">Proiecte</a>
-      <a href="#raportare">Raportează o problemă</a>
       <a href="#contact">Contact</a>
     </div>
-    <a href="#raportare" class="nav-cta">Raportează o problemă</a>
+    <a href="#raportare" class="nav-cta">Sesizări iluminat public</a>
   </nav>
 </header>
 
@@ -496,13 +516,9 @@
     </g>
   </svg>
   <div class="wrap">
-    <div class="hero-eyebrow">SC Insta Grup SRL · din 1997 · Târgu-Mureș</div>
+    <div class="hero-eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
     <h1>Infrastructură electrică&nbsp;<em>proiectată să reziste</em>&nbsp;deceniilor.</h1>
     <p class="lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
-    <div class="hero-actions">
-      <a href="#proiecte" class="btn btn-primary">Vezi lucrările de referință →</a>
-      <a href="#raportare" class="btn btn-ghost">Raportează o problemă</a>
-    </div>
   </div>
 </section>
 
@@ -559,22 +575,15 @@
       <p>O selecție din lucrările noastre, poziționate geografic. Treceți cursorul peste un punct pentru detalii.</p>
     </div>
     <div class="map-shell">
-      <div class="map-label"><span>Județul Mureș — <strong>8 din 150+ proiecte</strong></span><span>Actualizat 2026</span></div>
+      <div class="map-label"><span>Județul Mureș — <strong>18 din 150+ proiecte</strong></span><span>Actualizat 2026</span></div>
       <div class="map-svg-wrap" id="mapWrap">
         <svg viewBox="0 0 800 450" width="100%" height="100%" style="position:absolute;inset:0;" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
-            <path d="M 40 220 H 240 V 90 H 500"/>
-            <path d="M 40 220 V 340 H 320 V 260 H 620"/>
-            <path d="M 240 220 V 300 H 460 V 400"/>
-            <path d="M 500 90 V 260"/>
-            <path d="M 620 260 V 130 H 760"/>
-            <path d="M 460 400 H 700"/>
-          </g>
-          <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
-            <path d="M 40 220 H 240 V 90 H 500"/>
-            <path d="M 40 220 V 340 H 320 V 260 H 620"/>
-            <path d="M 620 260 V 130 H 760"/>
-          </g>
+          <!-- Populated by JS: one elbow "wire" path per project, running from
+               the headquarters hub (center) out to that project's dot position,
+               so every line always connects two real points — see buildMapWires()
+               below, which replaces the old hand-placed decorative paths that
+               didn't line up with the actual dot positions. -->
+          <g id="wireLines"></g>
         </svg>
       </div>
       <div id="tooltip" class="tooltip">
@@ -682,20 +691,23 @@
       </div>
     </div>
     <div class="form-card">
-      <label>Nume</label>
-      <input type="text" placeholder="Numele dvs.">
-      <label>Email</label>
-      <input type="email" placeholder="nume@companie.ro">
-      <label>Detalii proiect</label>
-      <textarea placeholder="Descrieți pe scurt lucrarea..."></textarea>
-      <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;">Trimite solicitarea</a>
+      <form id="contactForm">
+        <label>Nume</label>
+        <input type="text" id="c-name" placeholder="Numele dvs." required>
+        <label>Email</label>
+        <input type="email" id="c-email" placeholder="nume@companie.ro" required>
+        <label>Detalii proiect</label>
+        <textarea id="c-message" placeholder="Descrieți pe scurt lucrarea..." required></textarea>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactSubmitBtn">Trimite solicitarea</button>
+      </form>
+      <div class="form-msg" id="contactMsg"></div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap footer-inner">
-    <span>© 2026 SC Insta Grup SRL. Toate drepturile rezervate.</span>
+    <span>© 2026 Insta Grup S.A. Toate drepturile rezervate.</span>
     <div class="footer-links">
       <button type="button" onclick="openModal('gdprModal')">Politica de confidențialitate (GDPR)</button>
       <button type="button" onclick="openModal('tcModal')">Termeni și Condiții</button>
@@ -713,7 +725,7 @@
     </div>
     <div class="modal-body">
       <h4>1. Cine suntem</h4>
-      <p>SC INSTA GRUP SRL, cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, este operator de date cu caracter personal atunci când prelucrează datele persoanelor care ne contactează, ale reprezentanților clienților și partenerilor noștri, precum și ale altor persoane cu care intrăm în contact în activitatea de proiectare și execuție a instalațiilor electrice și a lucrărilor conexe.</p>
+      <p>Insta Grup S.A., cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, este operator de date cu caracter personal atunci când prelucrează datele persoanelor care ne contactează, ale reprezentanților clienților și partenerilor noștri, precum și ale altor persoane cu care intrăm în contact în activitatea de proiectare și execuție a instalațiilor electrice și a lucrărilor conexe.</p>
       <p>Date de contact: <a href="mailto:office@insta-grup.ro">office@insta-grup.ro</a>, tel. 0265 253997.</p>
 
       <h4>2. Ce date prelucrăm</h4>
@@ -769,14 +781,14 @@
     </div>
     <div class="modal-body">
       <h4>1. Dispoziții generale</h4>
-      <p>1.1 Prezentul document constituie contractul dintre dumneavoastră, în calitate de Utilizator al website-ului <a href="http://www.insta-grup.ro" target="_blank" rel="noopener">www.insta-grup.ro</a>, și SC INSTA GRUP SA, în calitate de proprietar al site-ului (în continuare „Site-ul").</p>
+      <p>1.1 Prezentul document constituie contractul dintre dumneavoastră, în calitate de Utilizator al website-ului <a href="http://www.insta-grup.ro" target="_blank" rel="noopener">www.insta-grup.ro</a>, și Insta Grup S.A., în calitate de proprietar al site-ului (în continuare „Site-ul").</p>
       <p>1.2 Prin accesarea, navigarea și utilizarea site-ului www.insta-grup.ro confirmați faptul că ați luat la cunoștință acești Termeni și Condiții, îi acceptați, îi înțelegeți și îi respectați pe deplin. Neacceptarea acestor Termeni și Condiții atrage obligația de a înceta, de îndată, accesarea Site-ului.</p>
       <p>1.3 Prevederile din acești Termeni și Condiții se aplică pentru întreaga durată de utilizare, durată care se reînnoiește cu fiecare accesare a Site-ului.</p>
       <p>1.4 Prezentul document are rolul de a expune scopul Site-ului, de a stabili condițiile de utilizare a acestuia, precum și drepturile și obligațiile fiecărei părți și limitele de răspundere ale acestora.</p>
       <p>1.5 INSTA GRUP își rezervă dreptul de a actualiza forma și conținutul site-ului fără o notificare prealabilă a vizitatorilor. Prezenții Termeni și Condiții pot fi de asemenea modificați fără o notificare prealabilă, intrând în vigoare din momentul publicării pe site.</p>
 
       <h4>2. Cine suntem</h4>
-      <p>2.1 Website-ul este proprietatea SC INSTA GRUP SA, persoană juridică română, cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, <em>[înregistrată la Oficiul Registrului Comerțului sub nr. J.../.../..., având CIF RO...]</em> — de completat cu numărul de înregistrare și CIF-ul real.</p>
+      <p>2.1 Website-ul este proprietatea Insta Grup S.A., persoană juridică română, cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, <em>[înregistrată la Oficiul Registrului Comerțului sub nr. J.../.../..., având CIF RO...]</em> — de completat cu numărul de înregistrare și CIF-ul real.</p>
 
       <h4>3. Drepturi de autor</h4>
       <p>3.1 Drepturile de autor sau alte drepturi de proprietate intelectuală cu privire la textele, imaginile, graficele, elementele de grafică web, precum și orice alte materiale din interiorul acestui site sunt proprietatea exclusivă a INSTA GRUP, cu excepția cazului în care se menționează altfel.</p>
@@ -827,6 +839,10 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<!-- EmailJS: sends the two notification emails (new ticket -> sesizari@insta-grup.ro,
+     contact form -> office@insta-grup.ro) directly from the browser, since this is a
+     static site with no backend server of its own beyond Supabase. -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
   /* ============================================================
      SUPABASE CONFIG — these are your public project values
@@ -835,6 +851,37 @@
   const SUPABASE_URL = "https://ebuigyyjifnjiuzsgpih.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_aXC8Q_v2faRB0uEAlZYFog_JreYGXvq";
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  /* ============================================================
+     EMAILJS CONFIG — replace these three placeholders with the
+     real values from your EmailJS account (emailjs.com, free tier):
+       - EMAILJS_PUBLIC_KEY: Account -> General -> Public Key
+       - EMAILJS_SERVICE_ID: Email Services -> your connected service
+       - EMAILJS_TEMPLATE_TICKET / EMAILJS_TEMPLATE_CONTACT: Email
+         Templates -> the two templates you create (see setup notes)
+     Until these are filled in, ticket/contact submissions still work
+     and still save to Supabase — only the notification email is skipped.
+     ============================================================ */
+  const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID = "YOUR_EMAILJS_SERVICE_ID";
+  const EMAILJS_TEMPLATE_TICKET = "YOUR_TICKET_TEMPLATE_ID";
+  const EMAILJS_TEMPLATE_CONTACT = "YOUR_CONTACT_TEMPLATE_ID";
+  const EMAILJS_READY = !EMAILJS_PUBLIC_KEY.startsWith("YOUR_");
+  if (EMAILJS_READY && window.emailjs) {
+    window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
+  // Fires an EmailJS notification, but never blocks or breaks the actual
+  // form flow if EmailJS isn't configured yet or the request fails —
+  // the Supabase save already happened by the time this runs.
+  async function sendNotification(templateId, params){
+    if (!EMAILJS_READY || !window.emailjs) return;
+    try {
+      await window.emailjs.send(EMAILJS_SERVICE_ID, templateId, params);
+    } catch (err) {
+      console.error('EmailJS notification failed (non-blocking):', err);
+    }
+  }
 
   /* ============================================================
      LEGAL MODALS (GDPR / Termeni și Condiții)
@@ -907,10 +954,77 @@
     {x:95, y:29, tag:"Alimentări", title:"Hala Hirschmann TM1/TM2", desc:"Alimentare și spor de putere pentru halele de producție."},
     {x:58, y:89, tag:"Iluminat public", title:"Reabilitare iluminat Cristești", desc:"Modernizarea trecerilor de pietoni și a iluminatului stradal."},
     {x:88, y:89, tag:"Fibră optică", title:"Canalizații Tg. Mureș", desc:"Canalizații subterane pentru transfer de informație."},
+    {x:22, y:34, tag:"Alimentări", title:"Complex comercial Belrom Unu", desc:"Alimentare cu energie electrică, etapa I, Tg. Mureș."},
+    {x:47, y:44, tag:"Rețele electrice", title:"LEA 110 kV Fântânele–Sovata", desc:"Înlocuire izolație la traversări pe linia de înaltă tensiune."},
+    {x:68, y:72, tag:"Alimentări", title:"Spital Județean de Urgență", desc:"Creare stradă de legătură și alimentare electrică aferentă."},
+    {x:16, y:70, tag:"Rețele electrice", title:"Îmbunătățire tensiune Sânpaul", desc:"Mărire grad de siguranță prin injecție din stația Sânpaul."},
+    {x:83, y:15, tag:"Iluminat public", title:"Iluminat stradal Gh. Doja", desc:"Sens giratoriu și iluminat pentru complex comercial retail."},
+    {x:35, y:58, tag:"Alimentări", title:"Hală producție Prolemn Reghin", desc:"Instalații electrice iluminat și protecție la trăsnet, fabrica PAL/MDF."},
+    {x:6, y:22, tag:"Rețele electrice", title:"LEA 20 kV Râciu–Sărmaş", desc:"Înlocuire izolație pe linia electrică aeriană de medie tensiune."},
+    {x:73, y:42, tag:"Automatizări", title:"Depozite Kastamonu Romania", desc:"Instalație de paratrăsnet, zona depozite lemn și birouri."},
+    {x:52, y:8, tag:"Apă-canal", title:"Extindere irigații CASM", desc:"Extindere sistem de irigații în incinta CASM."},
+    {x:91, y:63, tag:"Fibră optică", title:"Rețea Vodafone", desc:"Montare canalizație pentru fibră optică."},
   ];
 
   const mapWrap = document.getElementById('mapWrap');
   const tooltip = document.getElementById('tooltip');
+  const wireLayer = document.getElementById('wireLines');
+
+  // Headquarters position — center of the map panel. All wire traces
+  // originate here, matching the hub-dot's CSS position (left/top 50%).
+  const HUB_X_PCT = 50, HUB_Y_PCT = 50;
+  const VB_W = 800, VB_H = 450; // must match the SVG's viewBox above
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+
+  function pctToPx(xPct, yPct){
+    return { x: (xPct / 100) * VB_W, y: (yPct / 100) * VB_H };
+  }
+
+  // Draws one elbow-shaped "wire" (horizontal then vertical, like a
+  // circuit trace) from the hub to a project's exact dot position, plus
+  // a small junction dot at the bend — so the line always terminates
+  // precisely on the project dot rendered just below.
+  function buildMapWires(){
+    const hub = pctToPx(HUB_X_PCT, HUB_Y_PCT);
+    projects.forEach(p => {
+      const target = pctToPx(p.x, p.y);
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('class', 'wire-line');
+      path.setAttribute('d', `M ${hub.x} ${hub.y} H ${target.x} V ${target.y}`);
+      wireLayer.appendChild(path);
+
+      const joint = document.createElementNS(svgNS, 'circle');
+      joint.setAttribute('class', 'wire-joint');
+      joint.setAttribute('cx', target.x);
+      joint.setAttribute('cy', hub.y);
+      joint.setAttribute('r', 2.5);
+      wireLayer.appendChild(joint);
+    });
+  }
+  buildMapWires();
+
+  // Headquarters marker — pulsing hub at the center, with its own tooltip.
+  const hubDot = document.createElement('div');
+  hubDot.className = 'hub-dot';
+  hubDot.setAttribute('role', 'button');
+  hubDot.setAttribute('tabindex', '0');
+  hubDot.setAttribute('aria-label', 'Sediu Insta Grup');
+  mapWrap.appendChild(hubDot);
+
+  const showHub = ()=>{
+    tooltip.querySelector('.tt-tag').textContent = 'Sediu';
+    tooltip.querySelector('.tt-title').textContent = 'Insta Grup S.A.';
+    tooltip.querySelector('.tt-desc').textContent = 'Str. Căminului nr. 35, Târgu-Mureș';
+    tooltip.style.left = (HUB_X_PCT + 3) + '%';
+    tooltip.style.top = (HUB_Y_PCT - 12) + '%';
+    tooltip.classList.add('show');
+  };
+  const hideHub = ()=>tooltip.classList.remove('show');
+  hubDot.addEventListener('mouseenter', showHub);
+  hubDot.addEventListener('focus', showHub);
+  hubDot.addEventListener('mouseleave', hideHub);
+  hubDot.addEventListener('blur', hideHub);
 
   projects.forEach(p=>{
     const dot = document.createElement('button');
@@ -953,6 +1067,9 @@
   const submitBtn = document.getElementById('submitBtn');
   const backBtn = document.getElementById('backBtn');
 
+  // Step 2: show the detail form for the chosen ticket type.
+  // Called every time a type card is clicked, including switching
+  // from one type to the other without reloading the page.
   function goToStep2(type){
     selectedType = type;
     step1.classList.remove('active');
@@ -963,9 +1080,15 @@
     const isAccident = type === "Anunt accident";
     emergencyNote.style.display = isAccident ? 'flex' : 'none';
     descField.style.display = 'block';
+    // Description is required for functionality reports, optional for
+    // urgent accidents (so an emergency submission is never blocked).
     document.getElementById('f-description').required = !isAccident;
   }
 
+  // Step 1: back to the type choice. Fully resets step 2's visual state
+  // (selected card, emergency note, form visibility) so the visitor can
+  // freely go back and forth between the two types without any leftover
+  // state from a previous choice or a previous submission.
   function goToStep1(){
     step2.classList.remove('active');
     step1.classList.add('active');
@@ -973,6 +1096,9 @@
     ind1.classList.add('active');
     formMsg.className = 'form-msg';
     formMsg.textContent = '';
+    selectedType = null;
+    document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+    ticketForm.style.display = 'block';
   }
 
   document.getElementById('card-functionala').addEventListener('click', ()=>{
@@ -987,6 +1113,11 @@
   });
   backBtn.addEventListener('click', goToStep1);
 
+  // Handles the actual ticket submission: calls the create_ticket()
+  // Postgres function (via Supabase RPC) instead of inserting directly,
+  // since anonymous visitors are not allowed to read back rows from the
+  // tickets table (see Supabase SQL setup notes). The function inserts
+  // the row itself and returns just the generated ticket number.
   ticketForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
     submitBtn.disabled = true;
@@ -1023,6 +1154,20 @@
 
     formMsg.className = 'form-msg success';
     formMsg.innerHTML = `Sesizarea a fost înregistrată cu numărul <span class="ticket-num">${ticketNumber}</span>. Vă mulțumim!`;
+
+    // Notify the team — this runs after the Supabase save already
+    // succeeded, so a failed/unconfigured email never affects the ticket.
+    sendNotification(EMAILJS_TEMPLATE_TICKET, {
+      to_email: 'sesizari@insta-grup.ro',
+      ticket_number: ticketNumber,
+      ticket_type: payload.type === 'Anunt accident' ? 'Accident / urgență' : 'Problemă de funcționalitate',
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email || '-',
+      address: payload.address,
+      description: payload.description || '-',
+    });
+
     ticketForm.reset();
     ticketForm.style.display = 'none';
 
@@ -1031,6 +1176,56 @@
       document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
       goToStep1();
     }, 6000);
+  });
+
+  /* ============================================================
+     CONTACT FORM (bottom of page) — sends a notification email to
+     office@insta-grup.ro via EmailJS. This form has no Supabase table
+     of its own; it's purely a "send us an email" form, unlike the
+     ticket form above which also persists to the database.
+     ============================================================ */
+  const contactForm = document.getElementById('contactForm');
+  const contactMsg = document.getElementById('contactMsg');
+  const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+
+  contactForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    contactSubmitBtn.disabled = true;
+    contactSubmitBtn.textContent = 'Se trimite...';
+    contactMsg.className = 'form-msg';
+
+    const name = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    const message = document.getElementById('c-message').value.trim();
+
+    if (!EMAILJS_READY) {
+      // EmailJS not configured yet — tell the person clearly instead of
+      // silently pretending the message was sent.
+      contactSubmitBtn.disabled = false;
+      contactSubmitBtn.textContent = 'Trimite solicitarea';
+      contactMsg.className = 'form-msg error';
+      contactMsg.textContent = 'Formularul de contact nu este încă activat. Vă rugăm sunați la 0265 253 997 sau scrieți la office@insta-grup.ro.';
+      return;
+    }
+
+    try {
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, {
+        to_email: 'office@insta-grup.ro',
+        from_name: name,
+        from_email: email,
+        message: message,
+      });
+      contactMsg.className = 'form-msg success';
+      contactMsg.textContent = 'Mulțumim! Solicitarea dvs. a fost trimisă.';
+      contactForm.reset();
+    } catch (err) {
+      console.error(err);
+      contactMsg.className = 'form-msg error';
+      contactMsg.textContent = 'A apărut o eroare la trimitere. Vă rugăm încercați din nou sau sunați la 0265 253 997.';
+    }
+
+    contactSubmitBtn.disabled = false;
+    contactSubmitBtn.textContent = 'Trimite solicitarea';
   });
 </script>
 
