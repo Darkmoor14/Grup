@@ -126,13 +126,9 @@
 <div class="login-wrap" id="loginWrap">
   <div class="login-card">
     <h2>Admin — Sesizări</h2>
-    <p class="sub">Autentificare pentru echipa Insta Grup</p>
+    <p class="sub">Introduceți parola echipei pentru a accesa tichetele</p>
     <div class="login-error" id="loginError"></div>
     <form id="loginForm">
-      <div class="field">
-        <label>Email</label>
-        <input type="email" id="loginEmail" required autocomplete="username">
-      </div>
       <div class="field">
         <label>Parolă</label>
         <input type="password" id="loginPassword" required autocomplete="current-password">
@@ -162,6 +158,10 @@
   const SUPABASE_ANON_KEY = "sb_publishable_aXC8Q_v2faRB0uEAlZYFog_JreYGXvq";
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // Fixed shared-account email used behind the scenes — the team only ever types the password.
+  // This must match the email of the one Supabase Auth user created for admin access.
+  const SHARED_LOGIN_EMAIL = "echipa@insta-grup.ro";
+
   const loginWrap = document.getElementById('loginWrap');
   const dash = document.getElementById('dash');
   const loginForm = document.getElementById('loginForm');
@@ -183,15 +183,15 @@
   async function checkSession(){
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
-      showDashboard(session.user.email);
+      showDashboard();
     }
   }
 
-  function showDashboard(email){
+  function showDashboard(){
     loginWrap.style.display = 'none';
     dash.classList.add('show');
     logoutBtn.style.display = 'inline-flex';
-    userTag.textContent = email;
+    userTag.textContent = 'Conectat';
     loadTickets();
   }
 
@@ -208,20 +208,19 @@
     loginBtn.textContent = 'Se autentifică...';
     loginError.classList.remove('show');
 
-    const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email: SHARED_LOGIN_EMAIL, password });
 
     loginBtn.disabled = false;
     loginBtn.textContent = 'Autentificare';
 
     if (error) {
-      loginError.textContent = 'Email sau parolă incorectă.';
+      loginError.textContent = 'Parolă incorectă.';
       loginError.classList.add('show');
       return;
     }
-    showDashboard(data.user.email);
+    showDashboard();
   });
 
   logoutBtn.addEventListener('click', async () => {
