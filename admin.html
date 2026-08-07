@@ -161,6 +161,38 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
+  /* ================================================================
+     ADMIN DASHBOARD — insta-grup.ro
+     ----------------------------------------------------------------
+     Purpose: internal page for staff to view and resolve tickets
+     submitted through the public form on index.html.
+
+     How it works:
+       1. Login uses Supabase Auth (real email + password accounts,
+          created manually in Supabase -> Authentication -> Users).
+          There is no "sign up" flow — accounts are added by whoever
+          manages the Supabase project.
+       2. Once logged in, the session grants the "authenticated" role
+          in Supabase, which is what Row Level Security (RLS) checks
+          to allow reading and updating the `tickets` table — see the
+          RLS policies set up in the Supabase SQL Editor.
+       3. Tickets are fetched with `.from('tickets').select('*')` and
+          rendered as cards. Editing Status or "Rezolvat de" and
+          clicking Salvează runs `.update(...)` on that one row.
+       4. A Postgres trigger (set_resolved_on, set up separately in
+          Supabase) automatically stamps `resolved_on` the moment a
+          ticket's status is changed to "Terminat" — this page does
+          not set that timestamp itself.
+       5. "Descarcă CSV" builds a CSV client-side from the tickets
+          already loaded in memory (no extra network request) and
+          triggers a browser download — see exportTicketsCSV() below.
+
+     Editing this file: the Supabase URL/key below are meant to be
+     public (they only grant what the RLS policies allow — nothing
+     more). If you rename any column in the `tickets` table in
+     Supabase, update the matching `t.<column>` references here too.
+     ================================================================ */
+
   const SUPABASE_URL = "https://ebuigyyjifnjiuzsgpih.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_aXC8Q_v2faRB0uEAlZYFog_JreYGXvq";
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
