@@ -849,11 +849,19 @@
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   /* ============================================================
-     EMAIL NOTIFICATIONS — sent via a Supabase Edge Function
-     ("send-email") that connects directly to the company's own
-     cPanel SMTP mailbox. No third-party email service is used.
-     See the "send-email" Edge Function source + setup notes for
-     the SMTP secrets that need to be configured in Supabase.
+     EMAIL NOTIFICATIONS — sent via a Supabase Edge Function that
+     connects directly to the company's own cPanel SMTP mailbox.
+     No third-party email service is used.
+
+     IMPORTANT: the function's actual URL slug is "bright-processor",
+     NOT the display name shown in the Supabase dashboard ("send-email").
+     Supabase's Edge Functions dashboard auto-generates a random slug
+     at creation time, separate from the editable "Name" field, which
+     is purely cosmetic and does not affect the endpoint URL. If you
+     ever redeploy this function under a new name, check its real URL
+     under Edge Functions -> (the function) -> the address shown at
+     the top of the page, and update the two `.invoke('...')` calls
+     below to match — do not assume the display name is the slug.
 
      This call never blocks or breaks the actual form flow if it
      fails — the Supabase save (ticket or nothing, for contact)
@@ -862,7 +870,7 @@
      ============================================================ */
   async function sendNotification(payload){
     try {
-      const { error } = await supabaseClient.functions.invoke('send-email', {
+      const { error } = await supabaseClient.functions.invoke('bright-processor', {
         body: payload,
       });
       if (error) console.error('send-email function failed (non-blocking):', error);
@@ -1187,7 +1195,7 @@
     const message = document.getElementById('c-message').value.trim();
 
     try {
-      const { error } = await supabaseClient.functions.invoke('send-email', {
+      const { error } = await supabaseClient.functions.invoke('bright-processor', {
         body: { type: 'contact', from_name: name, from_email: email, message: message },
       });
       if (error) throw error;
