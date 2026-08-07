@@ -146,7 +146,10 @@
     </div>
     <div class="toolbar">
       <div class="chips" id="chipsWrap"></div>
-      <div class="result-count" id="resultCount"></div>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div class="result-count" id="resultCount"></div>
+        <button class="btn" id="exportBtn" type="button">⭳ Descarcă CSV</button>
+      </div>
     </div>
     <div class="ticket-list" id="ticketList"></div>
   </div>
@@ -340,6 +343,59 @@
       list.appendChild(card);
     });
   }
+
+  /* ============================================================
+     EXPORT CSV — downloads all currently loaded tickets
+     ============================================================ */
+  function csvEscape(value) {
+    const str = (value === null || value === undefined) ? '' : String(value);
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+
+  function exportTicketsCSV() {
+    if (!allTickets || allTickets.length === 0) {
+      alert('Nu există tichete de exportat.');
+      return;
+    }
+
+    const headers = [
+      'Număr tichet', 'Tip', 'Nume', 'Telefon', 'Email', 'Adresă',
+      'Descriere', 'Stare', 'Rezolvat de', 'Trimis la', 'Rezolvat la'
+    ];
+
+    const rows = allTickets.map(t => [
+      t.ticket_number,
+      t.type === 'Anunt accident' ? 'Accident' : 'Funcționalitate',
+      t.name,
+      t.phone,
+      t.email,
+      t.address,
+      t.description,
+      t.status === 'Terminat' ? 'Terminat' : 'Activ',
+      t.resolved_by,
+      fmtDate(t.submitted_on),
+      fmtDate(t.resolved_on)
+    ]);
+
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(csvEscape).join(','))
+      .join('\r\n');
+
+    // BOM prefix so Excel correctly reads UTF-8 diacritics (ă, â, î, ș, ț)
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const dateStr = new Date().toISOString().slice(0, 10);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `tichete-insta-grup-${dateStr}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('exportBtn').addEventListener('click', exportTicketsCSV);
 
   checkSession();
 </script>
