@@ -138,7 +138,7 @@
 
 <footer>
   <div class="wrap footer-inner">
-    <span>© 2026 SC Insta Grup SRL. Toate drepturile rezervate.</span>
+    <span>© 2026 Insta Grup S.A. Toate drepturile rezervate.</span>
     <div class="footer-links">
       <button type="button" onclick="openModal(&#39;gdprModal&#39;)">Politica de confidențialitate (GDPR)</button>
       <button type="button" onclick="openModal(&#39;tcModal&#39;)">Termeni și Condiții</button>
@@ -155,7 +155,7 @@
     </div>
     <div class="modal-body">
       <h4>1. Cine suntem</h4>
-      <p>SC INSTA GRUP SRL, cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, este operator de date cu caracter personal atunci când prelucrează datele persoanelor care ne contactează, ale reprezentanților clienților și partenerilor noștri, precum și ale altor persoane cu care intrăm în contact în activitatea de proiectare și execuție a instalațiilor electrice și a lucrărilor conexe.</p>
+      <p>Insta Grup S.A., cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, este operator de date cu caracter personal atunci când prelucrează datele persoanelor care ne contactează, ale reprezentanților clienților și partenerilor noștri, precum și ale altor persoane cu care intrăm în contact în activitatea de proiectare și execuție a instalațiilor electrice și a lucrărilor conexe.</p>
       <p>Date de contact: <a href="mailto:office@insta-grup.ro">office@insta-grup.ro</a>, tel. 0265 253997.</p>
       <h4>2. Ce date prelucrăm</h4>
       <p>Spre deosebire de un furnizor de utilități cu milioane de clienți casnici, INSTA GRUP prelucrează date într-un volum mult mai restrâns, în principal date de identificare și de contact ale reprezentanților clienților, partenerilor și furnizorilor, datele transmise prin formularul de contact de pe website, date cuprinse în documentația tehnică și contractuală aferentă lucrărilor, precum și date ale angajaților, dacă este cazul.</p>
@@ -184,6 +184,27 @@
 </div>
 
 <script>
+  /* ================================================================
+     PROJECT ARCHIVE — insta-grup.ro/proiecte.html
+     ----------------------------------------------------------------
+     Purpose: full searchable/filterable list of past projects, linked
+     from the "Vezi arhiva completă" button on the homepage's project
+     map section (index.html).
+
+     This page is entirely static (no Supabase, no database) — the
+     `projects` array below is the full dataset, hardcoded. To add,
+     remove, or edit a project, edit that array directly (each entry
+     is { title, cat }, where `cat` must exactly match one of the
+     category names in the `categories` array just below it, or it
+     will silently fall outside every filter chip).
+
+     The category chips and the search box both filter the same
+     in-memory array client-side (see render()) — there is no
+     server-side pagination, which is fine at this data size (~70
+     items) but would need rethinking if the project list grows into
+     the many hundreds.
+     ================================================================ */
+
   function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
   document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id)); } });
