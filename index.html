@@ -839,10 +839,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<!-- EmailJS: sends the two notification emails (new ticket -> sesizari@insta-grup.ro,
-     contact form -> office@insta-grup.ro) directly from the browser, since this is a
-     static site with no backend server of its own beyond Supabase. -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
   /* ============================================================
      SUPABASE CONFIG — these are your public project values
@@ -853,33 +849,25 @@
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   /* ============================================================
-     EMAILJS CONFIG — replace these three placeholders with the
-     real values from your EmailJS account (emailjs.com, free tier):
-       - EMAILJS_PUBLIC_KEY: Account -> General -> Public Key
-       - EMAILJS_SERVICE_ID: Email Services -> your connected service
-       - EMAILJS_TEMPLATE_TICKET / EMAILJS_TEMPLATE_CONTACT: Email
-         Templates -> the two templates you create (see setup notes)
-     Until these are filled in, ticket/contact submissions still work
-     and still save to Supabase — only the notification email is skipped.
-     ============================================================ */
-  const EMAILJS_PUBLIC_KEY = "YOUR_EMAILJS_PUBLIC_KEY";
-  const EMAILJS_SERVICE_ID = "YOUR_EMAILJS_SERVICE_ID";
-  const EMAILJS_TEMPLATE_TICKET = "YOUR_TICKET_TEMPLATE_ID";
-  const EMAILJS_TEMPLATE_CONTACT = "YOUR_CONTACT_TEMPLATE_ID";
-  const EMAILJS_READY = !EMAILJS_PUBLIC_KEY.startsWith("YOUR_");
-  if (EMAILJS_READY && window.emailjs) {
-    window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-  }
+     EMAIL NOTIFICATIONS — sent via a Supabase Edge Function
+     ("send-email") that connects directly to the company's own
+     cPanel SMTP mailbox. No third-party email service is used.
+     See the "send-email" Edge Function source + setup notes for
+     the SMTP secrets that need to be configured in Supabase.
 
-  // Fires an EmailJS notification, but never blocks or breaks the actual
-  // form flow if EmailJS isn't configured yet or the request fails —
-  // the Supabase save already happened by the time this runs.
-  async function sendNotification(templateId, params){
-    if (!EMAILJS_READY || !window.emailjs) return;
+     This call never blocks or breaks the actual form flow if it
+     fails — the Supabase save (ticket or nothing, for contact)
+     already happened by the time this runs, so a broken/misconfigured
+     mail function just means a missed notification, not a lost ticket.
+     ============================================================ */
+  async function sendNotification(payload){
     try {
-      await window.emailjs.send(EMAILJS_SERVICE_ID, templateId, params);
+      const { error } = await supabaseClient.functions.invoke('send-email', {
+        body: payload,
+      });
+      if (error) console.error('send-email function failed (non-blocking):', error);
     } catch (err) {
-      console.error('EmailJS notification failed (non-blocking):', err);
+      console.error('send-email call failed (non-blocking):', err);
     }
   }
 
@@ -1157,8 +1145,8 @@
 
     // Notify the team — this runs after the Supabase save already
     // succeeded, so a failed/unconfigured email never affects the ticket.
-    sendNotification(EMAILJS_TEMPLATE_TICKET, {
-      to_email: 'sesizari@insta-grup.ro',
+    sendNotification({
+      type: 'ticket',
       ticket_number: ticketNumber,
       ticket_type: payload.type === 'Anunt accident' ? 'Accident / urgență' : 'Problemă de funcționalitate',
       name: payload.name,
@@ -1180,7 +1168,7 @@
 
   /* ============================================================
      CONTACT FORM (bottom of page) — sends a notification email to
-     office@insta-grup.ro via EmailJS. This form has no Supabase table
+     office@insta-grup.ro via the same send-email Edge Function. This form has no Supabase table
      of its own; it's purely a "send us an email" form, unlike the
      ticket form above which also persists to the database.
      ============================================================ */
@@ -1198,23 +1186,11 @@
     const email = document.getElementById('c-email').value.trim();
     const message = document.getElementById('c-message').value.trim();
 
-    if (!EMAILJS_READY) {
-      // EmailJS not configured yet — tell the person clearly instead of
-      // silently pretending the message was sent.
-      contactSubmitBtn.disabled = false;
-      contactSubmitBtn.textContent = 'Trimite solicitarea';
-      contactMsg.className = 'form-msg error';
-      contactMsg.textContent = 'Formularul de contact nu este încă activat. Vă rugăm sunați la 0265 253 997 sau scrieți la office@insta-grup.ro.';
-      return;
-    }
-
     try {
-      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CONTACT, {
-        to_email: 'office@insta-grup.ro',
-        from_name: name,
-        from_email: email,
-        message: message,
+      const { error } = await supabaseClient.functions.invoke('send-email', {
+        body: { type: 'contact', from_name: name, from_email: email, message: message },
       });
+      if (error) throw error;
       contactMsg.className = 'form-msg success';
       contactMsg.textContent = 'Mulțumim! Solicitarea dvs. a fost trimisă.';
       contactForm.reset();
