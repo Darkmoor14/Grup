@@ -113,6 +113,25 @@
     pointer-events:none;
   }
   .hero .wrap{position:relative;z-index:2;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;}
+  .hero-photo{
+    border-radius:6px;overflow:hidden;border:1px solid var(--line-strong);
+    aspect-ratio:4/5;position:relative;
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .hero-photo::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(20,24,29,0) 55%, rgba(20,24,29,0.55) 100%);
+  }
+  .hero-photo-cap{
+    position:absolute;left:20px;right:20px;bottom:16px;z-index:2;
+    color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:0.04em;
+    opacity:0.9;
+  }
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-photo{aspect-ratio:16/9;order:-1;}
+  }
   .hero-eyebrow{
     font-family:var(--mono);font-size:12.5px;letter-spacing:0.14em;
     text-transform:uppercase;color:var(--copper-600);
@@ -180,8 +199,18 @@
 
   /* ===== ABOUT ===== */
   .about{background:var(--paper-000);}
-  .about-inner{max-width:760px;}
+  .about-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:64px;align-items:center;}
+  .about-inner{max-width:520px;}
   .about p{color:var(--ink-600);font-size:16.5px;margin-bottom:16px;}
+  .about-photo{
+    border-radius:6px;overflow:hidden;border:1px solid var(--line-strong);
+    aspect-ratio:4/3;
+  }
+  .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  @media(max-width:900px){
+    .about-grid{grid-template-columns:1fr;}
+    .about-photo{order:-1;}
+  }
   .cert-row{
     display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;
   }
@@ -516,9 +545,19 @@
     </g>
   </svg>
   <div class="wrap">
-    <div class="hero-eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
-    <h1>Infrastructură electrică&nbsp;<em>proiectată să reziste</em>&nbsp;deceniilor.</h1>
-    <p class="lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
+        <h1>Infrastructură electrică&nbsp;<em>proiectată să reziste</em>&nbsp;deceniilor.</h1>
+        <p class="lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
+      </div>
+      <div class="hero-photo">
+        <!-- Photo: Heri Susilo, Unsplash License (free for commercial use,
+             no attribution required) — https://unsplash.com/photos/e-I1hXVvGho -->
+        <img src="https://images.unsplash.com/photo-1640238489596-ebeb51733273?auto=format&fit=crop&w=900&q=80" alt="Electrician lucrând la o linie electrică">
+        <div class="hero-photo-cap">Lucrări de întreținere rețele electrice</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -534,7 +573,7 @@
 
 <!-- ===== ABOUT ===== -->
 <section class="about" id="despre">
-  <div class="wrap">
+  <div class="wrap about-grid">
     <div class="about-inner">
       <div class="eyebrow">Despre noi</div>
       <h2 style="margin-bottom:20px;">25 de ani de proiecte duse la bun sfârșit</h2>
@@ -548,6 +587,11 @@
         <span class="cert-pill">ANRSC clasa 2</span>
         <span class="cert-pill">INSEMEX</span>
       </div>
+    </div>
+    <div class="about-photo">
+      <!-- Photo: Roger Starnes Sr, Unsplash License (free for commercial use,
+           no attribution required) — https://unsplash.com/photos/ui5pc2x4LA0 -->
+      <img src="https://images.unsplash.com/photo-1693013112835-5f3128bb555f?auto=format&fit=crop&w=900&q=80" alt="Stație de transformare electrică">
     </div>
   </div>
 </section>
