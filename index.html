@@ -113,25 +113,6 @@
     pointer-events:none;
   }
   .hero .wrap{position:relative;z-index:2;}
-  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;}
-  .hero-photo{
-    border-radius:6px;overflow:hidden;border:1px solid var(--line-strong);
-    aspect-ratio:4/5;position:relative;
-  }
-  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block;}
-  .hero-photo::after{
-    content:"";position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(20,24,29,0) 55%, rgba(20,24,29,0.55) 100%);
-  }
-  .hero-photo-cap{
-    position:absolute;left:20px;right:20px;bottom:16px;z-index:2;
-    color:#fff;font-family:var(--mono);font-size:11.5px;letter-spacing:0.04em;
-    opacity:0.9;
-  }
-  @media(max-width:900px){
-    .hero-grid{grid-template-columns:1fr;}
-    .hero-photo{aspect-ratio:16/9;order:-1;}
-  }
   .hero-eyebrow{
     font-family:var(--mono);font-size:12.5px;letter-spacing:0.14em;
     text-transform:uppercase;color:var(--copper-600);
@@ -204,9 +185,31 @@
   .about p{color:var(--ink-600);font-size:16.5px;margin-bottom:16px;}
   .about-photo{
     border-radius:6px;overflow:hidden;border:1px solid var(--line-strong);
-    aspect-ratio:4/3;
+    aspect-ratio:4/3;position:relative;background:var(--paper-100);
   }
-  .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .about-slide{
+    position:absolute;inset:0;opacity:0;transition:opacity 1s ease;
+  }
+  .about-slide.active{opacity:1;}
+  .about-slide img{width:100%;height:100%;object-fit:cover;display:block;}
+  .about-slide-cap{
+    position:absolute;left:18px;right:18px;bottom:14px;z-index:2;
+    color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:0.04em;
+  }
+  .about-photo::after{
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg, rgba(20,24,29,0) 62%, rgba(20,24,29,0.55) 100%);
+  }
+  .about-dots{
+    position:absolute;right:16px;bottom:14px;z-index:3;
+    display:flex;gap:6px;
+  }
+  .about-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:rgba(255,255,255,0.45);cursor:pointer;
+    border:none;padding:0;transition:background .2s, transform .2s;
+  }
+  .about-dot.active{background:#fff;transform:scale(1.3);}
   @media(max-width:900px){
     .about-grid{grid-template-columns:1fr;}
     .about-photo{order:-1;}
@@ -545,19 +548,9 @@
     </g>
   </svg>
   <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <div class="hero-eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
-        <h1>Infrastructură electrică&nbsp;<em>proiectată să reziste</em>&nbsp;deceniilor.</h1>
-        <p class="lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
-      </div>
-      <div class="hero-photo">
-        <!-- Photo: Heri Susilo, Unsplash License (free for commercial use,
-             no attribution required) — https://unsplash.com/photos/e-I1hXVvGho -->
-        <img src="https://images.unsplash.com/photo-1640238489596-ebeb51733273?auto=format&fit=crop&w=900&q=80" alt="Electrician lucrând la o linie electrică">
-        <div class="hero-photo-cap">Lucrări de întreținere rețele electrice</div>
-      </div>
-    </div>
+    <div class="hero-eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
+    <h1>Infrastructură electrică&nbsp;<em>proiectată să reziste</em>&nbsp;deceniilor.</h1>
+    <p class="lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
   </div>
 </section>
 
@@ -588,10 +581,27 @@
         <span class="cert-pill">INSEMEX</span>
       </div>
     </div>
-    <div class="about-photo">
-      <!-- Photo: Roger Starnes Sr, Unsplash License (free for commercial use,
-           no attribution required) — https://unsplash.com/photos/ui5pc2x4LA0 -->
-      <img src="https://images.unsplash.com/photo-1693013112835-5f3128bb555f?auto=format&fit=crop&w=900&q=80" alt="Stație de transformare electrică">
+    <div class="about-photo" id="aboutSlideshow">
+      <!-- All 4 photos: Unsplash License (free for commercial use, no
+           attribution required), no identifiable people. Rotated
+           automatically by JS — see aboutSlideshow logic below. -->
+      <div class="about-slide active">
+        <img src="https://images.unsplash.com/photo-1693013112835-5f3128bb555f?auto=format&fit=crop&w=900&q=80" alt="Stație de transformare electrică">
+        <div class="about-slide-cap">Stație de transformare electrică</div>
+      </div>
+      <div class="about-slide">
+        <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80" alt="Piloni de înaltă tensiune">
+        <div class="about-slide-cap">Rețele electrice de înaltă tensiune</div>
+      </div>
+      <div class="about-slide">
+        <img src="https://images.unsplash.com/photo-1677273459827-e212995b079d?auto=format&fit=crop&w=900&q=80" alt="Panouri fotovoltaice, vedere aeriană">
+        <div class="about-slide-cap">Instalații fotovoltaice</div>
+      </div>
+      <div class="about-slide">
+        <img src="https://images.unsplash.com/photo-1709244596176-0e14b3b8a517?auto=format&fit=crop&w=900&q=80" alt="Conducte pe un șantier">
+        <div class="about-slide-cap">Rețele de apă și canalizare</div>
+      </div>
+      <div class="about-dots"></div>
     </div>
   </div>
 </section>
@@ -940,6 +950,49 @@
     }
   });
 
+
+  /* ============================================================
+     "DESPRE NOI" PHOTO SLIDESHOW — simple auto-rotating crossfade
+     between the .about-slide elements inside #aboutSlideshow, with
+     clickable dot navigation. No external library needed.
+     ============================================================ */
+  (function initAboutSlideshow(){
+    const container = document.getElementById('aboutSlideshow');
+    if (!container) return;
+    const slides = Array.from(container.querySelectorAll('.about-slide'));
+    const dotsWrap = container.querySelector('.about-dots');
+    let current = 0;
+    let timer;
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'about-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Imaginea ${i + 1}`);
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.querySelectorAll('.about-dot'));
+
+    function goTo(index){
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = index;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+      resetTimer();
+    }
+
+    function next(){
+      goTo((current + 1) % slides.length);
+    }
+
+    function resetTimer(){
+      clearInterval(timer);
+      timer = setInterval(next, 4500);
+    }
+
+    resetTimer();
+  })();
 
   const services = [
     {tag:"Rețele electrice", title:"Linii și posturi de transformare", icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v6M6 8h12l-3 5H9l-3 5h12"/><circle cx="12" cy="8" r="1.4" fill="currentColor" stroke="none"/></svg>',
