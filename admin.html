@@ -208,6 +208,19 @@
   let allTickets = [];
   let activeFilter = 'Ongoing';
 
+  function escapeHtml(value){
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function getFilteredTickets(){
+    return allTickets.filter(t => activeFilter === 'Toate' || t.status === activeFilter);
+  }
+
   function fmtDate(iso){
     if(!iso) return '—';
     const d = new Date(iso);
@@ -219,6 +232,8 @@
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
       showDashboard(session.user.email);
+    } else {
+      showLogin();
     }
   }
 
@@ -235,6 +250,9 @@
     dash.classList.remove('show');
     logoutBtn.style.display = 'none';
     userTag.textContent = '';
+    allTickets = [];
+    document.getElementById('ticketList').innerHTML = '';
+    document.getElementById('resultCount').textContent = '';
   }
 
   loginForm.addEventListener('submit', async (e) => {
@@ -262,6 +280,14 @@
   logoutBtn.addEventListener('click', async () => {
     await supabaseClient.auth.signOut();
     showLogin();
+  });
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    if (session) {
+      showDashboard(session.user.email);
+    } else {
+      showLogin();
+    }
   });
 
   const chipDefs = [
@@ -304,7 +330,7 @@
 
   function renderTickets(){
     const list = document.getElementById('ticketList');
-    const filtered = allTickets.filter(t => activeFilter === 'Toate' || t.status === activeFilter);
+    const filtered = getFilteredTickets();
     document.getElementById('resultCount').textContent = filtered.length + ' din ' + allTickets.length + ' tichete';
 
     if (filtered.length === 0) {
@@ -318,20 +344,27 @@
       const isDone = t.status === 'Terminat';
       const card = document.createElement('div');
       card.className = 'ticket-card' + (isUrgent && !isDone ? ' urgent' : '') + (isDone ? ' done' : '');
+      const safeTicketNumber = escapeHtml(t.ticket_number || '—');
+      const safeName = escapeHtml(t.name || '—');
+      const safePhone = escapeHtml(t.phone || '—');
+      const safeEmail = escapeHtml(t.email || '—');
+      const safeAddress = escapeHtml(t.address || '—');
+      const safeDescription = t.description ? escapeHtml(t.description) : '';
+      const safeResolvedBy = escapeHtml(t.resolved_by || '');
       card.innerHTML = `
         <div class="ticket-top">
           <div class="ticket-meta">
-            <span class="ticket-num">${t.ticket_number || '—'}</span>
+            <span class="ticket-num">${safeTicketNumber}</span>
             <span class="ticket-tag ${isUrgent ? 'urgent-tag' : ''}">${t.type === 'Anunt accident' ? 'Accident' : 'Funcționalitate'}</span>
           </div>
           <span class="ticket-date">Trimis: ${fmtDate(t.submitted_on)}</span>
         </div>
         <div class="ticket-body">
-          <div><span class="k">Nume</span>${t.name || '—'}</div>
-          <div><span class="k">Telefon</span>${t.phone || '—'}</div>
-          <div><span class="k">Email</span>${t.email || '—'}</div>
-          <div><span class="k">Adresă</span>${t.address || '—'}</div>
-          ${t.description ? `<div class="full"><span class="k">Descriere</span>${t.description}</div>` : ''}
+          <div><span class="k">Nume</span>${safeName}</div>
+          <div><span class="k">Telefon</span>${safePhone}</div>
+          <div><span class="k">Email</span>${safeEmail}</div>
+          <div><span class="k">Adresă</span>${safeAddress}</div>
+          ${t.description ? `<div class="full"><span class="k">Descriere</span>${safeDescription}</div>` : ''}
           ${t.resolved_on ? `<div class="full"><span class="k">Rezolvat</span>${fmtDate(t.resolved_on)}</div>` : ''}
         </div>
         <div class="ticket-controls">
@@ -344,7 +377,7 @@
           </div>
           <div class="ctrl-field">
             <label>Rezolvat de</label>
-            <input type="text" class="f-resolver" placeholder="Nume angajat" value="${t.resolved_by || ''}">
+            <input type="text" class="f-resolver" placeholder="Nume angajat" value="${safeResolvedBy}">
           </div>
           <button class="btn btn-primary f-save">Salvează<span class="save-status">✓ Salvat</span></button>
         </div>
@@ -386,7 +419,8 @@
   }
 
   function exportTicketsCSV() {
-    if (!allTickets || allTickets.length === 0) {
+    const exportRows = getFilteredTickets();
+    if (!exportRows.length) {
       alert('Nu există tichete de exportat.');
       return;
     }
@@ -396,7 +430,7 @@
       'Descriere', 'Stare', 'Rezolvat de', 'Trimis la', 'Rezolvat la'
     ];
 
-    const rows = allTickets.map(t => [
+    const rows = exportRows.map(t => [
       t.ticket_number,
       t.type === 'Anunt accident' ? 'Accident' : 'Funcționalitate',
       t.name,
