@@ -79,6 +79,25 @@
   .chip.active{background:var(--copper-500);border-color:var(--copper-500);color:#fff;}
   .result-count{font-family:var(--mono);font-size:12.5px;color:var(--ink-400);}
 
+  .archive-bar{
+    display:none;align-items:center;gap:14px;
+    padding:12px 18px;margin-top:16px;border-radius:5px;
+    background:var(--paper-050);border:1px solid var(--line-strong);
+    font-family:var(--mono);font-size:12.5px;color:var(--ink-600);
+  }
+  .archive-bar.show{display:flex;}
+  .ticket-select{
+    display:flex;align-items:flex-start;gap:10px;
+  }
+  .ticket-select input[type="checkbox"]{
+    width:16px;height:16px;margin-top:2px;accent-color:var(--copper-500);cursor:pointer;flex-shrink:0;
+  }
+  .ticket-card.archived{background:var(--paper-050);opacity:0.85;}
+  .archived-badge{
+    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;
+    padding:4px 9px;border-radius:3px;background:var(--paper-100);color:var(--ink-400);
+  }
+
   .ticket-list{padding:24px 0 80px;display:flex;flex-direction:column;gap:14px;}
   .ticket-card{
     border:1px solid var(--line-strong);border-radius:5px;padding:24px;background:var(--paper-000);
@@ -155,6 +174,11 @@
         <button class="btn" id="exportBtn" type="button">⭳ Descarcă CSV</button>
       </div>
     </div>
+    <div class="archive-bar" id="archiveBar">
+      <span id="selectionCount">0 selectate</span>
+      <button class="btn" id="clearSelectionBtn" type="button">Anulează selecția</button>
+      <button class="btn btn-primary" id="archiveSelectedBtn" type="button">Arhivează selectate</button>
+    </div>
     <div class="ticket-list" id="ticketList"></div>
   </div>
 </div>
@@ -207,6 +231,7 @@
 
   let allTickets = [];
   let activeFilter = 'Ongoing';
+  const selectedIds = new Set();
 
   function escapeHtml(value){
     return String(value ?? '')
@@ -218,7 +243,10 @@
   }
 
   function getFilteredTickets(){
-    return allTickets.filter(t => activeFilter === 'Toate' || t.status === activeFilter);
+    if (activeFilter === 'Archived') {
+      return allTickets.filter(t => t.archived);
+    }
+    return allTickets.filter(t => !t.archived && (activeFilter === 'Toate' || t.status === activeFilter));
   }
 
   function fmtDate(iso){
@@ -294,6 +322,7 @@
     { key: 'Ongoing', label: 'Active' },
     { key: 'Terminat', label: 'Rezolvate' },
     { key: 'Toate', label: 'Toate' },
+    { key: 'Archived', label: 'Arhivate' },
   ];
   const chipsWrap = document.getElementById('chipsWrap');
   chipDefs.forEach(c => {
@@ -304,6 +333,8 @@
     chip.dataset.key = c.key;
     chip.addEventListener('click', () => {
       activeFilter = c.key;
+      selectedIds.clear();
+      updateArchiveBar();
       document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
       chip.classList.add('active');
       renderTickets();
@@ -342,8 +373,9 @@
     filtered.forEach(t => {
       const isUrgent = t.type === 'Anunt accident';
       const isDone = t.status === 'Terminat';
+      const isArchived = !!t.archived;
       const card = document.createElement('div');
-      card.className = 'ticket-card' + (isUrgent && !isDone ? ' urgent' : '') + (isDone ? ' done' : '');
+      card.className = 'ticket-card' + (isUrgent && !isDone ? ' urgent' : '') + (isDone ? ' done' : '') + (isArchived ? ' archived' : '');
       const safeTicketNumber = escapeHtml(t.ticket_number || '—');
       const safeName = escapeHtml(t.name || '—');
       const safePhone = escapeHtml(t.phone || '—');
@@ -354,8 +386,12 @@
       card.innerHTML = `
         <div class="ticket-top">
           <div class="ticket-meta">
+            <label class="ticket-select">
+              <input type="checkbox" class="f-select" ${selectedIds.has(t.id) ? 'checked' : ''}>
+            </label>
             <span class="ticket-num">${safeTicketNumber}</span>
             <span class="ticket-tag ${isUrgent ? 'urgent-tag' : ''}">${t.type === 'Anunt accident' ? 'Accident' : 'Funcționalitate'}</span>
+            ${isArchived ? `<span class="archived-badge">Arhivat ${fmtDate(t.archived_at)}</span>` : ''}
           </div>
           <span class="ticket-date">Trimis: ${fmtDate(t.submitted_on)}</span>
         </div>
@@ -370,45 +406,120 @@
         <div class="ticket-controls">
           <div class="ctrl-field">
             <label>Stare</label>
-            <select class="f-status">
+            <select class="f-status" ${isArchived ? 'disabled' : ''}>
               <option value="Ongoing" ${t.status === 'Ongoing' ? 'selected' : ''}>Activ</option>
               <option value="Terminat" ${t.status === 'Terminat' ? 'selected' : ''}>Terminat</option>
             </select>
           </div>
           <div class="ctrl-field">
             <label>Rezolvat de</label>
-            <input type="text" class="f-resolver" placeholder="Nume angajat" value="${safeResolvedBy}">
+            <input type="text" class="f-resolver" placeholder="Nume angajat" value="${safeResolvedBy}" ${isArchived ? 'disabled' : ''}>
           </div>
-          <button class="btn btn-primary f-save">Salvează<span class="save-status">✓ Salvat</span></button>
+          ${isArchived
+            ? `<button class="btn f-restore">Dezarhivează</button>`
+            : `<button class="btn btn-primary f-save">Salvează<span class="save-status">✓ Salvat</span></button>`
+          }
         </div>
       `;
 
-      const saveBtn = card.querySelector('.f-save');
-      const saveStatus = card.querySelector('.save-status');
-      saveBtn.addEventListener('click', async () => {
-        saveBtn.disabled = true;
-        const newStatus = card.querySelector('.f-status').value;
-        const resolver = card.querySelector('.f-resolver').value.trim();
-
-        const { error } = await supabaseClient
-          .from('tickets')
-          .update({ status: newStatus, resolved_by: resolver || null })
-          .eq('id', t.id);
-
-        saveBtn.disabled = false;
-        if (error) {
-          console.error(error);
-          alert('Eroare la salvare. Încercați din nou.');
-          return;
-        }
-        saveStatus.classList.add('show');
-        setTimeout(() => saveStatus.classList.remove('show'), 2000);
-        loadTickets();
+      const checkbox = card.querySelector('.f-select');
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) selectedIds.add(t.id);
+        else selectedIds.delete(t.id);
+        updateArchiveBar();
       });
+
+      const restoreBtn = card.querySelector('.f-restore');
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', async () => {
+          restoreBtn.disabled = true;
+          const { error } = await supabaseClient
+            .from('tickets')
+            .update({ archived: false, archived_at: null })
+            .eq('id', t.id);
+          restoreBtn.disabled = false;
+          if (error) {
+            console.error(error);
+            alert('Eroare la dezarhivare. Încercați din nou.');
+            return;
+          }
+          loadTickets();
+        });
+      }
+
+      const saveBtn = card.querySelector('.f-save');
+      if (saveBtn) {
+        const saveStatus = card.querySelector('.save-status');
+        saveBtn.addEventListener('click', async () => {
+          saveBtn.disabled = true;
+          const newStatus = card.querySelector('.f-status').value;
+          const resolver = card.querySelector('.f-resolver').value.trim();
+
+          const { error } = await supabaseClient
+            .from('tickets')
+            .update({ status: newStatus, resolved_by: resolver || null })
+            .eq('id', t.id);
+
+          saveBtn.disabled = false;
+          if (error) {
+            console.error(error);
+            alert('Eroare la salvare. Încercați din nou.');
+            return;
+          }
+          saveStatus.classList.add('show');
+          setTimeout(() => saveStatus.classList.remove('show'), 2000);
+          loadTickets();
+        });
+      }
 
       list.appendChild(card);
     });
   }
+
+  /* ============================================================
+     ARCHIVING — bulk-select tickets (any tab except Arhivate) and
+     move them out of the public status page + the main admin tabs,
+     without ever deleting the underlying row. Meant for periodically
+     tidying up old resolved tickets every couple of months.
+     ============================================================ */
+  const archiveBar = document.getElementById('archiveBar');
+  const selectionCount = document.getElementById('selectionCount');
+  const archiveSelectedBtn = document.getElementById('archiveSelectedBtn');
+  const clearSelectionBtn = document.getElementById('clearSelectionBtn');
+
+  function updateArchiveBar(){
+    selectionCount.textContent = selectedIds.size + ' selectate';
+    archiveBar.classList.toggle('show', selectedIds.size > 0);
+  }
+
+  clearSelectionBtn.addEventListener('click', () => {
+    selectedIds.clear();
+    updateArchiveBar();
+    renderTickets();
+  });
+
+  archiveSelectedBtn.addEventListener('click', async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Arhivați ${selectedIds.size} tichete? Nu vor mai apărea pe pagina publică de sesizări, dar rămân salvate și pot fi restaurate oricând din tab-ul "Arhivate".`)) {
+      return;
+    }
+    archiveSelectedBtn.disabled = true;
+    const { error } = await supabaseClient
+      .from('tickets')
+      .update({ archived: true, archived_at: new Date().toISOString() })
+      .in('id', Array.from(selectedIds));
+    archiveSelectedBtn.disabled = false;
+
+    if (error) {
+      console.error(error);
+      alert('Eroare la arhivare. Încercați din nou.');
+      return;
+    }
+    selectedIds.clear();
+    updateArchiveBar();
+    loadTickets();
+  });
+
 
   /* ============================================================
      EXPORT CSV — downloads all currently loaded tickets
