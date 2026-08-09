@@ -30,6 +30,15 @@
   .navlinks a:hover{color:var(--copper-600);}
   .nav-cta{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--paper-000);background:var(--copper-500);padding:10px 20px;border-radius:2px;transition:background .2s;}
   .nav-cta:hover{background:var(--copper-600);}
+  .lang-switch{display:flex;align-items:center;gap:2px;border:1px solid var(--line-strong);border-radius:3px;padding:2px;}
+  .lang-switch button{
+    font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:0.03em;
+    padding:5px 9px;border-radius:2px;border:none;background:transparent;
+    color:var(--ink-400);cursor:pointer;transition:all .15s;
+  }
+  .lang-switch button:hover{color:var(--copper-600);}
+  .lang-switch button.active{background:var(--copper-500);color:#fff;}
+  .nav-right{display:flex;align-items:center;gap:14px;}
   @media(max-width:860px){.navlinks{display:none;}}
 
   .hero{padding:64px 0 40px;border-bottom:1px solid var(--line);}
@@ -95,6 +104,13 @@
   .modal-body li{font-size:14.5px;color:var(--ink-600);margin-bottom:8px;line-height:1.6;}
   .modal-body a{color:var(--copper-600);text-decoration:underline;text-underline-offset:2px;}
   .modal-body strong{color:var(--ink-900);font-weight:600;}
+  @media(max-width:640px){
+    nav{flex-wrap:wrap;height:auto;padding:14px 20px;row-gap:12px;}
+    .nav-right{width:100%;justify-content:center;}
+    .logo-img{height:44px;}
+    .lang-switch button{padding:5px 8px;font-size:11px;}
+    .nav-cta{font-size:12px;padding:9px 16px;}
+  }
 </style>
 </head>
 <body>
@@ -108,12 +124,14 @@
       <a href="index.html#proiecte" data-i18n="nav_proiecte">Proiecte</a>
       <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
     </div>
-    <div class="lang-switch">
-      <button type="button" data-lang="ro" onclick="setLanguage('ro')">RO</button>
-      <button type="button" data-lang="en" onclick="setLanguage('en')">EN</button>
-      <button type="button" data-lang="hu" onclick="setLanguage('hu')">HU</button>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button type="button" data-lang="ro" onclick="setLanguage('ro')">RO</button>
+        <button type="button" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button type="button" data-lang="hu" onclick="setLanguage('hu')">HU</button>
+      </div>
+      <a href="index.html#raportare" class="nav-cta" data-i18n="nav_cta">Sesizări iluminat public</a>
     </div>
-    <a href="index.html#raportare" class="nav-cta" data-i18n="nav_cta">Sesizări iluminat public</a>
   </nav>
 </header>
 
@@ -284,7 +302,7 @@
     }
     list.innerHTML = filtered.map(p => `
       <div class="proj-row">
-        <span class="proj-tag">${t(CATEGORY_LABEL_KEYS[p.cat] || p.cat)}</span>
+        <span class="proj-tag">${p.cat}</span>
         <span class="proj-title">${p.title}</span>
       </div>
     `).join('');
