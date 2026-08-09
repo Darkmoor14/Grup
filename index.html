@@ -104,6 +104,7 @@
   }
   .lang-switch button:hover{color:var(--copper-600);}
   .lang-switch button.active{background:var(--copper-500);color:#fff;}
+  .nav-right{display:flex;align-items:center;gap:14px;}
   @media(max-width:860px){.navlinks{display:none;}}
 
   /* ===== HERO ===== */
@@ -531,6 +532,13 @@
     padding:16px 32px 28px;font-size:12.5px;color:var(--ink-400);
     font-style:italic;
   }
+  @media(max-width:640px){
+    nav{flex-wrap:wrap;height:auto;padding:14px 20px;row-gap:12px;}
+    .nav-right{width:100%;justify-content:center;}
+    .logo-img{height:44px;}
+    .lang-switch button{padding:5px 8px;font-size:11px;}
+    .nav-cta{font-size:12px;padding:9px 16px;}
+  }
 </style>
 </head>
 <body>
@@ -544,12 +552,14 @@
       <a href="#proiecte" data-i18n="nav_proiecte">Proiecte</a>
       <a href="#contact" data-i18n="nav_contact">Contact</a>
     </div>
-    <div class="lang-switch">
-      <button type="button" data-lang="ro" onclick="setLanguage('ro')">RO</button>
-      <button type="button" data-lang="en" onclick="setLanguage('en')">EN</button>
-      <button type="button" data-lang="hu" onclick="setLanguage('hu')">HU</button>
+    <div class="nav-right">
+      <div class="lang-switch">
+        <button type="button" data-lang="ro" onclick="setLanguage('ro')">RO</button>
+        <button type="button" data-lang="en" onclick="setLanguage('en')">EN</button>
+        <button type="button" data-lang="hu" onclick="setLanguage('hu')">HU</button>
+      </div>
+      <a href="#raportare" class="nav-cta" data-i18n="nav_cta">Sesizări iluminat public</a>
     </div>
-    <a href="#raportare" class="nav-cta" data-i18n="nav_cta">Sesizări iluminat public</a>
   </nav>
 </header>
 
@@ -1211,7 +1221,6 @@
     dot.className = 'node-dot';
     dot.style.left = p.x + '%';
     dot.style.top = p.y + '%';
-    dot.dataset.i18nTitleKey = p.i18n + '_title';
     dot.setAttribute('aria-label', t(p.i18n + '_title'));
     mapWrap.appendChild(dot);
 
@@ -1230,14 +1239,6 @@
     dot.addEventListener('focus', show);
     dot.addEventListener('mouseleave', hide);
     dot.addEventListener('blur', hide);
-  });
-
-  window.addEventListener('langchange', () => {
-    hubDot.setAttribute('aria-label', t('hub_title'));
-    mapWrap.querySelectorAll('.node-dot').forEach(dot => {
-      const key = dot.dataset.i18nTitleKey;
-      if (key) dot.setAttribute('aria-label', t(key));
-    });
   });
 
   /* ============================================================
