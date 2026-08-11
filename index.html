@@ -733,6 +733,62 @@
   @media(max-width:960px){.hero{min-height:auto;padding-top:132px!important;}.hero::before,.hero::after{display:none;}.stats-inner{grid-template-columns:repeat(2,1fr);}}
   @media(max-width:960px){.current-stage{opacity:.55;}.wire-tunnel{transform:rotateX(76deg) scale(1.08);}}
   @media(max-width:640px){.hero h1{font-size:clamp(38px,14vw,62px)!important;}.stats-inner{grid-template-columns:1fr;padding:0 20px;}.current-stage{display:none;}.scroll-slice{transform:none!important;opacity:1!important;}}
+  header{display:none!important;}
+  body{
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255,152,102,0.18), transparent 26%),
+      radial-gradient(circle at 50% 60%, rgba(73,136,201,0.11), transparent 36%),
+      linear-gradient(180deg, #050a11 0%, #08111a 42%, #03070c 100%)!important;
+  }
+  .hero-wordmark,.hero-trace,.section-trace,.map-shell,.projects-foot,.about-dots,.about-slide,.about-slide-cap,#contactForm,#contactMsg,.contact-list{display:none!important;}
+  .hero{min-height:100svh!important;padding-top:8vh!important;display:flex;align-items:center;}
+  .route-hero{max-width:760px;text-align:center;display:grid;gap:20px;justify-items:center;}
+  .hero-kicker,.route-copy .eyebrow{letter-spacing:.28em;text-transform:uppercase;color:#7eb1df;font-size:12px;}
+  .route-hero h1{font-size:clamp(56px, 11vw, 122px)!important;line-height:.9;text-transform:uppercase;margin:0;}
+  .route-hero .lede{max-width:620px;font-size:18px!important;color:rgba(231,242,255,0.82)!important;}
+  .hero-cable-caption{display:flex;align-items:center;gap:14px;color:rgba(231,242,255,0.68);font-size:13px;text-transform:uppercase;letter-spacing:.18em;}
+  .hero-caption-line{width:92px;height:2px;border-radius:999px;background:linear-gradient(90deg, rgba(255,132,94,0), rgba(255,132,94,1));box-shadow:0 0 18px rgba(255,132,94,0.45);}
+  .current-stage-core{transform:translateY(calc(var(--scroll-progress) * -16vh));}
+  .wire-tunnel{transform:rotateX(calc(64deg + var(--scroll-progress) * 18deg)) translateY(calc(10vh - var(--scroll-progress) * 12vh)) scale(calc(0.72 + var(--scroll-progress) * 0.52));}
+  .wire-mouth{position:absolute;left:50%;top:50%;width:min(72vw, 780px);height:min(42vh, 410px);transform:translate3d(-50%, -50%, 300px) scale(calc(1.08 - var(--scroll-progress) * 0.3));border-radius:999px;border:30px solid rgba(175,96,69,0.22);box-shadow:0 0 0 1px rgba(255,228,204,0.1), inset 0 0 0 10px rgba(20,29,40,0.88), 0 0 90px rgba(255,115,82,0.12);background:radial-gradient(circle at 50% 50%, rgba(2,7,12,0.94) 0%, rgba(5,11,18,0.86) 46%, rgba(255,145,106,0.04) 86%, transparent 100%);opacity:calc(1 - var(--scroll-progress) * 0.78);}
+  .wire-tunnel-pulse{width:48px;height:180px;transform:translate3d(-50%, calc(360px - var(--scroll-progress) * 1850px), 40px);box-shadow:0 0 22px rgba(255,171,131,0.7), 0 0 130px rgba(89,182,255,0.32);}
+  .wire-spark{width:10px;height:10px;box-shadow:0 0 16px rgba(255,190,149,0.65), 0 0 36px rgba(111,191,255,0.34);}
+  .wire-tunnel-arcs .arc{border-top-color:rgba(125,203,255,0.4);box-shadow:0 0 18px rgba(110,188,255,0.18);}
+  .route-stage,.services,.projects,.about,.cta{padding-top:clamp(70px, 12vw, 130px)!important;padding-bottom:clamp(70px, 12vw, 130px)!important;}
+  .stats-inner{grid-template-columns:repeat(3,1fr)!important;}
+  .route-node,.route-card,.branch-panel,.route-endcard,.route-monitor{background:rgba(7,16,25,0.72);border:1px solid rgba(119,171,221,0.13);backdrop-filter:blur(16px);}
+  .route-node{padding:28px;border-radius:28px;}
+  .route-grid{grid-template-columns:repeat(3,1fr)!important;gap:18px;}
+  .route-card{min-height:220px;border-radius:30px;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;box-shadow:inset 0 -90px 120px rgba(255,129,84,0.04);}
+  .route-card span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#83bdf0;}
+  .route-card strong{font-size:28px;line-height:1.02;text-transform:uppercase;}
+  .branch-shell{display:grid;gap:26px;}
+  .branch-controls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .branch-btn,.branch-continue{padding:14px 20px;border-radius:999px;border:1px solid rgba(126,170,212,0.2);background:rgba(8,18,27,0.78);color:var(--text-main);text-decoration:none;font:inherit;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;}
+  .branch-btn.active,.branch-btn:hover,.branch-continue:hover{transform:translateY(-2px);border-color:rgba(255,127,85,0.48);background:rgba(28,16,13,0.84);}
+  .branch-stage{display:grid;grid-template-columns:1fr 180px 1fr;align-items:center;gap:24px;}
+  .branch-pipe{position:relative;min-height:360px;opacity:.38;transform:scale(.96);transition:opacity .25s ease, transform .25s ease;}
+  .branch-pipe.active{opacity:1;transform:scale(1);}
+  .branch-pipe::before{content:"";position:absolute;top:50%;width:calc(100% + 40px);height:34px;border-radius:999px;background:linear-gradient(90deg, rgba(145,88,64,0.14), rgba(255,134,94,0.28), rgba(83,168,235,0.24));box-shadow:0 0 40px rgba(255,132,94,0.1);}
+  .branch-pipe-left::before{right:-20px;transform:translateY(-50%) rotate(-14deg);}
+  .branch-pipe-right::before{left:-20px;transform:translateY(-50%) rotate(14deg);}
+  .branch-panel{position:relative;z-index:1;padding:34px;border-radius:34px;min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;}
+  .branch-tag{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#82bdf2;}
+  .branch-link{color:#ffd7c8;text-decoration:none;}
+  .branch-core{position:relative;height:180px;display:grid;place-items:center;}
+  .branch-core-ring,.branch-core-pulse{position:absolute;border-radius:50%;}
+  .branch-core-ring{width:180px;height:180px;border:16px solid rgba(174,99,71,0.22);box-shadow:inset 0 0 0 1px rgba(255,225,200,0.1), 0 0 80px rgba(255,123,87,0.14);}
+  .branch-core-pulse{width:54px;height:54px;background:radial-gradient(circle, rgba(255,245,223,0.96) 0%, rgba(255,129,91,0.92) 52%, rgba(91,178,255,0.08) 100%);box-shadow:0 0 22px rgba(255,180,146,0.7), 0 0 72px rgba(86,175,255,0.32);animation:branchPulse 2.2s ease-in-out infinite;}
+  .route-finale{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:stretch;}
+  .route-actions{display:flex;gap:12px;flex-wrap:wrap;}
+  .route-actions .cert-pill{text-decoration:none;}
+  .route-monitor{border-radius:36px;padding:24px;min-height:320px;display:grid;place-items:center;}
+  .route-monitor-grid{width:100%;height:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .route-monitor-grid span{border-radius:18px;background:linear-gradient(180deg, rgba(255,136,94,0.24), rgba(83,167,233,0.06)), rgba(6,15,24,0.84);border:1px solid rgba(118,175,226,0.12);box-shadow:inset 0 0 24px rgba(255,132,94,0.05);}
+  .route-endcard{border-radius:30px;padding:32px;display:grid;gap:16px;}
+  .route-endline{width:100%;height:10px;border-radius:999px;background:linear-gradient(90deg, rgba(255,132,94,0.15), rgba(255,132,94,0.95), rgba(102,182,255,0.3));box-shadow:0 0 28px rgba(255,132,94,0.2);}
+  @keyframes branchPulse{0%,100%{transform:scale(.86);opacity:.72;}50%{transform:scale(1.16);opacity:1;}}
+  @media(max-width:960px){.stats-inner,.route-grid,.route-finale,.branch-stage{grid-template-columns:1fr!important;}.branch-core{order:-1;height:120px;}}
 </style>
 </head>
 <body>
@@ -770,6 +826,7 @@
   <div class="current-stage-core">
     <div class="wire-tunnel">
       <div class="wire-tunnel-sheath"></div>
+      <div class="wire-mouth"></div>
       <div class="wire-tunnel-centerline"></div>
       <div class="wire-tunnel-glow"></div>
       <div class="wire-tunnel-pulse"></div>
@@ -788,41 +845,23 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero scroll-slice" data-depth="0.04">
-  <svg class="hero-trace" viewBox="0 0 1180 640" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <g stroke="#D3D4CE" stroke-width="1.4" fill="none" opacity="0.9">
-      <path d="M -20 120 H 340 V 40 H 900" />
-      <path d="M -20 260 H 220 V 340 H 640 V 220 H 1200" />
-      <path d="M -20 460 H 480 V 520 H 1200" />
-      <path d="M 760 40 V 200 H 1200" />
-      <path d="M 300 40 V -20" />
-    </g>
-    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
-      <path d="M -20 120 H 340 V 40 H 900" />
-      <path d="M -20 260 H 220 V 340 H 640 V 220 H 1200" />
-      <path d="M -20 460 H 480 V 520 H 1200" />
-    </g>
-    <g fill="#D11F24">
-      <circle cx="340" cy="120" r="3.5"/>
-      <circle cx="640" cy="340" r="3.5"/>
-      <circle cx="480" cy="460" r="3.5"/>
-      <circle cx="900" cy="40" r="3.5"/>
-    </g>
-  </svg>
-  <div class="hero-wordmark" aria-hidden="true">INSTA<br>GRUP</div>
-  <div class="wrap">
-    <div class="hero-eyebrow" data-i18n="hero_eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
-    <h1 data-i18n-html="hero_h1_html">Infrastructură&nbsp;<em>pentru generații</em></h1>
-    <p class="lede" data-i18n="hero_lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
+  <div class="wrap route-hero">
+    <div class="hero-kicker">INSTA GRUP</div>
+    <h1>Intrare in retea</h1>
+    <p class="lede">Pornesti la capatul unui cablu de cupru. Cu fiecare scroll intri mai adanc in conductor, iar descarcarile de lumina devin curent in miscare.</p>
+    <div class="hero-cable-caption">
+      <span class="hero-caption-line"></span>
+      <span>Scroll pentru a intra in cablu</span>
+    </div>
   </div>
 </section>
 
 <!-- ===== STATS ===== -->
 <div class="stats scroll-slice" data-depth="0.08">
   <div class="stats-inner">
-    <div class="stat"><div class="num">25</div><div class="label" data-i18n="stat_1_label">ani de activitate neîntreruptă în domeniu</div></div>
-    <div class="stat"><div class="num">1500+</div><div class="label" data-i18n="stat_2_label">proiecte finalizate în județul Mureș</div></div>
-    <div class="stat"><div class="num">11</div><div class="label" data-i18n="stat_3_label">atestări și certificări ISO / ANRE / ANRSC</div></div>
-    <div class="stat"><div class="num">12</div><div class="label" data-i18n="stat_4_label">clienți parteneri pe termen lung</div></div>
+    <div class="stat route-node"><div class="num">01</div><div class="label">Exteriorul cablului, inainte de intrare</div></div>
+    <div class="stat route-node"><div class="num">02</div><div class="label">Impulsuri de lumina care aprind traseul</div></div>
+    <div class="stat route-node"><div class="num">03</div><div class="label">Tunelul accelereaza spre zona de decizie</div></div>
   </div>
 </div>
 
@@ -830,27 +869,25 @@
 
 <!-- ===== SERVICES ===== -->
 <section class="services scroll-slice" id="servicii" data-depth="0.11">
-  <svg class="section-trace" viewBox="0 0 1180 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
-      <path d="M 1200 -20 V 100 H 940" />
-      <path d="M -20 720 V 600 H 260" />
-    </g>
-    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
-      <path d="M 1200 -20 V 100 H 940" />
-    </g>
-    <g fill="#D11F24">
-      <circle cx="940" cy="100" r="3"/>
-      <circle cx="260" cy="600" r="3"/>
-    </g>
-  </svg>
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow" data-i18n="svc_eyebrow">Servicii oferite</div>
-      <h2 data-i18n="svc_h2">Șapte domenii, o singură echipă</h2>
-      <p data-i18n="svc_lede">De la proiectare la execuție și mentenanță — acoperim întregul ciclu al lucrărilor de infrastructură electrică și utilități.</p>
+      <div class="eyebrow">Segment energizat</div>
+      <h2>Bobine, impulsuri, directie</h2>
+      <p>Aici curentul este vizibil. Lumina aluneca prin tub, iar pagina devine mai mult traseu decat prezentare clasica.</p>
     </div>
-    <div class="svc-grid" id="svcGrid">
-      <!-- cards injected by JS -->
+    <div class="svc-grid route-grid">
+      <article class="svc-card route-card">
+        <span>Iluminat public</span>
+        <strong>retele urbane</strong>
+      </article>
+      <article class="svc-card route-card">
+        <span>Instalatii electrice</span>
+        <strong>energie distribuita</strong>
+      </article>
+      <article class="svc-card route-card">
+        <span>Utilitati</span>
+        <strong>conducte tehnice</strong>
+      </article>
     </div>
   </div>
 </section>
@@ -859,86 +896,60 @@
 <section class="projects scroll-slice" id="proiecte" data-depth="0.15">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow" data-i18n="proj_eyebrow">Lucrări de referință</div>
-      <h2 data-i18n="proj_h2">Proiecte realizate în județul Mureș</h2>
-      <p data-i18n="proj_lede">O selecție din lucrările noastre, poziționate geografic. Treceți cursorul peste un punct pentru detalii.</p>
+      <div class="eyebrow">Junctiune</div>
+      <h2>Alege directia in conducta</h2>
+      <p>La intersectie poti vira spre doua proiecte diferite sau poti continua pe magistrala principala catre restul website-ului.</p>
     </div>
-    <div class="map-shell">
-      <div class="map-label"><span data-i18n-html="proj_map_full_label_html">Județul Mureș — <strong>18 din 1500+ proiecte</strong></span><span data-i18n="proj_map_updated">Actualizat 2026</span></div>
-      <div class="map-svg-wrap" id="mapWrap">
-        <svg viewBox="0 0 800 450" width="100%" height="100%" style="position:absolute;inset:0;" xmlns="http://www.w3.org/2000/svg">
-          <!-- Populated by JS: one elbow "wire" path per project, running from
-               the headquarters hub (center) out to that project's dot position,
-               so every line always connects two real points — see buildMapWires()
-               below, which replaces the old hand-placed decorative paths that
-               didn't line up with the actual dot positions. -->
-          <g id="wireLines"></g>
-        </svg>
+    <div class="branch-shell" id="branchShell">
+      <div class="branch-controls">
+        <button type="button" class="branch-btn active" data-branch-target="left">Viraj stanga</button>
+        <button type="button" class="branch-btn" data-branch-target="right">Viraj dreapta</button>
+        <a href="proiecte.html" class="branch-continue">Continua pe magistrala</a>
       </div>
-      <div id="tooltip" class="tooltip">
-        <div class="tt-tag"></div>
-        <div class="tt-title"></div>
-        <div class="tt-desc"></div>
+      <div class="branch-stage">
+        <div class="branch-pipe branch-pipe-left active" data-branch-panel="left">
+          <div class="branch-panel">
+            <span class="branch-tag">Stanga</span>
+            <h3>Modernizare iluminat stradal</h3>
+            <p>Traseu urban cu retele de alimentare, puncte de lumina si control in teren.</p>
+            <a href="proiecte.html" class="branch-link">Vezi proiecte de iluminat</a>
+          </div>
+        </div>
+        <div class="branch-core">
+          <div class="branch-core-ring"></div>
+          <div class="branch-core-pulse"></div>
+        </div>
+        <div class="branch-pipe branch-pipe-right" data-branch-panel="right">
+          <div class="branch-panel">
+            <span class="branch-tag">Dreapta</span>
+            <h3>Retele electrice industriale</h3>
+            <p>Traseu tehnic pentru alimentari, tablouri si infrastructura de putere.</p>
+            <a href="proiecte.html" class="branch-link">Vezi proiecte industriale</a>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="projects-foot">
-      <p data-i18n="proj_footer_note">Toate lucrările sunt organizate și pe categorii, pentru o parcurgere mai rapidă.</p>
-      <a href="proiecte.html" class="btn btn-ghost" data-i18n="proj_archive_btn">Vezi arhiva completă →</a>
     </div>
   </div>
 </section>
 
 <!-- ===== ABOUT ===== -->
 <section class="about scroll-slice" id="despre" data-depth="0.19">
-  <svg class="section-trace" viewBox="0 0 1180 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
-      <path d="M 1200 -20 V 90 H 980" />
-      <path d="M -20 620 V 510 H 200" />
-    </g>
-    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
-      <path d="M 1200 -20 V 90 H 980" />
-    </g>
-    <g fill="#D11F24">
-      <circle cx="980" cy="90" r="3"/>
-      <circle cx="200" cy="510" r="3"/>
-    </g>
-  </svg>
-  <div class="wrap about-grid">
+  <div class="wrap route-finale">
     <div class="about-inner">
-      <div class="eyebrow" data-i18n="about_eyebrow">Despre noi</div>
-      <h2 style="margin-bottom:20px;" data-i18n="about_h2">25 de ani de proiecte duse la bun sfârșit</h2>
-      <p data-i18n="about_p1">Proiectate şi dezvoltate pentru mediul concurenţial, produsele şi serviciile firmei au reuşit să se impună pe anumite segmente ale pieţei din judeţul Mureş şi din împrejurimi. De la înfiinţarea societăţii, în 1997, am dus la bun sfârşit peste 1500 de proiecte în domeniul instalaţiilor electrice, reţelelor de utilităţi şi infrastructurii industriale.</p>
-      <p data-i18n="about_p2">Beneficiarii care au intrat în portofoliul firmei noastre au făcut-o ca urmare a relaţiilor pe care echipa managerială le-a promovat în timp şi a unei strategii orientate constant către parteneriate pe termen lung.</p>
-      <div class="cert-row">
-        <span class="cert-pill">ISO 9001</span>
-        <span class="cert-pill">ISO 14001</span>
-        <span class="cert-pill">ISO 45001</span>
-        <span class="cert-pill">ANRE B / E1 / E2 / C1A / C1B / C2B</span>
-        <span class="cert-pill">ANRSC clasa 2</span>
-        <span class="cert-pill">INSEMEX</span>
+      <div class="eyebrow">Camera tehnica</div>
+      <h2 style="margin-bottom:20px;">Traseul se deschide in detaliu</h2>
+      <p>Dupa ramificatie, fluxul poate continua spre paginile existente, unde poti pastra continutul complet sau il putem transforma in camere conectate ale aceleiasi retele.</p>
+      <div class="cert-row route-actions">
+        <a href="relatii-publice.html" class="cert-pill">Relatii publice</a>
+        <a href="raportare.html" class="cert-pill">Raportare</a>
+        <a href="sesizari.html" class="cert-pill">Sesizari</a>
       </div>
     </div>
-    <div class="about-photo" id="aboutSlideshow">
-      <!-- All 4 photos: Unsplash License (free for commercial use, no
-           attribution required), no identifiable people. Rotated
-           automatically by JS — see aboutSlideshow logic below. -->
-      <div class="about-slide active">
-        <img src="https://images.unsplash.com/photo-1693013112835-5f3128bb555f?auto=format&fit=crop&w=900&q=80" alt="Stație de transformare electrică">
-        <div class="about-slide-cap" data-i18n="about_slide1_cap">Stație de transformare electrică</div>
+    <div class="about-photo route-monitor">
+      <div class="route-monitor-grid">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
       </div>
-      <div class="about-slide">
-        <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80" alt="Piloni de înaltă tensiune">
-        <div class="about-slide-cap" data-i18n="about_slide2_cap">Rețele electrice de înaltă tensiune</div>
-      </div>
-      <div class="about-slide">
-        <img src="https://images.unsplash.com/photo-1677273459827-e212995b079d?auto=format&fit=crop&w=900&q=80" alt="Panouri fotovoltaice, vedere aeriană">
-        <div class="about-slide-cap" data-i18n="about_slide3_cap">Instalații fotovoltaice</div>
-      </div>
-      <div class="about-slide">
-        <img src="https://images.unsplash.com/photo-1709244596176-0e14b3b8a517?auto=format&fit=crop&w=900&q=80" alt="Conducte pe un șantier">
-        <div class="about-slide-cap" data-i18n="about_slide4_cap">Rețele de apă și canalizare</div>
-      </div>
-      <div class="about-dots"></div>
     </div>
   </div>
 </section>
@@ -960,9 +971,9 @@
   </svg>
   <div class="wrap cta-grid">
     <div>
-      <div class="eyebrow" data-i18n="contact_eyebrow">Contact</div>
-      <h2 data-i18n="contact_h2">Aveți un proiect în derulare?</h2>
-      <p class="lede" data-i18n="contact_lede">Spuneți-ne despre lucrare — răspundem cu o estimare de timp și cost în cel mult 2 zile lucrătoare.</p>
+      <div class="eyebrow">Iesire din traseu</div>
+      <h2>Final de parcurs</h2>
+      <p class="lede">Homepage-ul functioneaza acum ca o calatorie prin cablu. Urmatorul pas poate fi sa transformam si subpaginile in camere legate de aceeasi retea.</p>
       <div class="contact-list">
         <div class="row"><span class="k" data-i18n="contact_k_sediu">Sediu</span><span data-i18n="contact_v_sediu">Str. Căminului nr. 35, Târgu-Mureș, jud. Mureș</span></div>
         <div class="row"><span class="k" data-i18n="contact_k_telefon">Telefon</span><span data-i18n="contact_v_telefon">+40 265 253 997</span></div>
@@ -971,16 +982,12 @@
       </div>
     </div>
     <div class="form-card">
-      <form id="contactForm">
-        <label data-i18n="cf_name_label">Nume</label>
-        <input type="text" id="c-name" placeholder="Numele dvs." data-i18n-placeholder="cf_name_ph" required>
-        <label data-i18n="cf_email_label">Email</label>
-        <input type="email" id="c-email" placeholder="nume@companie.ro" data-i18n-placeholder="cf_email_ph" required>
-        <label data-i18n="cf_message_label">Detalii proiect</label>
-        <textarea id="c-message" placeholder="Descrieți pe scurt lucrarea..." data-i18n-placeholder="cf_message_ph" required></textarea>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactSubmitBtn" data-i18n="cf_submit_btn">Trimite solicitarea</button>
-      </form>
-      <div class="form-msg" id="contactMsg"></div>
+      <div class="route-endcard">
+        <div class="route-endline"></div>
+        <strong>Flux pregatit pentru extindere</strong>
+        <p>Ramificatia poate continua in proiecte, raportare si sesizari fara sa iesi din naratiunea 3D.</p>
+        <a href="proiecte.html" class="btn btn-primary" style="width:100%;justify-content:center;">Continua</a>
+      </div>
     </div>
   </div>
 </section>
@@ -1328,6 +1335,25 @@
     updateTunnel();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', updateTunnel);
+  })();
+
+  (function initProjectBranch(){
+    const buttons = Array.from(document.querySelectorAll('.branch-btn'));
+    const panels = Array.from(document.querySelectorAll('[data-branch-panel]'));
+    if (!buttons.length || !panels.length) return;
+
+    function setBranch(target){
+      buttons.forEach((button) => {
+        button.classList.toggle('active', button.dataset.branchTarget === target);
+      });
+      panels.forEach((panel) => {
+        panel.classList.toggle('active', panel.dataset.branchPanel === target);
+      });
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => setBranch(button.dataset.branchTarget));
+    });
   })();
 
 
