@@ -40,6 +40,7 @@
     background:var(--paper-000);
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
+    --scroll-progress:0;
   }
   img,svg{display:block;max-width:100%;}
   a{color:inherit;text-decoration:none;}
@@ -611,8 +612,127 @@
   .wire-line{stroke:#7cbcff!important;opacity:.22!important;}
   .wire-joint,.hub-dot,.node-dot{background:#ff6448!important;fill:#ff6448!important;border-color:#09131d!important;}
   footer{background:rgba(4,10,16,0.76)!important;border-top:1px solid rgba(126,170,212,0.12)!important;}
+  .current-stage{
+    position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+    perspective:1200px;opacity:.95;
+  }
+  .current-stage-core{
+    position:absolute;inset:0;display:grid;place-items:center;
+    transform:translateY(calc(var(--scroll-progress) * -10vh));
+  }
+  .wire-tunnel{
+    position:relative;
+    width:min(88vw, 1080px);
+    height:min(72vh, 780px);
+    transform-style:preserve-3d;
+    transform:rotateX(72deg) translateY(calc(var(--scroll-progress) * 4vh));
+    filter:drop-shadow(0 0 34px rgba(255,116,84,0.08));
+  }
+  .wire-tunnel-sheath{
+    position:absolute;left:50%;top:50%;
+    width:min(78vw, 920px);height:min(56vh, 560px);
+    transform:translate3d(-50%, -50%, -160px);
+    border-radius:999px;
+    border:34px solid rgba(160,90,64,0.14);
+    box-shadow:inset 0 0 0 1px rgba(255,224,196,0.08), 0 0 120px rgba(255,116,84,0.06);
+    background:radial-gradient(circle at 50% 50%, rgba(255,140,102,0.04), transparent 62%);
+  }
+  .wire-tunnel-sheath::before,
+  .wire-tunnel-sheath::after{
+    content:"";position:absolute;inset:22px;border-radius:999px;
+  }
+  .wire-tunnel-sheath::before{
+    border:1px solid rgba(255,214,182,0.11);
+  }
+  .wire-tunnel-sheath::after{
+    inset:46px;
+    border:1px solid rgba(103,183,255,0.08);
+  }
+  .wire-tunnel-centerline,
+  .wire-tunnel-glow{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:18px;height:140%;
+    border-radius:999px;
+  }
+  .wire-tunnel-centerline{
+    background:linear-gradient(180deg, rgba(255,210,168,0.04), rgba(255,134,95,0.26) 18%, rgba(255,125,90,0.18) 52%, rgba(255,210,168,0.04));
+    box-shadow:0 0 20px rgba(255,96,72,0.12), 0 0 120px rgba(255,96,72,0.08);
+  }
+  .wire-tunnel-glow{
+    width:100px;
+    background:linear-gradient(180deg, transparent 0%, rgba(255,118,86,0.06) 20%, rgba(115,188,255,0.08) 52%, transparent 100%);
+    filter:blur(18px);
+  }
+  .wire-tunnel-pulse{
+    position:absolute;left:50%;top:50%;
+    width:36px;height:140px;border-radius:999px;
+    transform:translate3d(-50%, calc(320px - var(--scroll-progress) * 1500px), 0);
+    background:linear-gradient(180deg, rgba(255,242,202,0), rgba(255,218,176,0.92) 25%, rgba(255,118,86,0.95) 65%, rgba(255,242,202,0));
+    box-shadow:0 0 18px rgba(255,171,131,0.55), 0 0 90px rgba(255,96,72,0.28);
+    opacity:.92;
+  }
+  .wire-tunnel-rings{
+    position:absolute;inset:0;transform-style:preserve-3d;
+  }
+  .wire-ring{
+    position:absolute;left:50%;top:50%;
+    width:var(--size);height:calc(var(--size) * 0.46);
+    transform:translate3d(-50%, -50%, calc(var(--z) + var(--scroll-progress) * 1300px));
+    border-radius:999px;
+    border:18px solid rgba(189,104,72,0.18);
+    box-shadow:0 0 0 1px rgba(255,255,255,0.04), inset 0 0 0 2px rgba(255,214,182,0.05), 0 0 24px rgba(255,123,87,0.12);
+    background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 62%);
+  }
+  .wire-ring::after{
+    content:"";position:absolute;inset:8px;border-radius:999px;border:1px solid rgba(115,188,255,0.12);
+  }
+  .wire-helix,
+  .wire-tunnel-sparks{
+    position:absolute;inset:0;transform-style:preserve-3d;
+  }
+  .wire-coil{
+    position:absolute;left:50%;top:50%;
+    width:var(--coil-size);height:calc(var(--coil-size) * 0.2);
+    border-radius:999px;
+    border:2px solid rgba(255,186,148,0.24);
+    box-shadow:0 0 12px rgba(255,119,90,0.12);
+  }
+  .wire-helix-a .wire-coil{
+    transform:translate3d(calc(-50% + var(--coil-x)), calc(-50% + var(--coil-y)), calc(var(--coil-z) + var(--scroll-progress) * 1380px)) rotateZ(calc(var(--coil-rot) + var(--scroll-progress) * 160deg));
+  }
+  .wire-helix-b .wire-coil{
+    transform:translate3d(calc(-50% - var(--coil-x)), calc(-50% - var(--coil-y)), calc(var(--coil-z) + var(--scroll-progress) * 1380px)) rotateZ(calc(var(--coil-rot) * -1 + var(--scroll-progress) * -180deg));
+    border-color:rgba(111,191,255,0.2);
+  }
+  .wire-spark{
+    position:absolute;left:50%;top:50%;
+    width:8px;height:8px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,248,219,0.95) 0%, rgba(255,144,103,0.85) 42%, rgba(255,144,103,0) 74%);
+    box-shadow:0 0 12px rgba(255,190,149,0.45), 0 0 28px rgba(111,191,255,0.18);
+    transform:translate3d(calc(-50% + var(--spark-x)), calc(-50% + var(--spark-y) - var(--scroll-progress) * 760px), var(--spark-z));
+    opacity:calc(0.18 + var(--spark-alpha));
+  }
+  .wire-tunnel-arcs .arc{
+    position:absolute;left:50%;top:50%;width:58%;height:58%;
+    border-radius:50%;
+    border-top:2px solid rgba(115,188,255,0.18);
+    border-right:2px solid transparent;border-bottom:2px solid transparent;border-left:2px solid transparent;
+    transform-style:preserve-3d;
+  }
+  .wire-tunnel-arcs .arc-a{transform:translate3d(-50%,-50%,160px) rotateZ(calc(40deg + var(--scroll-progress) * 180deg));}
+  .wire-tunnel-arcs .arc-b{transform:translate3d(-50%,-50%,420px) rotateZ(calc(-80deg + var(--scroll-progress) * 240deg));width:70%;height:70%;}
+  .wire-tunnel-arcs .arc-c{transform:translate3d(-50%,-50%,720px) rotateZ(calc(12deg + var(--scroll-progress) * 300deg));width:46%;height:46%;}
+  .scroll-slice{
+    --slice-progress:0;
+    --slice-depth:0.08;
+    position:relative;z-index:2;
+    transform:translate3d(0, calc((1 - var(--slice-progress)) * 62px), calc(var(--slice-progress) * 260px * var(--slice-depth))) scale(calc(0.94 + var(--slice-progress) * 0.06));
+    opacity:calc(0.3 + var(--slice-progress) * 0.7);
+    transition:transform .22s linear, opacity .22s linear;
+  }
   @media(max-width:960px){.hero{min-height:auto;padding-top:132px!important;}.hero::before,.hero::after{display:none;}.stats-inner{grid-template-columns:repeat(2,1fr);}}
-  @media(max-width:640px){.hero h1{font-size:clamp(38px,14vw,62px)!important;}.stats-inner{grid-template-columns:1fr;padding:0 20px;}}
+  @media(max-width:960px){.current-stage{opacity:.55;}.wire-tunnel{transform:rotateX(76deg) scale(1.08);}}
+  @media(max-width:640px){.hero h1{font-size:clamp(38px,14vw,62px)!important;}.stats-inner{grid-template-columns:1fr;padding:0 20px;}.current-stage{display:none;}.scroll-slice{transform:none!important;opacity:1!important;}}
 </style>
 </head>
 <body>
@@ -646,8 +766,28 @@
   </nav>
 </header>
 
+<div class="current-stage" aria-hidden="true">
+  <div class="current-stage-core">
+    <div class="wire-tunnel">
+      <div class="wire-tunnel-sheath"></div>
+      <div class="wire-tunnel-centerline"></div>
+      <div class="wire-tunnel-glow"></div>
+      <div class="wire-tunnel-pulse"></div>
+      <div class="wire-tunnel-rings" id="currentStageRings"></div>
+      <div class="wire-helix wire-helix-a" id="currentStageHelixA"></div>
+      <div class="wire-helix wire-helix-b" id="currentStageHelixB"></div>
+      <div class="wire-tunnel-sparks" id="currentStageSparks"></div>
+      <div class="wire-tunnel-arcs">
+        <span class="arc arc-a"></span>
+        <span class="arc arc-b"></span>
+        <span class="arc arc-c"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== HERO ===== -->
-<section class="hero">
+<section class="hero scroll-slice" data-depth="0.04">
   <svg class="hero-trace" viewBox="0 0 1180 640" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#D3D4CE" stroke-width="1.4" fill="none" opacity="0.9">
       <path d="M -20 120 H 340 V 40 H 900" />
@@ -677,7 +817,7 @@
 </section>
 
 <!-- ===== STATS ===== -->
-<div class="stats">
+<div class="stats scroll-slice" data-depth="0.08">
   <div class="stats-inner">
     <div class="stat"><div class="num">25</div><div class="label" data-i18n="stat_1_label">ani de activitate neîntreruptă în domeniu</div></div>
     <div class="stat"><div class="num">1500+</div><div class="label" data-i18n="stat_2_label">proiecte finalizate în județul Mureș</div></div>
@@ -689,7 +829,7 @@
 
 
 <!-- ===== SERVICES ===== -->
-<section class="services" id="servicii">
+<section class="services scroll-slice" id="servicii" data-depth="0.11">
   <svg class="section-trace" viewBox="0 0 1180 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
       <path d="M 1200 -20 V 100 H 940" />
@@ -716,7 +856,7 @@
 </section>
 
 <!-- ===== PROJECTS MAP ===== -->
-<section class="projects" id="proiecte">
+<section class="projects scroll-slice" id="proiecte" data-depth="0.15">
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow" data-i18n="proj_eyebrow">Lucrări de referință</div>
@@ -749,7 +889,7 @@
 </section>
 
 <!-- ===== ABOUT ===== -->
-<section class="about" id="despre">
+<section class="about scroll-slice" id="despre" data-depth="0.19">
   <svg class="section-trace" viewBox="0 0 1180 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
       <path d="M 1200 -20 V 90 H 980" />
@@ -804,7 +944,7 @@
 </section>
 
 <!-- ===== CTA / CONTACT ===== -->
-<section class="cta" id="contact">
+<section class="cta scroll-slice" id="contact" data-depth="0.23">
   <svg class="section-trace" viewBox="0 0 1180 560" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
       <path d="M 1200 -20 V 90 H 900" />
@@ -1112,6 +1252,82 @@
     dropdown.querySelectorAll('.nav-dropdown-menu a').forEach(a => {
       a.addEventListener('click', closeDropdown);
     });
+  })();
+
+  /* ============================================================
+     SCROLL CURRENT EXPERIENCE — turns the homepage into a wire
+     tunnel journey. As the user scrolls, a pulse travels through a
+     copper conduit in the background while each page section subtly
+     advances toward the viewer.
+     ============================================================ */
+  (function initCurrentTunnel(){
+    const ringsWrap = document.getElementById('currentStageRings');
+    const helixA = document.getElementById('currentStageHelixA');
+    const helixB = document.getElementById('currentStageHelixB');
+    const sparksWrap = document.getElementById('currentStageSparks');
+    const slices = Array.from(document.querySelectorAll('.scroll-slice'));
+    if (!ringsWrap || !helixA || !helixB || !sparksWrap || !slices.length || window.innerWidth < 641) return;
+
+    for (let i = 0; i < 16; i += 1) {
+      const ring = document.createElement('div');
+      ring.className = 'wire-ring';
+      ring.style.setProperty('--size', `${220 + i * 88}px`);
+      ring.style.setProperty('--z', `${-1200 + i * 150}px`);
+      ringsWrap.appendChild(ring);
+    }
+
+    for (let i = 0; i < 12; i += 1) {
+      const coilA = document.createElement('div');
+      coilA.className = 'wire-coil';
+      coilA.style.setProperty('--coil-size', `${190 + i * 52}px`);
+      coilA.style.setProperty('--coil-x', `${26 + i * 3}px`);
+      coilA.style.setProperty('--coil-y', `${(i % 2 === 0 ? -1 : 1) * (10 + i * 3)}px`);
+      coilA.style.setProperty('--coil-z', `${-1100 + i * 165}px`);
+      coilA.style.setProperty('--coil-rot', `${i * 28}deg`);
+      helixA.appendChild(coilA);
+
+      const coilB = coilA.cloneNode(false);
+      helixB.appendChild(coilB);
+    }
+
+    for (let i = 0; i < 18; i += 1) {
+      const spark = document.createElement('span');
+      spark.className = 'wire-spark';
+      spark.style.setProperty('--spark-x', `${(i % 2 === 0 ? -1 : 1) * (12 + (i % 5) * 11)}px`);
+      spark.style.setProperty('--spark-y', `${220 - i * 34}px`);
+      spark.style.setProperty('--spark-z', `${-920 + i * 92}px`);
+      spark.style.setProperty('--spark-alpha', `${(0.22 + (i % 4) * 0.08).toFixed(2)}`);
+      sparksWrap.appendChild(spark);
+    }
+
+    slices.forEach((slice) => {
+      slice.style.setProperty('--slice-depth', slice.dataset.depth || '0.08');
+    });
+
+    let ticking = false;
+    function updateTunnel(){
+      ticking = false;
+      const doc = document.documentElement;
+      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      document.body.style.setProperty('--scroll-progress', progress.toFixed(4));
+
+      slices.forEach((slice) => {
+        const rect = slice.getBoundingClientRect();
+        const local = Math.min(1, Math.max(0, (window.innerHeight * 0.82 - rect.top) / (window.innerHeight * 1.05)));
+        slice.style.setProperty('--slice-progress', local.toFixed(4));
+      });
+    }
+
+    function onScroll(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateTunnel);
+    }
+
+    updateTunnel();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateTunnel);
   })();
 
 
