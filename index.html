@@ -789,6 +789,64 @@
   .route-endline{width:100%;height:10px;border-radius:999px;background:linear-gradient(90deg, rgba(255,132,94,0.15), rgba(255,132,94,0.95), rgba(102,182,255,0.3));box-shadow:0 0 28px rgba(255,132,94,0.2);}
   @keyframes branchPulse{0%,100%{transform:scale(.86);opacity:.72;}50%{transform:scale(1.16);opacity:1;}}
   @media(max-width:960px){.stats-inner,.route-grid,.route-finale,.branch-stage{grid-template-columns:1fr!important;}.branch-core{order:-1;height:120px;}}
+  /* ===== CINEMATIC ENTRY: POLE TOP TO COPPER CONDUCTOR ===== */
+  body{--entry-progress:0;}
+  .hero::before,.hero::after{display:none!important;}
+  .landscape-stage{
+    position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+    background:linear-gradient(180deg,#79c8f0 0%,#c9e9f3 48%,#e8dcb2 70%,#78945d 100%);
+    opacity:clamp(0,calc(1.12 - var(--entry-progress) * 1.45),1);
+    transform:scale(calc(1 + var(--entry-progress) * 1.85));
+    transform-origin:50% 46%;
+    filter:saturate(calc(1 - var(--entry-progress) * .48)) blur(calc(var(--entry-progress) * 7px));
+    will-change:transform,opacity,filter;
+  }
+  .landscape-stage::after{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 46%,transparent 0 9%,rgba(4,10,16,.08) 32%,rgba(3,8,13,.72) 100%);
+    opacity:clamp(0,calc((var(--entry-progress) - .35) * 2.2),1);
+  }
+  .landscape-sun{position:absolute;right:13vw;top:10vh;width:clamp(84px,11vw,170px);aspect-ratio:1;border-radius:50%;background:#fff5c3;box-shadow:0 0 55px 24px rgba(255,241,168,.45),0 0 160px 70px rgba(255,235,158,.18);}
+  .cloud{position:absolute;width:clamp(180px,24vw,380px);height:54px;border-radius:999px;background:rgba(255,255,255,.72);filter:blur(1px);box-shadow:70px -24px 0 8px rgba(255,255,255,.58),140px 3px 0 -3px rgba(255,255,255,.5);}
+  .cloud-a{left:8vw;top:17vh;transform:scale(.72);}
+  .cloud-b{right:29vw;top:28vh;transform:scale(.42);opacity:.72;}
+  .hill{position:absolute;left:-10%;width:120%;border-radius:50% 50% 0 0/100% 100% 0 0;transform-origin:50% 100%;}
+  .hill-far{bottom:16vh;height:37vh;background:linear-gradient(165deg,#769b75,#55765c);clip-path:polygon(0 62%,9% 38%,18% 56%,29% 26%,39% 55%,51% 18%,62% 54%,72% 30%,84% 58%,94% 35%,100% 53%,100% 100%,0 100%);}
+  .hill-near{bottom:-4vh;height:35vh;background:linear-gradient(150deg,#5f7e4d,#2f5738);clip-path:polygon(0 47%,12% 21%,24% 54%,39% 12%,55% 48%,69% 19%,83% 52%,100% 17%,100% 100%,0 100%);}
+  .field-lines{position:absolute;left:0;right:0;bottom:-2vh;height:29vh;background:repeating-linear-gradient(108deg,transparent 0 9vw,rgba(239,217,145,.24) 9.2vw 9.5vw),linear-gradient(180deg,transparent,#45633a);clip-path:polygon(0 30%,100% 0,100% 100%,0 100%);}
+  .distant-town{position:absolute;left:7%;right:7%;bottom:21vh;height:34px;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(238,231,204,.72) 23px 34px,transparent 35px 48px);opacity:.56;}
+  .pole-rig{position:absolute;left:50%;bottom:-33vh;width:min(76vw,930px);height:78vh;transform:translateX(-50%);filter:drop-shadow(0 18px 22px rgba(15,23,18,.3));}
+  .pole-mast{position:absolute;left:50%;top:17%;bottom:0;width:clamp(64px,7vw,106px);transform:translateX(-50%);clip-path:polygon(28% 0,72% 0,100% 100%,0 100%);background:linear-gradient(90deg,#403328,#8e7152 42%,#ad8b63 55%,#4a382a);}
+  .pole-crossarm{position:absolute;left:2%;right:2%;top:14%;height:clamp(25px,3vw,42px);border-radius:5px;background:linear-gradient(180deg,#89745a,#3f352a 70%,#241e19);box-shadow:0 10px 18px rgba(21,26,20,.22);}
+  .pole-cap{position:absolute;left:50%;top:4%;width:14%;height:16%;transform:translateX(-50%);background:linear-gradient(90deg,#40352a,#927758,#44372a);clip-path:polygon(25% 0,75% 0,100% 100%,0 100%);}
+  .insulator{position:absolute;top:8%;width:30px;height:86px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,#d6e8dc 0 9px,#759796 10px 14px,transparent 15px 19px);filter:drop-shadow(0 4px 3px rgba(16,30,29,.24));}
+  .insulator::after{content:"";position:absolute;left:50%;bottom:-12px;width:9px;height:26px;background:#343a38;transform:translateX(-50%);}
+  .insulator-left{left:14%;}.insulator-mid{left:50%;}.insulator-right{left:86%;}
+  .overhead-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+  .overhead-wires path{fill:none;stroke:#222b2d;stroke-width:4;vector-effect:non-scaling-stroke;filter:drop-shadow(0 2px 1px rgba(255,255,255,.18));}
+  .wire-entry{position:absolute;left:50%;top:46%;width:54px;height:32px;transform:translate(-50%,-50%) scale(calc(.65 + var(--entry-progress) * 2.8));border-radius:50%;border:8px solid #b96c43;background:#11181c;box-shadow:0 0 0 5px #20292c,0 0 34px rgba(255,183,110,.44);opacity:clamp(0,calc((var(--entry-progress) - .08) * 3),1);}
+  .entry-vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 46%,transparent 0 12%,rgba(2,6,10,.88) 68%);opacity:clamp(0,calc((var(--entry-progress) - .5) * 2),1);}
+  .current-stage{opacity:clamp(0,calc((var(--entry-progress) - .42) * 2.4),.95);}
+  .current-stage-core{transform:translateY(calc((1 - var(--entry-progress)) * 14vh - var(--scroll-progress) * 16vh)) scale(calc(.28 + var(--entry-progress) * .72));}
+  .wire-tunnel{transform:rotateX(calc(55deg + var(--entry-progress) * 9deg + var(--scroll-progress) * 18deg)) translateY(calc(9vh - var(--entry-progress) * 9vh - var(--scroll-progress) * 12vh)) scale(calc(.55 + var(--entry-progress) * .17 + var(--scroll-progress) * .52));}
+  .wire-mouth{opacity:clamp(.14,calc(1.2 - var(--entry-progress) * .45 - var(--scroll-progress) * .78),1);}
+  .hero{min-height:175svh!important;padding:0!important;align-items:flex-start;}
+  .route-hero{position:sticky;top:0;min-height:100svh;max-width:none!important;width:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;text-align:left!important;padding:0 5vw 9vh;gap:12px!important;opacity:clamp(0,calc(1 - var(--entry-progress) * 1.7),1);transform:translateY(calc(var(--entry-progress) * -7vh));}
+  .route-hero::before{content:"VIEW FROM GRID / 46.542° N";font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:rgba(16,37,46,.65);}
+  .route-hero .hero-kicker{color:#173743!important;background:rgba(245,250,241,.64);border:1px solid rgba(255,255,255,.55);padding:8px 12px;border-radius:999px;backdrop-filter:blur(10px);}
+  .route-hero h1{max-width:780px;font-size:clamp(48px,8vw,104px)!important;color:#f7fbf1!important;text-shadow:0 5px 28px rgba(24,48,45,.35);}
+  .route-hero .lede{max-width:540px!important;color:rgba(247,251,241,.92)!important;text-shadow:0 2px 12px rgba(22,42,36,.45);}
+  .hero-cable-caption{color:#f8fbf2!important;text-shadow:0 2px 10px rgba(20,34,31,.5);}
+  @media(max-width:640px){
+    .current-stage{display:block!important;opacity:clamp(0,calc((var(--entry-progress) - .48) * 2.2),.9);}
+    .landscape-stage{transform:scale(calc(1 + var(--entry-progress) * 1.35));}
+    .pole-rig{width:110vw;bottom:-27vh;height:70vh;}
+    .route-hero{padding:0 22px 8vh;}
+    .route-hero h1{font-size:clamp(46px,16vw,72px)!important;}
+    .route-hero .lede{font-size:16px!important;}
+    .wire-tunnel{width:130vw;height:70vh;}
+  }
+  @media(prefers-reduced-motion:reduce){.landscape-stage,.current-stage-core,.wire-tunnel,.route-hero{transform:none!important;filter:none!important;}}
 </style>
 </head>
 <body>
@@ -822,6 +880,31 @@
   </nav>
 </header>
 
+<div class="landscape-stage" aria-hidden="true">
+  <div class="landscape-sun"></div>
+  <div class="cloud cloud-a"></div>
+  <div class="cloud cloud-b"></div>
+  <div class="hill hill-far"></div>
+  <div class="distant-town"></div>
+  <div class="hill hill-near"></div>
+  <div class="field-lines"></div>
+  <svg class="overhead-wires" viewBox="0 0 1000 700" preserveAspectRatio="none">
+    <path d="M-40 70 C190 235 360 305 500 322 C640 305 810 235 1040 70" />
+    <path d="M-40 190 C200 285 370 322 500 326 C630 322 800 285 1040 190" />
+    <path d="M-40 325 C205 334 372 334 500 330 C628 334 795 334 1040 325" />
+  </svg>
+  <div class="wire-entry"></div>
+  <div class="pole-rig">
+    <div class="pole-cap"></div>
+    <div class="pole-mast"></div>
+    <div class="pole-crossarm"></div>
+    <div class="insulator insulator-left"></div>
+    <div class="insulator insulator-mid"></div>
+    <div class="insulator insulator-right"></div>
+  </div>
+</div>
+<div class="entry-vignette" aria-hidden="true"></div>
+
 <div class="current-stage" aria-hidden="true">
   <div class="current-stage-core">
     <div class="wire-tunnel">
@@ -847,11 +930,11 @@
 <section class="hero scroll-slice" data-depth="0.04">
   <div class="wrap route-hero">
     <div class="hero-kicker">INSTA GRUP</div>
-    <h1>Intrare in retea</h1>
-    <p class="lede">Pornesti la capatul unui cablu de cupru. Cu fiecare scroll intri mai adanc in conductor, iar descarcarile de lumina devin curent in miscare.</p>
+    <h1>Deasupra retelei</h1>
+    <p class="lede">Privesti peste vale de la inaltimea liniei electrice. Urmeaza conductorul si lasa-te purtat de curent.</p>
     <div class="hero-cable-caption">
       <span class="hero-caption-line"></span>
-      <span>Scroll pentru a intra in cablu</span>
+      <span>Scroll pentru a prinde curentul</span>
     </div>
   </div>
 </section>
@@ -1273,7 +1356,7 @@
     const helixB = document.getElementById('currentStageHelixB');
     const sparksWrap = document.getElementById('currentStageSparks');
     const slices = Array.from(document.querySelectorAll('.scroll-slice'));
-    if (!ringsWrap || !helixA || !helixB || !sparksWrap || !slices.length || window.innerWidth < 641) return;
+    if (!ringsWrap || !helixA || !helixB || !sparksWrap || !slices.length) return;
 
     for (let i = 0; i < 16; i += 1) {
       const ring = document.createElement('div');
@@ -1317,7 +1400,10 @@
       const doc = document.documentElement;
       const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
       const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      const entryDistance = Math.max(window.innerHeight * 1.08, 1);
+      const entryProgress = Math.min(1, Math.max(0, window.scrollY / entryDistance));
       document.body.style.setProperty('--scroll-progress', progress.toFixed(4));
+      document.body.style.setProperty('--entry-progress', entryProgress.toFixed(4));
 
       slices.forEach((slice) => {
         const rect = slice.getBoundingClientRect();
@@ -1412,6 +1498,7 @@
 
   const grid = document.getElementById('svcGrid');
   function renderServices(){
+    if (!grid) return;
     const wasActive = Array.from(grid.querySelectorAll('.svc-card')).map(c => c.classList.contains('active'));
     grid.innerHTML = '';
     services.forEach((s,i)=>{
@@ -1460,6 +1547,8 @@
   const mapWrap = document.getElementById('mapWrap');
   const tooltip = document.getElementById('tooltip');
   const wireLayer = document.getElementById('wireLines');
+
+  if (mapWrap && tooltip && wireLayer) {
 
   // Headquarters position — center of the map panel. All wire traces
   // originate here, matching the hub-dot's CSS position (left/top 50%).
@@ -1653,6 +1742,7 @@
       if (key) dot.setAttribute('aria-label', t(key));
     });
   });
+  }
 
   /* ============================================================
      CONTACT FORM (bottom of page) — sends a notification email to
@@ -1664,7 +1754,7 @@
   const contactMsg = document.getElementById('contactMsg');
   const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 
-  contactForm.addEventListener('submit', async (e)=>{
+  if (contactForm && contactMsg && contactSubmitBtn) contactForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
     contactSubmitBtn.disabled = true;
     contactSubmitBtn.textContent = t('cf_submit_sending');
@@ -1724,7 +1814,6 @@
     });
 
     if (typeof applyTranslations === 'function') applyTranslations();
-    window.addEventListener('langchange', () => { if (document.body.contains(banner)) applyTranslations(); });
   })();
 </script>
 
