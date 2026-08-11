@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — Sesizări — Insta Grup</title>
+<title>Insta Grup Admin</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,6 +69,60 @@
   .dash-head h1{font-size:26px;margin-bottom:6px;}
   .dash-head p{color:var(--ink-600);font-size:14.5px;}
   .toolbar{padding:20px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+
+  .admin-tabs{display:flex;gap:6px;margin:24px 0 4px;border-bottom:1px solid var(--line);}
+  .admin-tab{
+    font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink-400);
+    padding:10px 18px;border:none;background:none;cursor:pointer;
+    border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;
+  }
+  .admin-tab:hover{color:var(--ink-700);}
+  .admin-tab.active{color:var(--copper-600);border-bottom-color:var(--copper-500);}
+  .admin-panel{display:none;}
+  .admin-panel.active{display:block;}
+
+  .project-form{
+    background:var(--paper-050);border:1px solid var(--line-strong);border-radius:5px;
+    padding:22px 24px;margin-top:16px;
+  }
+  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;}
+  .pf-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;}
+
+  .project-list{padding:20px 0 60px;display:flex;flex-direction:column;gap:12px;}
+  .project-card{
+    border:1px solid var(--line-strong);border-radius:5px;padding:18px 22px;background:var(--paper-000);
+  }
+  .pc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;}
+  .pc-title{font-weight:600;font-size:15px;color:var(--ink-900);margin-bottom:4px;}
+  .pc-address{font-size:13px;color:var(--ink-600);}
+  .pc-status{
+    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;
+    padding:4px 9px;border-radius:3px;white-space:nowrap;
+  }
+  .pc-status.scheduled{background:var(--paper-100);color:var(--ink-600);}
+  .pc-status.progress{background:var(--copper-050);color:var(--copper-600);}
+  .pc-status.done{background:var(--signal-green-bg);color:var(--signal-green);}
+  .pc-bar-track{width:100%;height:5px;background:var(--paper-100);border-radius:4px;overflow:hidden;margin:12px 0 8px;}
+  .pc-bar-fill{height:100%;background:var(--copper-500);border-radius:4px;}
+  .pc-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-600);margin-bottom:14px;}
+  .pc-actions{display:flex;gap:10px;}
+  .pc-actions .btn{padding:8px 14px;font-size:12px;}
+  .project-card.archived{background:var(--paper-050);opacity:0.85;}
+
+  .excel-preview{
+    background:var(--paper-050);border:1px solid var(--line-strong);border-radius:5px;
+    padding:22px 24px;margin-top:16px;
+  }
+  .excel-preview-note{font-size:13px;color:var(--ink-600);margin-bottom:14px;}
+  .excel-preview-table-wrap{overflow-x:auto;max-height:340px;overflow-y:auto;border:1px solid var(--line-strong);border-radius:3px;}
+  .excel-preview-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .excel-preview-table th{
+    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--ink-400);text-align:left;padding:9px 12px;background:var(--paper-100);
+    position:sticky;top:0;
+  }
+  .excel-preview-table td{padding:9px 12px;border-top:1px solid var(--line);color:var(--ink-700);}
+  .excel-preview-table tr.row-error td{background:var(--signal-red-bg);color:var(--signal-red);}
   .chips{display:flex;gap:8px;flex-wrap:wrap;}
   .chip{
     font-family:var(--mono);font-size:12px;padding:8px 14px;border-radius:20px;
@@ -118,6 +172,14 @@
   .ticket-body .full{grid-column:1/-1;}
   .ticket-body .k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-400);letter-spacing:0.04em;display:block;margin-bottom:2px;}
   .ticket-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;padding-top:14px;border-top:1px solid var(--line);}
+  .res-photos-preview{display:flex;gap:14px;margin-bottom:14px;}
+  .res-photo{width:110px;}
+  .res-photo .k{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--ink-400);letter-spacing:0.04em;display:block;margin-bottom:4px;}
+  .res-photo img{width:100%;height:80px;object-fit:cover;border-radius:3px;border:1px solid var(--line-strong);}
+  .ctrl-field input[type="file"]{
+    width:100%;background:var(--paper-050);border:1px solid var(--line-strong);
+    color:var(--ink-700);padding:8px 10px;border-radius:2px;font-family:var(--body);font-size:12.5px;
+  }
   .ctrl-field{flex:1;min-width:160px;}
   .ctrl-field label{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.04em;color:var(--ink-600);display:block;margin-bottom:6px;}
   .ctrl-field input, .ctrl-field select{
@@ -165,25 +227,99 @@
   <div class="wrap">
     <div class="dash-head">
       <h1>Sesizări iluminat public</h1>
-      <p>Gestionați tichetele primite prin formularul de pe site.</p>
+      <p>Gestionați tichetele primite prin formularul de pe site și proiectele afișate public.</p>
     </div>
-    <div class="toolbar">
-      <div class="chips" id="chipsWrap"></div>
-      <div style="display:flex; align-items:center; gap:14px;">
-        <div class="result-count" id="resultCount"></div>
-        <button class="btn" id="exportBtn" type="button">⭳ Descarcă CSV</button>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" type="button" data-tab="tickets">Sesizări</button>
+      <button class="admin-tab" type="button" data-tab="projects">Proiecte curente</button>
+    </div>
+
+    <div class="admin-panel active" id="panel-tickets">
+      <div class="toolbar">
+        <div class="chips" id="chipsWrap"></div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div class="result-count" id="resultCount"></div>
+          <button class="btn" id="exportBtn" type="button">⭳ Descarcă CSV</button>
+        </div>
       </div>
+      <div class="archive-bar" id="archiveBar">
+        <span id="selectionCount">0 selectate</span>
+        <button class="btn" id="clearSelectionBtn" type="button">Anulează selecția</button>
+        <button class="btn btn-primary" id="archiveSelectedBtn" type="button">Arhivează selectate</button>
+      </div>
+      <div class="ticket-list" id="ticketList"></div>
+      <datalist id="resolution-suggestions">
+        <option value="Bec înlocuit">
+        <option value="Stâlp înlocuit">
+        <option value="Cablu reparat">
+        <option value="Fotocelulă înlocuită">
+        <option value="Siguranță înlocuită">
+      </datalist>
     </div>
-    <div class="archive-bar" id="archiveBar">
-      <span id="selectionCount">0 selectate</span>
-      <button class="btn" id="clearSelectionBtn" type="button">Anulează selecția</button>
-      <button class="btn btn-primary" id="archiveSelectedBtn" type="button">Arhivează selectate</button>
+
+    <div class="admin-panel" id="panel-projects">
+      <div class="toolbar">
+        <div class="chips" id="projectsChipsWrap"></div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div class="result-count" id="projectsCount"></div>
+          <input type="file" id="excelInput" accept=".xlsx,.xls,.csv" style="display:none;">
+          <button class="btn" id="importExcelBtn" type="button">⭳ Importă din Excel</button>
+          <button class="btn btn-primary" id="addProjectBtn" type="button">+ Adaugă proiect</button>
+        </div>
+      </div>
+      <div class="archive-bar" id="projectsArchiveBar">
+        <span id="projectsSelectionCount">0 selectate</span>
+        <button class="btn" id="projectsClearSelectionBtn" type="button">Anulează selecția</button>
+        <button class="btn btn-primary" id="projectsArchiveSelectedBtn" type="button">Arhivează selectate</button>
+      </div>
+
+      <div class="project-form" id="projectForm" style="display:none;">
+        <input type="hidden" id="pf-id">
+        <div class="pf-grid">
+          <div class="ctrl-field">
+            <label>Tip lucrare / Titlu</label>
+            <input type="text" id="pf-title" placeholder="ex: Reabilitare rețea electrică">
+          </div>
+          <div class="ctrl-field">
+            <label>Adresă</label>
+            <input type="text" id="pf-address" placeholder="ex: Str. Gh. Doja, Târgu-Mureș">
+          </div>
+          <div class="ctrl-field">
+            <label>Data început</label>
+            <input type="date" id="pf-start">
+          </div>
+          <div class="ctrl-field">
+            <label>Data finalizare estimată</label>
+            <input type="date" id="pf-due">
+          </div>
+          <div class="ctrl-field" style="grid-column:1/-1;">
+            <label>Note (opțional, intern)</label>
+            <input type="text" id="pf-notes" placeholder="Vizibil doar aici, nu pe site">
+          </div>
+        </div>
+        <div class="pf-actions">
+          <button class="btn" id="pfCancelBtn" type="button">Anulează</button>
+          <button class="btn btn-primary" id="pfSaveBtn" type="button">Salvează proiectul</button>
+        </div>
+      </div>
+
+      <div class="excel-preview" id="excelPreview" style="display:none;">
+        <p class="excel-preview-note">Previzualizare — verificați rândurile înainte de a confirma importul. Coloane așteptate: <strong>Tip lucrare, Adresă, Data început, Data finalizare</strong> (prima linie = titluri de coloană).</p>
+        <div class="excel-preview-table-wrap"><table class="excel-preview-table" id="excelPreviewTable"></table></div>
+        <div class="pf-actions">
+          <button class="btn" id="excelCancelBtn" type="button">Anulează</button>
+          <button class="btn btn-primary" id="excelConfirmBtn" type="button">Confirmă importul</button>
+        </div>
+      </div>
+
+      <div class="project-list" id="projectList"></div>
     </div>
-    <div class="ticket-list" id="ticketList"></div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
   /* ================================================================
      ADMIN DASHBOARD — insta-grup.ro
@@ -242,6 +378,92 @@
       .replace(/'/g, '&#39;');
   }
 
+  /* ============================================================
+     RESOLUTION PHOTOS — uploads a before/after photo to the public
+     "ticket-photos" Storage bucket (see resolution-photos.sql) and
+     returns its public URL to store on the ticket row. Files are
+     named with the ticket id + a timestamp so re-uploading a photo
+     for the same ticket never collides with or silently overwrites
+     an older one.
+
+     NORMALIZE TO JPEG BEFORE UPLOAD: phone cameras and screenshot
+     tools save in all sorts of formats (.avif, .heic, .webp...).
+     Supabase Storage buckets can be configured with an "allowed
+     MIME types" list, and if a format like image/avif isn't on
+     that list, the upload is rejected with a generic error. Rather
+     than relying on the bucket's configuration matching whatever
+     format a phone happens to produce, every photo is redrawn to a
+     canvas and re-encoded as a JPEG client-side first — this also
+     caps the resolution so huge camera photos don't bloat storage.
+     If the browser can't decode the original file for some reason,
+     upload falls back to sending it as-is.
+     ============================================================ */
+  function toJpegBlob(file, maxDimension = 2000, quality = 0.85){
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDimension || height > maxDimension) {
+          const scale = maxDimension / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        URL.revokeObjectURL(url);
+        canvas.toBlob(
+          (blob) => blob ? resolve(blob) : reject(new Error('canvas.toBlob returned null')),
+          'image/jpeg',
+          quality
+        );
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('Browser could not decode this image format'));
+      };
+      img.src = url;
+    });
+  }
+
+  function sanitizePathSegment(value){
+    return String(value ?? '')
+      .trim()
+      .replace(/[^a-zA-Z0-9_-]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  async function uploadResolutionPhoto(ticket, kind, file){
+    let uploadBody = file;
+    let ext = 'jpg';
+    try {
+      uploadBody = await toJpegBlob(file);
+    } catch (convertErr) {
+      // Fall back to the original file untouched if it couldn't be
+      // decoded/re-encoded client-side (rare, but safer than failing
+      // outright) — keep its own extension in that case.
+      console.warn('Photo conversion to JPEG failed, uploading original file instead:', convertErr);
+      uploadBody = file;
+      ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+    }
+    // Folder is named after the human-readable ticket number (e.g.
+    // "TICKET-0012") rather than the internal UUID, so browsing the
+    // "ticket-photos" bucket directly in the Supabase dashboard shows
+    // immediately which ticket each photo belongs to. Falls back to
+    // the UUID only if a ticket somehow has no number yet.
+    const folder = sanitizePathSegment(ticket.ticket_number) || ticket.id;
+    const path = `${folder}/${kind}-${Date.now()}.${ext}`;
+    const { error } = await supabaseClient.storage
+      .from('ticket-photos')
+      .upload(path, uploadBody, { upsert: false, contentType: ext === 'jpg' ? 'image/jpeg' : (file.type || undefined) });
+    if (error) throw error;
+    const { data } = supabaseClient.storage.from('ticket-photos').getPublicUrl(path);
+    return data.publicUrl;
+  }
+
   function getFilteredTickets(){
     if (activeFilter === 'Archived') {
       return allTickets.filter(t => t.archived);
@@ -265,12 +487,74 @@
     }
   }
 
+  /* ============================================================
+     AUTO-ARCHIVE / AUTO-CLEANUP — Adam's ask: two weeks after a
+     ticket is resolved or a project's due_date passes, it should
+     move to archive and stop showing on the public site.
+
+     There is no server-side cron/scheduled function wired up for
+     this (that would need a Supabase Edge Function on a schedule,
+     or the pg_cron extension enabled in the Supabase SQL editor —
+     see the note above loadProjects() for the one-time SQL if that
+     route is preferred later). Until then, this runs the sweep
+     client-side, once, every time a staff member logs into this
+     dashboard:
+       - tickets: any row with status "Terminat" and resolved_on
+         older than 14 days gets archived = true (same flag the
+         manual "Arhivează" button already sets).
+       - current_projects: any row whose due_date is more than 14
+         days in the past gets archived = true the same way — now
+         that projects have their own "Arhivate" tab (see the
+         projects filter chips), auto-archiving replaces the older
+         behavior of deleting these rows outright.
+     The public pages (relatii-publice.html, sesizari.html) also
+     filter by the same 14-day window client-side, so a ticket or
+     project disappears from the public site on schedule even on
+     days nobody has logged into admin.
+
+     REQUIRES the `archived` / `archived_at` columns on
+     `current_projects` — see the migration note above
+     getFilteredProjects().
+     ============================================================ */
+  const AUTO_ARCHIVE_DAYS = 14;
+
+  async function autoArchiveStaleTickets(){
+    const cutoffISO = new Date(Date.now() - AUTO_ARCHIVE_DAYS * 24 * 60 * 60 * 1000).toISOString();
+    const { error } = await supabaseClient
+      .from('tickets')
+      .update({ archived: true, archived_at: new Date().toISOString() })
+      .eq('status', 'Terminat')
+      .eq('archived', false)
+      .lt('resolved_on', cutoffISO);
+    if (error) console.error('Auto-archive of stale tickets failed (non-blocking):', error);
+  }
+
+  async function autoCleanupStaleProjects(){
+    const cutoffDate = new Date(Date.now() - AUTO_ARCHIVE_DAYS * 24 * 60 * 60 * 1000);
+    const cutoffISO = cutoffDate.toISOString().slice(0, 10); // date-only, matches due_date column type
+    const { error } = await supabaseClient
+      .from('current_projects')
+      .update({ archived: true, archived_at: new Date().toISOString() })
+      .eq('archived', false)
+      .lt('due_date', cutoffISO);
+    if (error) console.error('Auto-archive of stale projects failed (non-blocking — likely means the archived/archived_at columns have not been added to current_projects yet):', error);
+  }
+
+  async function runAutoArchiveSweep(){
+    // Both run before the lists are fetched, so the dashboard the
+    // staff member sees already reflects the cleaned-up state.
+    await Promise.all([autoArchiveStaleTickets(), autoCleanupStaleProjects()]);
+  }
+
   function showDashboard(email){
     loginWrap.style.display = 'none';
     dash.classList.add('show');
     logoutBtn.style.display = 'inline-flex';
     userTag.textContent = email;
-    loadTickets();
+    runAutoArchiveSweep().finally(() => {
+      loadTickets();
+      loadProjects();
+    });
   }
 
   function showLogin(){
@@ -405,6 +689,11 @@
           ${t.description ? `<div class="full"><span class="k">Descriere</span>${safeDescription}</div>` : ''}
           ${t.resolved_on ? `<div class="full"><span class="k">Rezolvat</span>${fmtDate(t.resolved_on)}</div>` : ''}
         </div>
+        ${(t.resolution_photo_before || t.resolution_photo_after) ? `
+        <div class="res-photos-preview">
+          ${t.resolution_photo_before ? `<div class="res-photo"><span class="k">Înainte</span><img src="${t.resolution_photo_before}" alt="Foto înainte"></div>` : ''}
+          ${t.resolution_photo_after ? `<div class="res-photo"><span class="k">După</span><img src="${t.resolution_photo_after}" alt="Foto după"></div>` : ''}
+        </div>` : ''}
         <div class="ticket-controls">
           <div class="ctrl-field">
             <label>Stare</label>
@@ -416,6 +705,18 @@
           <div class="ctrl-field">
             <label>Rezolvat de</label>
             <input type="text" class="f-resolver" placeholder="Nume angajat" value="${safeResolvedBy}" ${isArchived ? 'disabled' : ''}>
+          </div>
+          <div class="ctrl-field" style="min-width:220px;">
+            <label>Ce s-a făcut (opțional)</label>
+            <input type="text" class="f-resnote" list="resolution-suggestions" placeholder="ex: Bec înlocuit" value="${escapeHtml(t.resolution_note || '')}" ${isArchived ? 'disabled' : ''}>
+          </div>
+          <div class="ctrl-field">
+            <label>Foto înainte</label>
+            <input type="file" class="f-photo-before" accept="image/*" ${isArchived ? 'disabled' : ''}>
+          </div>
+          <div class="ctrl-field">
+            <label>Foto după</label>
+            <input type="file" class="f-photo-after" accept="image/*" ${isArchived ? 'disabled' : ''}>
           </div>
           ${isArchived
             ? `<button class="btn f-restore">Dezarhivează</button>`
@@ -454,22 +755,49 @@
         const saveStatus = card.querySelector('.save-status');
         saveBtn.addEventListener('click', async () => {
           saveBtn.disabled = true;
+          saveBtn.textContent = 'Se salvează...';
           const newStatus = card.querySelector('.f-status').value;
           const resolver = card.querySelector('.f-resolver').value.trim();
+          const resNote = card.querySelector('.f-resnote').value.trim();
+          const beforeFile = card.querySelector('.f-photo-before').files[0];
+          const afterFile = card.querySelector('.f-photo-after').files[0];
+
+          const payload = {
+            status: newStatus,
+            resolved_by: resolver || null,
+            resolution_note: resNote || null,
+          };
+
+          // Upload any newly selected photos to Supabase Storage.
+          // Existing photos are left untouched if no new file was chosen.
+          try {
+            if (beforeFile) {
+              payload.resolution_photo_before = await uploadResolutionPhoto(t, 'before', beforeFile);
+            }
+            if (afterFile) {
+              payload.resolution_photo_after = await uploadResolutionPhoto(t, 'after', afterFile);
+            }
+          } catch (uploadErr) {
+            console.error(uploadErr);
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = 'Salvează<span class="save-status">✓ Salvat</span>';
+            const reason = uploadErr && uploadErr.message ? uploadErr.message : 'motiv necunoscut';
+            alert('Eroare la încărcarea fotografiei: ' + reason + '\n\nÎncercați din nou, sau alegeți o altă poză.');
+            return;
+          }
 
           const { error } = await supabaseClient
             .from('tickets')
-            .update({ status: newStatus, resolved_by: resolver || null })
+            .update(payload)
             .eq('id', t.id);
 
           saveBtn.disabled = false;
+          saveBtn.innerHTML = 'Salvează<span class="save-status">✓ Salvat</span>';
           if (error) {
             console.error(error);
             alert('Eroare la salvare. Încercați din nou.');
             return;
           }
-          saveStatus.classList.add('show');
-          setTimeout(() => saveStatus.classList.remove('show'), 2000);
           loadTickets();
         });
       }
@@ -541,7 +869,8 @@
 
     const headers = [
       'Număr tichet', 'Tip', 'Nume', 'Telefon', 'Email', 'Adresă',
-      'Descriere', 'Stare', 'Rezolvat de', 'Trimis la', 'Rezolvat la'
+      'Descriere', 'Stare', 'Rezolvat de', 'Ce s-a făcut', 'Trimis la', 'Rezolvat la',
+      'Foto înainte', 'Foto după'
     ];
 
     const rows = exportRows.map(t => [
@@ -554,8 +883,11 @@
       t.description,
       t.status === 'Terminat' ? 'Terminat' : 'Activ',
       t.resolved_by,
+      t.resolution_note,
       fmtDate(t.submitted_on),
-      fmtDate(t.resolved_on)
+      fmtDate(t.resolved_on),
+      t.resolution_photo_before,
+      t.resolution_photo_after
     ]);
 
     const csvContent = [headers, ...rows]
@@ -577,6 +909,470 @@
   }
 
   document.getElementById('exportBtn').addEventListener('click', exportTicketsCSV);
+
+  /* ============================================================
+     ADMIN TABS — switch between "Sesizări" and "Proiecte curente"
+     within the same authenticated dashboard (no second login needed).
+     ============================================================ */
+  document.querySelectorAll('.admin-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ============================================================
+     CURRENT PROJECTS — full CRUD (add/edit/delete) for the
+     `current_projects` table, whose contents are shown publicly on
+     relatii-publice.html's "Proiecte de modernizare" section
+     (formerly the homepage's "Ce facem acum" section — moved off
+     the homepage so index.html no longer queries this table).
+     Openly readable by anon — see current-projects-table.sql.
+     Progress % and status are computed the same way here as on the
+     public page: purely from today's date relative to
+     start_date/due_date, so nothing needs manual updating except
+     the dates themselves.
+
+     ARCHIVING: same tab structure and bulk-archive pattern as
+     Sesizări (Active / Rezolvate / Toate / Arhivate — see
+     getFilteredProjects() above). Requires an `archived` (boolean)
+     and `archived_at` (timestamptz) column on `current_projects`,
+     matching what `tickets` already has:
+
+       alter table current_projects
+         add column if not exists archived boolean not null default false,
+         add column if not exists archived_at timestamptz;
+
+     AUTOMATIC ARCHIVING (optional, server-side): runAutoArchiveSweep()
+     above already handles the 2-week auto-archive client-side on
+     every admin login, which is enough for day-to-day use. If a
+     stricter guarantee is ever wanted (e.g. cleanup happens even on
+     days nobody logs in), the same two operations can be scheduled
+     directly in Supabase using the pg_cron extension (Database ->
+     Extensions -> enable "pg_cron", then run once in the SQL editor,
+     after the column migration above):
+
+       select cron.schedule(
+         'auto-archive-tickets', '0 3 * * *', $$
+           update tickets set archived = true, archived_at = now()
+           where status = 'Terminat' and archived = false
+             and resolved_on < now() - interval '14 days';
+         $$
+       );
+       select cron.schedule(
+         'auto-archive-projects', '0 3 * * *', $$
+           update current_projects set archived = true, archived_at = now()
+           where archived = false
+             and due_date < (now() - interval '14 days')::date;
+         $$
+       );
+
+     This is entirely optional — the client-side sweep already
+     satisfies the requirement without touching the database
+     configuration.
+     ============================================================ */
+  let allProjects = [];
+  let projectsFilter = 'Ongoing';
+  const projectSelectedIds = new Set();
+
+  function calcProjectProgress(startISO, dueISO){
+    const now = new Date();
+    const start = new Date(startISO);
+    const due = new Date(dueISO);
+    if (now <= start) return 0;
+    if (now >= due) return 100;
+    return Math.round(((now - start) / (due - start)) * 100);
+  }
+  function calcProjectStatus(startISO, dueISO){
+    const now = new Date();
+    const start = new Date(startISO);
+    const due = new Date(dueISO);
+    if (now < start) return { key: 'scheduled', label: 'Programat' };
+    if (now >= due) return { key: 'done', label: 'Finalizat' };
+    return { key: 'progress', label: 'În desfășurare' };
+  }
+
+  /* ============================================================
+     PROJECTS FILTER — mirrors the ticket tabs (Active / Rezolvate
+     / Toate / Arhivate). "Active" covers scheduled + in-progress
+     projects; "Rezolvate" covers those past due_date (calculated,
+     same as the public page); "Arhivate" is the persisted
+     `archived` flag, set manually here or by the 2-week auto-sweep.
+
+     NOTE: this requires an `archived` (boolean) and `archived_at`
+     (timestamptz) column on the `current_projects` table, matching
+     the ones `tickets` already has. If they don't exist yet, run
+     once in the Supabase SQL editor:
+
+       alter table current_projects
+         add column if not exists archived boolean not null default false,
+         add column if not exists archived_at timestamptz;
+
+     Until that migration runs, "Arhivate" will just show empty and
+     archiving a project will surface an error — everything else on
+     this page keeps working normally either way.
+     ============================================================ */
+  function getProjectStatusFilterKey(p){
+    return calcProjectStatus(p.start_date, p.due_date).key === 'done' ? 'Terminat' : 'Ongoing';
+  }
+  function getFilteredProjects(){
+    if (projectsFilter === 'Archived') {
+      return allProjects.filter(p => p.archived);
+    }
+    return allProjects.filter(p => !p.archived && (projectsFilter === 'Toate' || getProjectStatusFilterKey(p) === projectsFilter));
+  }
+
+  const projectChipDefs = [
+    { key: 'Ongoing', label: 'Active' },
+    { key: 'Terminat', label: 'Rezolvate' },
+    { key: 'Toate', label: 'Toate' },
+    { key: 'Archived', label: 'Arhivate' },
+  ];
+  const projectsChipsWrap = document.getElementById('projectsChipsWrap');
+  projectChipDefs.forEach(c => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'chip' + (c.key === projectsFilter ? ' active' : '');
+    chip.textContent = c.label;
+    chip.dataset.key = c.key;
+    chip.addEventListener('click', () => {
+      projectsFilter = c.key;
+      projectSelectedIds.clear();
+      updateProjectsArchiveBar();
+      document.querySelectorAll('#projectsChipsWrap .chip').forEach(x => x.classList.remove('active'));
+      chip.classList.add('active');
+      renderProjects();
+    });
+    projectsChipsWrap.appendChild(chip);
+  });
+
+  async function loadProjects(){
+    const { data, error } = await supabaseClient
+      .from('current_projects')
+      .select('*')
+      .order('start_date', { ascending: true });
+    if (error) {
+      console.error(error);
+      return;
+    }
+    allProjects = data || [];
+    renderProjects();
+  }
+
+  function renderProjects(){
+    const list = document.getElementById('projectList');
+    const filtered = getFilteredProjects();
+    document.getElementById('projectsCount').textContent = filtered.length + ' din ' + allProjects.length + ' proiecte';
+
+    if (filtered.length === 0) {
+      list.innerHTML = '<div class="no-results" style="padding:40px 0;text-align:center;color:var(--ink-400);">Niciun proiect în această categorie.</div>';
+      return;
+    }
+
+    list.innerHTML = '';
+    filtered.forEach(p => {
+      const pct = calcProjectProgress(p.start_date, p.due_date);
+      const status = calcProjectStatus(p.start_date, p.due_date);
+      const isArchived = !!p.archived;
+      const card = document.createElement('div');
+      card.className = 'project-card' + (isArchived ? ' archived' : '');
+      card.innerHTML = `
+        <div class="pc-top">
+          <div class="ticket-select">
+            <input type="checkbox" class="pc-select" ${projectSelectedIds.has(p.id) ? 'checked' : ''}>
+            <div>
+              <div class="pc-title">${escapeHtml(p.title)}</div>
+              <div class="pc-address">${escapeHtml(p.address)}</div>
+              ${isArchived ? `<span class="archived-badge">Arhivat ${fmtDate(p.archived_at)}</span>` : ''}
+            </div>
+          </div>
+          <span class="pc-status ${status.key}">${status.label}</span>
+        </div>
+        <div class="pc-bar-track"><div class="pc-bar-fill" style="width:${pct}%;"></div></div>
+        <div class="pc-meta">
+          <span>${fmtDate(p.start_date).split(' ')[0]} → ${fmtDate(p.due_date).split(' ')[0]}</span>
+          <span>${pct}%</span>
+        </div>
+        ${p.notes ? `<div class="pc-address" style="margin-bottom:12px;">📝 ${escapeHtml(p.notes)}</div>` : ''}
+        <div class="pc-actions">
+          ${isArchived
+            ? `<button class="btn pc-restore">Dezarhivează</button>`
+            : `<button class="btn pc-edit">Editează</button><button class="btn pc-delete">Șterge</button>`
+          }
+        </div>
+      `;
+
+      const checkbox = card.querySelector('.pc-select');
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) projectSelectedIds.add(p.id);
+        else projectSelectedIds.delete(p.id);
+        updateProjectsArchiveBar();
+      });
+
+      const restoreBtn = card.querySelector('.pc-restore');
+      if (restoreBtn) {
+        restoreBtn.addEventListener('click', async () => {
+          restoreBtn.disabled = true;
+          const { error } = await supabaseClient
+            .from('current_projects')
+            .update({ archived: false, archived_at: null })
+            .eq('id', p.id);
+          restoreBtn.disabled = false;
+          if (error) { console.error(error); alert('Eroare la dezarhivare. Încercați din nou.'); return; }
+          loadProjects();
+        });
+      }
+
+      const editBtn = card.querySelector('.pc-edit');
+      if (editBtn) editBtn.addEventListener('click', () => openProjectForm(p));
+
+      const deleteBtn = card.querySelector('.pc-delete');
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', async () => {
+          if (!confirm(`Ștergeți proiectul "${p.title}"? Această acțiune este permanentă.`)) return;
+          const { error } = await supabaseClient.from('current_projects').delete().eq('id', p.id);
+          if (error) { console.error(error); alert('Eroare la ștergere.'); return; }
+          loadProjects();
+        });
+      }
+
+      list.appendChild(card);
+    });
+  }
+
+  /* ============================================================
+     PROJECTS ARCHIVING — same bulk-select-and-archive pattern as
+     tickets: move projects out of the public "Proiecte de
+     modernizare" list and the default admin tabs without deleting
+     the row, so they can be restored from "Arhivate" any time.
+     ============================================================ */
+  const projectsArchiveBar = document.getElementById('projectsArchiveBar');
+  const projectsSelectionCount = document.getElementById('projectsSelectionCount');
+  const projectsArchiveSelectedBtn = document.getElementById('projectsArchiveSelectedBtn');
+  const projectsClearSelectionBtn = document.getElementById('projectsClearSelectionBtn');
+
+  function updateProjectsArchiveBar(){
+    projectsSelectionCount.textContent = projectSelectedIds.size + ' selectate';
+    projectsArchiveBar.classList.toggle('show', projectSelectedIds.size > 0);
+  }
+
+  projectsClearSelectionBtn.addEventListener('click', () => {
+    projectSelectedIds.clear();
+    updateProjectsArchiveBar();
+    renderProjects();
+  });
+
+  projectsArchiveSelectedBtn.addEventListener('click', async () => {
+    if (projectSelectedIds.size === 0) return;
+    if (!confirm(`Arhivați ${projectSelectedIds.size} proiecte? Nu vor mai apărea pe pagina publică, dar rămân salvate și pot fi restaurate oricând din tab-ul "Arhivate".`)) {
+      return;
+    }
+    projectsArchiveSelectedBtn.disabled = true;
+    const { error } = await supabaseClient
+      .from('current_projects')
+      .update({ archived: true, archived_at: new Date().toISOString() })
+      .in('id', Array.from(projectSelectedIds));
+    projectsArchiveSelectedBtn.disabled = false;
+
+    if (error) {
+      console.error(error);
+      alert('Eroare la arhivare. Încercați din nou.');
+      return;
+    }
+    projectSelectedIds.clear();
+    updateProjectsArchiveBar();
+    loadProjects();
+  });
+
+  const projectForm = document.getElementById('projectForm');
+  const excelPreviewWrap = document.getElementById('excelPreview');
+
+  function openProjectForm(project){
+    excelPreviewWrap.style.display = 'none';
+    document.getElementById('pf-id').value = project ? project.id : '';
+    document.getElementById('pf-title').value = project ? project.title : '';
+    document.getElementById('pf-address').value = project ? project.address : '';
+    document.getElementById('pf-start').value = project ? project.start_date : '';
+    document.getElementById('pf-due').value = project ? project.due_date : '';
+    document.getElementById('pf-notes').value = project ? (project.notes || '') : '';
+    projectForm.style.display = 'block';
+    projectForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.getElementById('addProjectBtn').addEventListener('click', () => openProjectForm(null));
+  document.getElementById('pfCancelBtn').addEventListener('click', () => {
+    projectForm.style.display = 'none';
+  });
+
+  document.getElementById('pfSaveBtn').addEventListener('click', async () => {
+    const id = document.getElementById('pf-id').value;
+    const title = document.getElementById('pf-title').value.trim();
+    const address = document.getElementById('pf-address').value.trim();
+    const start = document.getElementById('pf-start').value;
+    const due = document.getElementById('pf-due').value;
+    const notes = document.getElementById('pf-notes').value.trim();
+
+    if (!title || !address || !start || !due) {
+      alert('Completați tip lucrare, adresă, data început și data finalizare.');
+      return;
+    }
+    if (new Date(due) < new Date(start)) {
+      alert('Data de finalizare nu poate fi înainte de data de început.');
+      return;
+    }
+
+    const payload = { title, address, start_date: start, due_date: due, notes: notes || null };
+    const { error } = id
+      ? await supabaseClient.from('current_projects').update(payload).eq('id', id)
+      : await supabaseClient.from('current_projects').insert(payload);
+
+    if (error) {
+      console.error(error);
+      alert('Eroare la salvare. Încercați din nou.');
+      return;
+    }
+    projectForm.style.display = 'none';
+    loadProjects();
+  });
+
+  /* ============================================================
+     EXCEL BULK IMPORT — parses an uploaded .xlsx/.xls/.csv client-side
+     (SheetJS, no server involved) and shows a preview before writing
+     anything to Supabase. Expected columns (first row = headers,
+     order doesn't matter, matching is case/diacritic-insensitive):
+       Tip lucrare | Adresă | Data început | Data finalizare
+     Accepts a few header variants (Title/Adresa/Start/Due etc.) to
+     be forgiving about exactly how the sheet was built.
+     ============================================================ */
+  const excelInput = document.getElementById('excelInput');
+  document.getElementById('importExcelBtn').addEventListener('click', () => excelInput.click());
+
+  function normalizeHeader(h){
+    return String(h || '').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // strip diacritics
+      .trim();
+  }
+  const HEADER_MAP = {
+    title: ['tip lucrare', 'titlu', 'title', 'lucrare', 'proiect'],
+    address: ['adresa', 'address', 'locatie', 'location'],
+    start: ['data inceput', 'inceput', 'start', 'start date', 'data start'],
+    due: ['data finalizare', 'finalizare', 'due', 'due date', 'data sfarsit', 'sfarsit', 'termen'],
+  };
+
+  function excelDateToISO(value){
+    if (value instanceof Date) {
+      return value.toISOString().slice(0, 10);
+    }
+    if (typeof value === 'number') {
+      // Excel serial date -> JS date
+      const d = XLSX.SSF.parse_date_code(value);
+      if (!d) return null;
+      return `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
+    }
+    const str = String(value || '').trim();
+    // try common formats: DD.MM.YYYY, DD/MM/YYYY, YYYY-MM-DD
+    let m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return str;
+    m = str.match(/^(\d{1,2})[.\/](\d{1,2})[.\/](\d{4})$/);
+    if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+    return null;
+  }
+
+  let pendingImportRows = [];
+
+  excelInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const workbook = XLSX.read(evt.target.result, { type: 'array', cellDates: true });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+        if (rows.length < 2) {
+          alert('Fișierul nu conține date (doar antet sau gol).');
+          return;
+        }
+        const headers = rows[0].map(normalizeHeader);
+        const colIndex = {};
+        Object.keys(HEADER_MAP).forEach(key => {
+          const idx = headers.findIndex(h => HEADER_MAP[key].includes(h));
+          colIndex[key] = idx;
+        });
+
+        pendingImportRows = rows.slice(1)
+          .filter(r => r.some(cell => String(cell).trim() !== ''))
+          .map(r => {
+            const title = colIndex.title >= 0 ? String(r[colIndex.title] || '').trim() : '';
+            const address = colIndex.address >= 0 ? String(r[colIndex.address] || '').trim() : '';
+            const start = colIndex.start >= 0 ? excelDateToISO(r[colIndex.start]) : null;
+            const due = colIndex.due >= 0 ? excelDateToISO(r[colIndex.due]) : null;
+            const valid = !!(title && address && start && due);
+            return { title, address, start, due, valid };
+          });
+
+        renderExcelPreview();
+      } catch (err) {
+        console.error(err);
+        alert('Nu am putut citi acest fișier. Verificați că este un .xlsx, .xls sau .csv valid.');
+      }
+      excelInput.value = '';
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  function renderExcelPreview(){
+    projectForm.style.display = 'none';
+    const table = document.getElementById('excelPreviewTable');
+    const validCount = pendingImportRows.filter(r => r.valid).length;
+    table.innerHTML = `
+      <thead><tr>
+        <th>Tip lucrare</th><th>Adresă</th><th>Început</th><th>Finalizare</th><th>Stare</th>
+      </tr></thead>
+      <tbody>
+        ${pendingImportRows.map(r => `
+          <tr class="${r.valid ? '' : 'row-error'}">
+            <td>${escapeHtml(r.title) || '—'}</td>
+            <td>${escapeHtml(r.address) || '—'}</td>
+            <td>${r.start || '—'}</td>
+            <td>${r.due || '—'}</td>
+            <td>${r.valid ? '✓ OK' : '✗ incomplet / dată invalidă'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    `;
+    document.querySelector('.excel-preview-note').textContent =
+      `Previzualizare — ${validCount} din ${pendingImportRows.length} rânduri sunt valide și vor fi importate. Rândurile marcate cu eroare vor fi ignorate.`;
+    excelPreviewWrap.style.display = 'block';
+    excelPreviewWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  document.getElementById('excelCancelBtn').addEventListener('click', () => {
+    pendingImportRows = [];
+    excelPreviewWrap.style.display = 'none';
+  });
+
+  document.getElementById('excelConfirmBtn').addEventListener('click', async () => {
+    const validRows = pendingImportRows.filter(r => r.valid);
+    if (validRows.length === 0) {
+      alert('Niciun rând valid de importat.');
+      return;
+    }
+    const payload = validRows.map(r => ({
+      title: r.title, address: r.address, start_date: r.start, due_date: r.due,
+    }));
+    const { error } = await supabaseClient.from('current_projects').insert(payload);
+    if (error) {
+      console.error(error);
+      alert('Eroare la import. Încercați din nou.');
+      return;
+    }
+    pendingImportRows = [];
+    excelPreviewWrap.style.display = 'none';
+    loadProjects();
+  });
 
   checkSession();
 </script>

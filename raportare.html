@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sesizări iluminat public — Insta Grup</title>
+<title>Raportează o problemă — Insta Grup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -24,6 +24,7 @@
   :focus-visible{outline:2px solid var(--copper-500);outline-offset:3px;}
   .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
   h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
+  h2{font-size:clamp(28px,3.4vw,42px);color:var(--ink-900);}
 
   header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
   nav{max-width:1180px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:76px;}
@@ -64,61 +65,116 @@
     .nav-right{width:100%;justify-content:center;flex-wrap:wrap;}
   }
 
-  .hero{padding:64px 0 40px;border-bottom:1px solid var(--line);}
-  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--copper-600);display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+  .section-head{max-width:640px;margin-bottom:56px;}
+  .section-head p{color:var(--ink-600);font-size:16.5px;margin-top:14px;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--copper-600);
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
   .eyebrow::before{content:"";width:20px;height:1px;background:var(--copper-600);display:inline-block;}
-  .hero h1{font-size:clamp(28px,3.6vw,42px);line-height:1.15;max-width:700px;margin-bottom:14px;}
-  .hero p{color:var(--ink-600);font-size:16px;max-width:620px;}
-  .back-link{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--ink-600);margin-top:22px;}
+  .section-trace{position:absolute;inset:0;opacity:0.45;pointer-events:none;z-index:0;}
+  .report .wrap{position:relative;z-index:1;}
+  @media(prefers-reduced-motion:no-preference){
+    .flow{stroke-dasharray:6 10;animation:flow 3.2s linear infinite;}
+  }
+  @keyframes flow{to{stroke-dashoffset:-160;}}
+  .btn{
+    font-family:var(--mono);font-size:13.5px;font-weight:500;
+    padding:14px 26px;border-radius:2px;
+    display:inline-flex;align-items:center;gap:10px;
+    transition:all .2s;
+    border:1px solid transparent;
+    cursor:pointer;
+    background:none;
+  }
+  .btn-primary{background:var(--copper-500);color:var(--paper-000);}
+  .btn-primary:hover{background:var(--copper-600);}
+  .btn-ghost{border-color:var(--line-strong);color:var(--ink-900);}
+  .btn-ghost:hover{border-color:var(--copper-500);color:var(--copper-600);}
+  .btn:disabled{opacity:0.55;cursor:not-allowed;}
+  /* ===== REPORT / TICKET FORM ===== */
+  .report{background:var(--paper-050);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+  .report .section-head h2{color:var(--ink-900);}
+  .report .section-head p{color:var(--ink-600);}
+  .report-shell{
+    background:var(--paper-000);
+    border:1px solid var(--line-strong);
+    border-radius:4px;
+    padding:44px;
+    max-width:720px;
+    box-shadow:0 2px 10px rgba(20,24,29,0.04);
+  }
+  .step-indicator{
+    display:flex;gap:8px;margin-bottom:32px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:0.05em;
+    color:var(--ink-400);
+  }
+  .step-indicator span.active{color:var(--copper-600);}
+  .step-indicator .sep{color:var(--line-strong);}
+
+  .type-choice{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .type-card{
+    border:1px solid var(--line-strong);
+    border-radius:3px;
+    padding:26px 22px;
+    cursor:pointer;
+    transition:all .18s;
+    background:var(--paper-000);
+  }
+  .type-card:hover{border-color:var(--copper-500);}
+  .type-card.selected{border-color:var(--copper-500);background:var(--copper-050);box-shadow:0 0 0 1px var(--copper-500);}
+  .type-card .tc-icon{width:26px;height:26px;color:var(--copper-600);margin-bottom:14px;}
+  .type-card h4{font-size:15.5px;font-weight:600;margin-bottom:6px;color:var(--ink-900);}
+  .type-card p{font-size:13px;color:var(--ink-600);line-height:1.4;}
+  .type-card.urgent .tc-icon{color:var(--signal-red);}
+  @media(max-width:600px){.type-choice{grid-template-columns:1fr;}}
+
+  .field{margin-bottom:20px;}
+  .field label{
+    font-family:var(--mono);font-size:11.5px;text-transform:uppercase;
+    letter-spacing:0.05em;color:var(--ink-600);
+    display:block;margin-bottom:8px;
+  }
+  .field label .opt{text-transform:none;letter-spacing:0;color:var(--ink-400);font-family:var(--body);}
+  .field input,.field textarea{
+    width:100%;background:var(--paper-050);border:1px solid var(--line-strong);
+    color:var(--ink-900);padding:12px 14px;border-radius:2px;font-family:var(--body);
+    font-size:14.5px;
+  }
+  .field textarea{resize:vertical;min-height:90px;}
+  .field input:focus,.field textarea:focus{border-color:var(--copper-500);background:var(--paper-000);}
+  .field input::placeholder,.field textarea::placeholder{color:var(--ink-400);}
+
+  .emergency-note{
+    background:var(--signal-red-bg);
+    border:1px solid rgba(181,80,47,0.3);
+    border-radius:3px;
+    padding:18px 20px;
+    margin-bottom:24px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+  .emergency-note svg{width:20px;height:20px;color:var(--signal-red);flex-shrink:0;margin-top:2px;}
+  .emergency-note .en-title{font-weight:600;font-size:14.5px;margin-bottom:4px;color:var(--signal-red);}
+  .emergency-note .en-num{font-family:var(--mono);font-size:19px;color:var(--ink-900);margin-top:6px;}
+  .emergency-note p{font-size:13px;color:var(--ink-600);}
+
+  .report-actions{display:flex;gap:14px;margin-top:8px;justify-content:space-between;align-items:center;}
+  .back-link{font-family:var(--mono);font-size:13px;color:var(--ink-400);cursor:pointer;transition:color .2s;}
   .back-link:hover{color:var(--copper-600);}
 
-  .toolbar{position:sticky;top:76px;z-index:90;background:var(--paper-000);border-bottom:1px solid var(--line);padding:18px 0;}
-  .toolbar-inner{display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;}
-  .chip{
-    font-family:var(--mono);font-size:12px;padding:8px 14px;border-radius:20px;
-    border:1px solid var(--line-strong);color:var(--ink-600);cursor:pointer;
-    transition:all .15s;background:var(--paper-000);white-space:nowrap;
+  .form-msg{
+    padding:16px 18px;border-radius:3px;font-size:14px;margin-top:20px;display:none;
   }
-  .chip:hover{border-color:var(--copper-500);color:var(--copper-600);}
-  .chip.active{background:var(--copper-500);border-color:var(--copper-500);color:#fff;}
-  .search-box{flex:1;min-width:200px;max-width:320px;}
-  .search-box input{
-    width:100%;padding:9px 13px;border:1px solid var(--line-strong);border-radius:3px;
-    font-family:var(--body);font-size:13.5px;background:var(--paper-050);color:var(--ink-900);
-  }
-  .search-box input:focus{border-color:var(--copper-500);background:var(--paper-000);}
-  .result-count{font-family:var(--mono);font-size:12.5px;color:var(--ink-400);}
+  .form-msg.success{display:block;background:var(--signal-green-bg);border:1px solid rgba(62,122,87,0.35);color:var(--signal-green);}
+  .form-msg.error{display:block;background:var(--signal-red-bg);border:1px solid rgba(181,80,47,0.35);color:var(--signal-red);}
+  .form-msg .ticket-num{font-family:var(--mono);font-weight:600;color:var(--copper-600);}
 
-  .ticket-list{padding:24px 0 80px;display:flex;flex-direction:column;gap:14px;}
-  .ticket-card{
-    border:1px solid var(--line-strong);border-radius:5px;padding:22px 24px;background:var(--paper-000);
-  }
-  .ticket-card.urgent{border-color:rgba(181,80,47,0.35);background:var(--signal-red-bg);}
-  .ticket-card.done{opacity:0.7;}
-  .ticket-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px;}
-  .ticket-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .ticket-num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink-900);}
-  .ticket-tag{
-    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;
-    padding:4px 9px;border-radius:3px;background:var(--paper-100);color:var(--ink-600);
-  }
-  .ticket-tag.urgent-tag{background:var(--signal-red-bg);color:var(--signal-red);}
-  .ticket-status-pill{
-    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;
-    padding:4px 9px;border-radius:3px;background:var(--signal-green-bg);color:var(--signal-green);
-  }
-  .ticket-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;font-size:14px;color:var(--ink-700);}
-  .res-photos{display:flex;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
-  .res-photo{flex:1;max-width:220px;}
-  .res-photo-label{
-    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;
-    color:var(--ink-400);display:block;margin-bottom:6px;
-  }
-  .res-photo img{width:100%;height:140px;object-fit:cover;border-radius:3px;border:1px solid var(--line-strong);display:block;}
-  .ticket-body .full{grid-column:1/-1;}
-  .ticket-body .k{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-400);letter-spacing:0.04em;display:block;margin-bottom:2px;}
-  .no-results{padding:60px 0;text-align:center;color:var(--ink-400);font-size:14.5px;}
+  .report-step{display:none;}
+  .report-step.active{display:block;}
+
 
   footer{background:var(--paper-050);color:var(--ink-400);padding:32px 0;font-size:12.5px;border-top:1px solid var(--line);}
   .footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center;}
@@ -142,6 +198,7 @@
   .modal-body a{color:var(--copper-600);text-decoration:underline;text-underline-offset:2px;}
   .modal-body strong{color:var(--ink-900);font-weight:600;}
   .modal-foot{padding:16px 32px 28px;font-size:12.5px;color:var(--ink-400);font-style:italic;}
+
   @media(max-width:640px){
     nav{flex-wrap:wrap;height:auto;padding:14px 20px;row-gap:12px;}
     .nav-right{width:100%;justify-content:center;}
@@ -149,6 +206,7 @@
     .lang-switch button{padding:5px 8px;font-size:11px;}
     .nav-cta{font-size:12px;padding:9px 16px;}
     .navlinks{gap:12px 18px;font-size:14px;}
+    .report-shell{padding:28px 22px;}
   }
 
   /* ===== COOKIE CONSENT BANNER ===== */
@@ -180,19 +238,19 @@
   body{background:radial-gradient(circle at 15% 18%, rgba(209,31,36,0.14), transparent 24%),radial-gradient(circle at 84% 12%, rgba(73,157,255,0.16), transparent 22%),linear-gradient(180deg, #07111a 0%, #091521 38%, #06111a 100%);color:var(--text-main);overflow-x:hidden;}
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;background:linear-gradient(rgba(126,170,212,0.07) 1px, transparent 1px),linear-gradient(90deg, rgba(126,170,212,0.07) 1px, transparent 1px);background-size:56px 56px;}
   .wrap,header,.modal-overlay,.cookie-banner{position:relative;z-index:1;}
-  header,.toolbar{background:rgba(6,13,21,0.82)!important;border-color:rgba(126,170,212,0.14)!important;box-shadow:0 18px 50px rgba(0,0,0,0.25);}
-  .hero,.ticket-list,footer{background:transparent!important;}
-  .hero{padding-top:84px!important;border-bottom:1px solid rgba(126,170,212,0.12)!important;}
-  .hero h1,.ticket-num,.footer-links button,.navlinks a,.nav-dropdown-trigger,.nav-cta{color:var(--text-main)!important;}
-  .hero p,.result-count,.ticket-body,.modal-body p,.modal-body li,.footer-inner span,.cookie-banner p{color:var(--text-soft)!important;}
-  .eyebrow,.back-link,.ticket-tag,.ticket-status-pill,.modal-body a,.cookie-banner a{color:#ff9f95!important;}
-  .ticket-card,.search-box input,.nav-dropdown-menu,.modal-card,.cookie-banner,.chip,.lang-switch{background:linear-gradient(180deg, rgba(18,31,45,0.94), rgba(11,21,31,0.96))!important;border-color:rgba(126,170,212,0.15)!important;box-shadow:0 28px 70px rgba(0,0,0,0.34)!important;}
-  .ticket-card{border-radius:22px!important;transition:transform .2s ease,border-color .2s ease;}
-  .ticket-card:hover{transform:translateY(-5px);border-color:rgba(255,110,87,0.34)!important;}
-  .search-box input{color:var(--text-main)!important;}
-  .search-box input::placeholder{color:var(--text-dim)!important;}
-  .chip{background:rgba(11,20,31,0.68)!important;border-color:rgba(126,170,212,0.18)!important;color:var(--text-main)!important;}
-  .chip.active,.lang-switch button.active,.nav-cta{background:linear-gradient(135deg, #d11f24 0%, #ff6448 100%)!important;color:#fff!important;border-color:transparent!important;}
+  header{background:rgba(6,13,21,0.82)!important;border-color:rgba(126,170,212,0.14)!important;box-shadow:0 18px 50px rgba(0,0,0,0.25);}
+  .report,footer{background:transparent!important;}
+  .section-head h2,.type-card h4,.footer-links button,.navlinks a,.nav-dropdown-trigger,.nav-cta{color:var(--text-main)!important;}
+  .section-head p,.type-card p,.field label,.emergency-note p,.form-msg,.modal-body p,.modal-body li,.footer-inner span,.cookie-banner p{color:var(--text-soft)!important;}
+  .eyebrow,.step-indicator span.active,.en-title,.modal-body a,.cookie-banner a{color:#ff9f95!important;}
+  .report-shell,.type-card,.field input,.field textarea,.emergency-note,.nav-dropdown-menu,.modal-card,.cookie-banner,.lang-switch{background:linear-gradient(180deg, rgba(18,31,45,0.94), rgba(11,21,31,0.96))!important;border-color:rgba(126,170,212,0.15)!important;box-shadow:0 28px 70px rgba(0,0,0,0.34)!important;}
+  .report-shell{border-radius:28px!important;}
+  .type-card{border-radius:18px!important;transition:transform .2s ease,border-color .2s ease;}
+  .type-card:hover,.type-card.selected{transform:translateY(-4px);border-color:rgba(255,110,87,0.34)!important;}
+  .field input,.field textarea{color:var(--text-main)!important;}
+  .field input::placeholder,.field textarea::placeholder{color:var(--text-dim)!important;}
+  .btn-primary,.nav-cta,.lang-switch button.active{background:linear-gradient(135deg, #d11f24 0%, #ff6448 100%)!important;color:#fff!important;border-color:transparent!important;}
+  .btn-ghost{background:rgba(11,20,31,0.68)!important;border-color:rgba(126,170,212,0.18)!important;color:var(--text-main)!important;}
   footer{background:rgba(4,10,16,0.76)!important;border-top:1px solid rgba(126,170,212,0.12)!important;}
 </style>
 </head>
@@ -227,26 +285,96 @@
   </nav>
 </header>
 
-<section class="hero">
+<section class="report" id="raportare">
+  <svg class="section-trace" viewBox="0 0 1180 620" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
+      <path d="M 1200 -20 V 100 H 940" />
+      <path d="M -20 640 V 520 H 260" />
+    </g>
+    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
+      <path d="M 1200 -20 V 100 H 940" />
+    </g>
+    <g fill="#D11F24">
+      <circle cx="940" cy="100" r="3"/>
+      <circle cx="260" cy="520" r="3"/>
+    </g>
+  </svg>
   <div class="wrap">
-    <div class="eyebrow" data-i18n="public_eyebrow">Sesizări iluminat public</div>
-    <h1 data-i18n="public_h1">Situația sesizărilor curente</h1>
-    <p data-i18n="public_lede">O listă publică a sesizărilor de iluminat public transmise prin site — pentru transparență, fără date personale ale celor care au raportat problema.</p>
-    <a href="raportare.html" class="back-link" data-i18n="public_back">← Raportează o problemă nouă</a>
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="report_eyebrow">Sesizări iluminat public</div>
+      <h2 data-i18n="report_h2">Raportează o problemă</h2>
+      <p data-i18n="report_lede">Sesizați o defecțiune de funcționalitate sau un accident/urgență la rețeaua de iluminat public. Fiecare sesizare primește un număr de înregistrare.</p>
+      <a href="relatii-publice.html#sesizari-iluminat" class="btn btn-ghost" style="margin-top:20px;" data-i18n="report_all_btn">Toate sesizările →</a>
+    </div>
+
+    <div class="report-shell">
+      <div class="step-indicator">
+        <span id="ind-1" class="active" data-i18n="step1_label">01 · Tip sesizare</span>
+        <span class="sep">—</span>
+        <span id="ind-2" data-i18n="step2_label">02 · Detalii</span>
+      </div>
+
+      <!-- STEP 1: TYPE CHOICE -->
+      <div class="report-step active" id="step-1">
+        <div class="type-choice">
+          <div class="type-card" data-type="Sesizare functionala" id="card-functionala">
+            <svg class="tc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a5 5 0 0 0-3 9v2h6v-2a5 5 0 0 0-3-9z"/><path d="M10 17h4M11 20h2"/></svg>
+            <h4 data-i18n="type_func_title">Problemă de funcționalitate</h4>
+            <p data-i18n="type_func_desc">Bec ars, stâlp defect, cablu vizibil deteriorat sau altă problemă care nu reprezintă un pericol imediat.</p>
+          </div>
+          <div class="type-card urgent" data-type="Anunt accident" id="card-accident">
+            <svg class="tc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 1 21h22L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>
+            <h4 data-i18n="type_accident_title">Accident / urgență</h4>
+            <p data-i18n="type_accident_desc">Stâlp căzut, cabluri sub tensiune expuse sau orice situație cu pericol imediat pentru siguranța publică.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: DETAILS -->
+      <div class="report-step" id="step-2">
+        <div id="emergencyNote" class="emergency-note" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg>
+          <div>
+            <div class="en-title" data-i18n="emergency_title">Pericol imediat? Sunați acum</div>
+            <p data-i18n="emergency_desc">Pentru urgențe cu risc pentru siguranța publică, sunați direct — nu așteptați procesarea formularului.</p>
+            <div class="en-num">0265&nbsp;259&nbsp;272</div>
+          </div>
+        </div>
+
+        <form id="ticketForm">
+          <div class="field">
+            <label data-i18n="f_name_label">Nume</label>
+            <input type="text" id="f-name" placeholder="Numele dvs." data-i18n-placeholder="f_name_ph" required>
+          </div>
+          <div class="field">
+            <label data-i18n="f_phone_label">Telefon</label>
+            <input type="tel" id="f-phone" placeholder="07xx xxx xxx" data-i18n-placeholder="f_phone_ph" required>
+          </div>
+          <div class="field">
+            <label data-i18n-html="f_email_label_html">Email <span class="opt">(opțional)</span></label>
+            <input type="email" id="f-email" placeholder="nume@exemplu.ro" data-i18n-placeholder="f_email_ph">
+          </div>
+          <div class="field">
+            <label data-i18n="f_address_label">Adresa unde este problema</label>
+            <input type="text" id="f-address" placeholder="Stradă, număr, localitate" data-i18n-placeholder="f_address_ph" required>
+          </div>
+          <div class="field" id="descField">
+            <label data-i18n="f_desc_label">Descrierea problemei</label>
+            <textarea id="f-description" placeholder="Descrieți pe scurt ce ați observat..." data-i18n-placeholder="f_desc_ph"></textarea>
+          </div>
+
+          <div class="report-actions">
+            <span class="back-link" id="backBtn" data-i18n="back_link">← Înapoi</span>
+            <button type="submit" class="btn btn-primary" id="submitBtn" data-i18n="submit_btn">Trimite sesizarea →</button>
+          </div>
+        </form>
+
+        <div class="form-msg" id="formMsg"></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="toolbar">
-  <div class="wrap toolbar-inner">
-    <div class="chips" id="chipsWrap"></div>
-    <div class="search-box"><input type="text" id="searchInput" placeholder="Caută după adresă sau număr tichet..." data-i18n-placeholder="public_search_ph" aria-label="Caută o sesizare" data-i18n-aria="public_search_aria"></div>
-    <div class="result-count" id="resultCount"></div>
-  </div>
-</div>
-
-<div class="wrap">
-  <div class="ticket-list" id="ticketList"></div>
-</div>
 
 <footer>
   <div class="wrap footer-inner">
@@ -321,42 +449,6 @@
 
 <script src="i18n.js"></script>
 <script>
-  /* ================================================================
-     PUBLIC TICKET STATUS PAGE — insta-grup.ro/sesizari.html
-     ----------------------------------------------------------------
-     Purpose: a public, read-only, no-login page where any visitor can
-     see the current state of reported street-lighting issues, for
-     transparency.
-
-     IMPORTANT (security): this page reads from `public_tickets`, a
-     Postgres VIEW in Supabase -- NOT the real `tickets` table. That
-     view intentionally excludes name, phone, email, and resolved_by,
-     exposing only: ticket_number, type, address, description, status,
-     submitted_on, resolved_on, resolution_note, resolution_photo_before,
-     resolution_photo_after. See public-tickets-view.sql for the
-     view definition -- if before/after photos or the "what was done"
-     note aren't showing up here even though they're saved on the
-     ticket in admin.html, the view is missing those three columns;
-     re-run something like:
-
-       create or replace view public_tickets as
-       select
-         id, ticket_number, type, address, description, status,
-         submitted_on, resolved_on, resolution_note,
-         resolution_photo_before, resolution_photo_after
-       from tickets
-       where archived = false;
-
-     (adjust to match whatever the original view's column list /
-     WHERE clause actually was, if it differs from this). Do NOT
-     change this page to query `tickets` directly -- that table's
-     RLS only allows staff (authenticated) to read it, and even if
-     that were opened up to anon, it would leak every visitor's
-     name/phone/email publicly.
-
-     Only two filters are offered on purpose (Active / Rezolvate) --
-     no "Toate" combined view, matching the brief for this page.
-     ================================================================ */
   const SUPABASE_URL = "https://ebuigyyjifnjiuzsgpih.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_aXC8Q_v2faRB0uEAlZYFog_JreYGXvq";
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -384,125 +476,191 @@
     dropdown.querySelectorAll('.nav-dropdown-menu a').forEach(a => a.addEventListener('click', closeDropdown));
   })();
 
-  let allTickets = [];
-  let activeFilter = 'Ongoing';
-  let searchTerm = '';
-
-  function fmtDate(iso){
-    if(!iso) return '—';
-    const d = new Date(iso);
-    const locale = getLang() === 'ro' ? 'ro-RO' : (getLang() === 'hu' ? 'hu-HU' : 'en-GB');
-    return d.toLocaleDateString(locale, {day:'2-digit', month:'2-digit', year:'numeric'}) + ' ' +
-           d.toLocaleTimeString(locale, {hour:'2-digit', minute:'2-digit'});
+  /* ============================================================
+     EMAIL NOTIFICATIONS — sent via the same Supabase Edge Function
+     used elsewhere on the site ("bright-processor" -- see index.html's
+     equivalent comment for why the name looks odd). Never blocks the
+     actual ticket submission if it fails.
+     ============================================================ */
+  async function sendNotification(payload, { allowFailure = true } = {}){
+    try {
+      const { error } = await supabaseClient.functions.invoke('bright-processor', {
+        body: payload,
+      });
+      if (error) {
+        console.error('send-email function failed:', error);
+        if (!allowFailure) throw error;
+      }
+    } catch (err) {
+      console.error('send-email call failed:', err);
+      if (!allowFailure) throw err;
+    }
   }
 
-  function escapeHtml(value){
-    return String(value ?? '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+  /* ============================================================
+     WHATSAPP NOTIFICATION — separate Edge Function that pings one or
+     more staff phone numbers via the official WhatsApp Business
+     Cloud API whenever a new ticket comes in (source in
+     supabase-functions/send-whatsapp/index.ts, but the function is
+     actually deployed under the name "bright-function" in Supabase —
+     rename it to "send-whatsapp" there and update the string below
+     to match if you'd rather keep the naming consistent). Isolated
+     from sendNotification()'s email call above: if WhatsApp isn't
+     configured yet (secrets missing, template not approved, etc.)
+     or the API call fails for any reason, it's swallowed silently
+     here too — a missing/failed WhatsApp ping should never stop a
+     citizen's ticket from being submitted, exactly like the email
+     notification.
+     ============================================================ */
+  async function sendWhatsAppNotification(payload){
+    try {
+      const { error } = await supabaseClient.functions.invoke('bright-function', {
+        body: payload,
+      });
+      if (error) console.error('bright-function (WhatsApp) failed:', error);
+    } catch (err) {
+      console.error('bright-function (WhatsApp) call failed:', err);
+    }
   }
 
-  const chipDefs = [
-    { key: 'Ongoing', labelKey: 'public_chip_active' },
-    { key: 'Terminat', labelKey: 'public_chip_done' },
-  ];
-  const chipsWrap = document.getElementById('chipsWrap');
-  const chipEls = {};
-  chipDefs.forEach(c => {
-    const chip = document.createElement('button');
-    chip.type = 'button';
-    chip.className = 'chip' + (c.key === activeFilter ? ' active' : '');
-    chip.addEventListener('click', () => {
-      activeFilter = c.key;
-      document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-      chip.classList.add('active');
-      render();
-    });
-    chipsWrap.appendChild(chip);
-    chipEls[c.key] = { el: chip, labelKey: c.labelKey };
+  /* ============================================================
+     TICKET REPORT FORM
+     ============================================================ */
+  let selectedType = null;
+
+  const step1 = document.getElementById('step-1');
+  const step2 = document.getElementById('step-2');
+  const ind1 = document.getElementById('ind-1');
+  const ind2 = document.getElementById('ind-2');
+  const emergencyNote = document.getElementById('emergencyNote');
+  const descField = document.getElementById('descField');
+  const ticketForm = document.getElementById('ticketForm');
+  const formMsg = document.getElementById('formMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const backBtn = document.getElementById('backBtn');
+
+  // Step 2: show the detail form for the chosen ticket type.
+  // Called every time a type card is clicked, including switching
+  // from one type to the other without reloading the page.
+  function goToStep2(type){
+    selectedType = type;
+    step1.classList.remove('active');
+    step2.classList.add('active');
+    ind1.classList.remove('active');
+    ind2.classList.add('active');
+
+    const isAccident = type === "Anunt accident";
+    emergencyNote.style.display = isAccident ? 'flex' : 'none';
+    descField.style.display = 'block';
+    // Description is required for functionality reports, optional for
+    // urgent accidents (so an emergency submission is never blocked).
+    document.getElementById('f-description').required = !isAccident;
+  }
+
+  // Step 1: back to the type choice. Fully resets step 2's visual state
+  // (selected card, emergency note, form visibility) so the visitor can
+  // freely go back and forth between the two types without any leftover
+  // state from a previous choice or a previous submission.
+  function goToStep1(){
+    step2.classList.remove('active');
+    step1.classList.add('active');
+    ind2.classList.remove('active');
+    ind1.classList.add('active');
+    formMsg.className = 'form-msg';
+    formMsg.textContent = '';
+    selectedType = null;
+    emergencyNote.style.display = 'none';
+    document.getElementById('f-description').required = false;
+    document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+    ticketForm.style.display = 'block';
+  }
+
+  document.getElementById('card-functionala').addEventListener('click', ()=>{
+    document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+    document.getElementById('card-functionala').classList.add('selected');
+    goToStep2('Sesizare functionala');
   });
-
-  function updateChipLabels(){
-    chipDefs.forEach(c => {
-      chipEls[c.key].el.textContent = t(c.labelKey);
-    });
-  }
-
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    searchTerm = e.target.value.trim().toLowerCase();
-    render();
+  document.getElementById('card-accident').addEventListener('click', ()=>{
+    document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+    document.getElementById('card-accident').classList.add('selected');
+    goToStep2('Anunt accident');
   });
+  backBtn.addEventListener('click', goToStep1);
 
-  async function loadTickets(){
-    const list = document.getElementById('ticketList');
-    list.innerHTML = `<div class="no-results">...</div>`;
-    const { data, error } = await supabaseClient
-      .from('public_tickets')
-      .select('*')
-      .order('submitted_on', { ascending: false });
+  // Handles the actual ticket submission: calls the create_ticket()
+  // Postgres function (via Supabase RPC) instead of inserting directly,
+  // since anonymous visitors are not allowed to read back rows from the
+  // tickets table (see Supabase SQL setup notes). The function inserts
+  // the row itself and returns just the generated ticket number.
+  ticketForm.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    if (!selectedType) {
+      formMsg.className = 'form-msg error';
+      formMsg.textContent = t('select_type_error');
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.textContent = t('submit_btn_sending');
+    formMsg.className = 'form-msg';
+
+    const payload = {
+      type: selectedType,
+      name: document.getElementById('f-name').value.trim(),
+      phone: document.getElementById('f-phone').value.trim(),
+      email: document.getElementById('f-email').value.trim() || null,
+      address: document.getElementById('f-address').value.trim(),
+      description: document.getElementById('f-description').value.trim() || null,
+    };
+
+    const { data: ticketNumber, error } = await supabaseClient.rpc('create_ticket', {
+      p_type: payload.type,
+      p_name: payload.name,
+      p_phone: payload.phone,
+      p_email: payload.email,
+      p_address: payload.address,
+      p_description: payload.description,
+    });
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = t('submit_btn');
 
     if (error) {
-      list.innerHTML = `<div class="no-results">${t('public_load_error')}</div>`;
       console.error(error);
-      return;
-    }
-    allTickets = data;
-    render();
-  }
-
-  function render(){
-    updateChipLabels();
-    const list = document.getElementById('ticketList');
-    const filtered = allTickets.filter(t => {
-      const matchFilter = t.status === activeFilter;
-      const matchSearch = !searchTerm ||
-        (t.address || '').toLowerCase().includes(searchTerm) ||
-        (t.ticket_number || '').toLowerCase().includes(searchTerm);
-      return matchFilter && matchSearch;
-    });
-    document.getElementById('resultCount').textContent = t('public_count', {n: filtered.length});
-
-    if (filtered.length === 0) {
-      list.innerHTML = `<div class="no-results">${t('public_no_results')}</div>`;
+      formMsg.className = 'form-msg error';
+      formMsg.textContent = t('submit_error');
       return;
     }
 
-    list.innerHTML = '';
-    filtered.forEach(tk => {
-      const isUrgent = tk.type === 'Anunt accident';
-      const isDone = tk.status === 'Terminat';
-      const card = document.createElement('div');
-      card.className = 'ticket-card' + (isUrgent && !isDone ? ' urgent' : '') + (isDone ? ' done' : '');
-      card.innerHTML = `
-        <div class="ticket-top">
-          <div class="ticket-meta">
-            <span class="ticket-num">${escapeHtml(tk.ticket_number || '—')}</span>
-            <span class="ticket-tag ${isUrgent ? 'urgent-tag' : ''}">${isUrgent ? t('ticket_type_accident') : t('ticket_type_func')}</span>
-          </div>
-          <span class="${isDone ? 'ticket-status-pill' : 'ticket-tag'}">${isDone ? t('ticket_status_done') : t('ticket_status_active')}</span>
-        </div>
-        <div class="ticket-body">
-          <div><span class="k">${t('public_k_date')}</span>${fmtDate(tk.submitted_on)}</div>
-          <div><span class="k">${t('public_k_address')}</span>${escapeHtml(tk.address || '—')}</div>
-          ${tk.description ? `<div class="full"><span class="k">${t('public_k_desc')}</span>${escapeHtml(tk.description)}</div>` : ''}
-          ${isDone ? `<div class="full"><span class="k">${t('public_k_resolved')}</span>${fmtDate(tk.resolved_on)}</div>` : ''}
-          ${isDone && tk.resolution_note ? `<div class="full"><span class="k">${t('public_k_work_done')}</span>${escapeHtml(tk.resolution_note)}</div>` : ''}
-        </div>
-        ${isDone && (tk.resolution_photo_before || tk.resolution_photo_after) ? `
-        <div class="res-photos">
-          ${tk.resolution_photo_before ? `<div class="res-photo"><span class="res-photo-label">${t('public_before')}</span><img src="${tk.resolution_photo_before}" alt="${t('public_before')}" loading="lazy"></div>` : ''}
-          ${tk.resolution_photo_after ? `<div class="res-photo"><span class="res-photo-label">${t('public_after')}</span><img src="${tk.resolution_photo_after}" alt="${t('public_after')}" loading="lazy"></div>` : ''}
-        </div>` : ''}
-      `;
-      list.appendChild(card);
-    });
-  }
+    formMsg.className = 'form-msg success';
+    formMsg.innerHTML = t('submit_success_html', {num: `<span class="ticket-num">${ticketNumber}</span>`});
 
-  loadTickets();
-  window.addEventListener('langchange', render);
+    // Notify the team — this runs after the Supabase save already
+    // succeeded, so a failed/unconfigured email or WhatsApp message
+    // never affects the ticket.
+    const notifyPayload = {
+      type: 'ticket',
+      ticket_number: ticketNumber,
+      ticket_type: payload.type === 'Anunt accident' ? 'Accident / urgență' : 'Problemă de funcționalitate',
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email || '-',
+      address: payload.address,
+      description: payload.description || '-',
+    };
+    sendNotification(notifyPayload);
+    sendWhatsAppNotification(notifyPayload);
+
+    ticketForm.reset();
+    ticketForm.style.display = 'none';
+
+    setTimeout(()=>{
+      ticketForm.style.display = 'block';
+      document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
+      goToStep1();
+    }, 6000);
+  });
+
+
 
   /* ============================================================
      COOKIE CONSENT BANNER — see index.html for the full policy

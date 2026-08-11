@@ -43,12 +43,19 @@ ro: {
   nav_despre: "Despre noi",
   nav_servicii: "Servicii",
   nav_proiecte: "Proiecte",
+  nav_relatii: "Relații publice",
   nav_contact: "Contact",
+  nav_modernizare: "Proiecte de modernizare",
   nav_cta: "Sesizări iluminat public",
+
+  // Relații publice page
+  rp_hero_eyebrow: "Relații publice",
+  rp_hero_h1: "Lucrări de modernizare și sesizări de iluminat public",
+  rp_hero_lede: "O privire publică asupra proiectelor de modernizare aflate în derulare și a sesizărilor de iluminat public transmise prin site — actualizate periodic de echipa noastră.",
 
   // Hero
   hero_eyebrow: "Insta Grup S.A. · din 1997 · Târgu-Mureș",
-  hero_h1_html: "Infrastructură electrică&nbsp;<em>proiectată să reziste</em>&nbsp;deceniilor.",
+  hero_h1_html: "Infrastructură&nbsp;<em>pentru generații</em>",
   hero_lede: "Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.",
 
   // Stats
@@ -60,7 +67,7 @@ ro: {
   // About
   about_eyebrow: "Despre noi",
   about_h2: "25 de ani de proiecte duse la bun sfârșit",
-  about_p1: "Proiectate şi dezvoltate pentru mediul concurenţial, produsele şi serviciile firmei au reuşit să se impună pe anumite segmente ale pieţei din judeţul Mureş şi din împrejurimi. De la înfiinţarea societăţii, în 1997, am dus la bun sfârşit peste 150 de proiecte în domeniul instalaţiilor electrice, reţelelor de utilităţi şi infrastructurii industriale.",
+  about_p1: "Proiectate şi dezvoltate pentru mediul concurenţial, produsele şi serviciile firmei au reuşit să se impună pe anumite segmente ale pieţei din judeţul Mureş şi din împrejurimi. De la înfiinţarea societăţii, în 1997, am dus la bun sfârşit peste 1500 de proiecte în domeniul instalaţiilor electrice, reţelelor de utilităţi şi infrastructurii industriale.",
   about_p2: "Beneficiarii care au intrat în portofoliul firmei noastre au făcut-o ca urmare a relaţiilor pe care echipa managerială le-a promovat în timp şi a unei strategii orientate constant către parteneriate pe termen lung.",
   about_slide1_cap: "Stație de transformare electrică",
   about_slide2_cap: "Rețele electrice de înaltă tensiune",
@@ -111,10 +118,22 @@ ro: {
   proj_eyebrow: "Lucrări de referință",
   proj_h2: "Proiecte realizate în județul Mureș",
   proj_lede: "O selecție din lucrările noastre, poziționate geografic. Treceți cursorul peste un punct pentru detalii.",
-  proj_map_full_label_html: "Județul Mureș — <strong>18 din 150+ proiecte</strong>",
+  proj_map_full_label_html: "Județul Mureș — <strong>18 din 1500+ proiecte</strong>",
   proj_map_updated: "Actualizat 2026",
   proj_footer_note: "Toate lucrările sunt organizate și pe categorii, pentru o parcurgere mai rapidă.",
   proj_archive_btn: "Vezi arhiva completă →",
+
+  // Current projects section ("Ce facem acum")
+  current_eyebrow: "Lucrări în derulare",
+  current_h2: "Ce facem acum",
+  current_lede: "O privire asupra proiectelor aflate în desfășurare în acest moment, actualizată periodic de echipa noastră.",
+  current_empty: "Momentan nu sunt proiecte active afișate.",
+  current_status_scheduled: "Programat",
+  current_status_progress: "În desfășurare",
+  current_status_done: "Finalizat",
+  current_progress_label: "Progres estimat",
+  current_k_start: "Început",
+  current_k_due: "Finalizare estimată",
   hub_tag: "Sediu",
   hub_title: "Insta Grup S.A.",
   hub_desc: "Str. Căminului nr. 35, Târgu-Mureș",
@@ -175,7 +194,7 @@ ro: {
   contact_k_sediu: "Sediu",
   contact_v_sediu: "Str. Căminului nr. 35, Târgu-Mureș, jud. Mureș",
   contact_k_telefon: "Telefon",
-  contact_v_telefon: "+40 265 000 000",
+  contact_v_telefon: "+40 265 253 997",
   contact_k_email: "Email",
   contact_v_email: "office@insta-grup.ro",
   contact_k_program: "Program",
@@ -195,8 +214,14 @@ ro: {
   footer_copy: "© 2026 Insta Grup S.A. Toate drepturile rezervate.",
   footer_gdpr: "Politica de confidențialitate (GDPR)",
   footer_tc: "Termeni și Condiții",
+  footer_cookies: "Politica de cookie-uri",
   footer_location: "Târgu-Mureș, România",
   legal_ro_only_note: "Acest document este disponibil oficial doar în limba română.",
+
+  // Cookie consent banner
+  cookie_banner_text: "Folosim doar cookie-uri și stocare locală strict necesare pentru funcționarea site-ului (preferința de limbă, conectarea echipei) — fără cookie-uri de marketing sau urmărire.",
+  cookie_banner_link: "Politica de cookie-uri",
+  cookie_banner_accept: "Am înțeles",
 
   // Ticket status vocabulary (shared with sesizari.html / dynamic labels)
   ticket_type_func: "Funcționalitate",
@@ -239,17 +264,27 @@ ro: {
   public_k_address: "Adresă",
   public_k_desc: "Descrierea problemei",
   public_k_resolved: "Data rezolvării",
+  public_k_work_done: "Ce s-a făcut",
+  public_before: "Înainte",
+  public_after: "După",
 },
 
 en: {
   nav_despre: "About us",
   nav_servicii: "Services",
   nav_proiecte: "Projects",
+  nav_relatii: "Public Relations",
   nav_contact: "Contact",
+  nav_modernizare: "Modernization projects",
   nav_cta: "Report a streetlight issue",
 
+  // Public Relations page
+  rp_hero_eyebrow: "Public Relations",
+  rp_hero_h1: "Modernization projects and streetlight issue reports",
+  rp_hero_lede: "A public overview of ongoing modernization projects and streetlight issue reports submitted through the site — updated periodically by our team.",
+
   hero_eyebrow: "Insta Grup S.A. · since 1997 · Târgu-Mureș",
-  hero_h1_html: "Electrical infrastructure&nbsp;<em>built to last</em>&nbsp;for decades.",
+  hero_h1_html: "Infrastructure&nbsp;<em>for generations</em>",
   hero_lede: "Design and execution of electrical installations, utility networks and industrial infrastructure for public authorities, utility companies and corporate clients across Mureș County.",
 
   stat_1_label: "years of continuous activity in the field",
@@ -259,7 +294,7 @@ en: {
 
   about_eyebrow: "About us",
   about_h2: "25 years of projects delivered",
-  about_p1: "Designed and developed for a competitive market, the company's products and services have established a strong position in certain segments of the market in Mureș County and the surrounding area. Since the company was founded in 1997, we have completed over 150 projects in electrical installations, utility networks and industrial infrastructure.",
+  about_p1: "Designed and developed for a competitive market, the company's products and services have established a strong position in certain segments of the market in Mureș County and the surrounding area. Since the company was founded in 1997, we have completed over 1500 projects in electrical installations, utility networks and industrial infrastructure.",
   about_p2: "The clients who have joined our company's portfolio have done so as a result of the relationships our management team has built over time and a strategy consistently oriented towards long-term partnerships.",
   about_slide1_cap: "Electrical substation",
   about_slide2_cap: "High-voltage electrical networks",
@@ -307,10 +342,22 @@ en: {
   proj_eyebrow: "Reference works",
   proj_h2: "Projects completed in Mureș County",
   proj_lede: "A selection of our projects, shown by location. Hover over a point for details.",
-  proj_map_full_label_html: "Mureș County — <strong>18 of 150+ projects</strong>",
+  proj_map_full_label_html: "Mureș County — <strong>18 of 1500+ projects</strong>",
   proj_map_updated: "Updated 2026",
   proj_footer_note: "All our projects are also organized by category, for quicker browsing.",
   proj_archive_btn: "View the full archive →",
+
+  // Current projects section
+  current_eyebrow: "Ongoing works",
+  current_h2: "What we're doing now",
+  current_lede: "A look at the projects currently in progress, updated periodically by our team.",
+  current_empty: "No active projects shown at the moment.",
+  current_status_scheduled: "Scheduled",
+  current_status_progress: "In progress",
+  current_status_done: "Completed",
+  current_progress_label: "Estimated progress",
+  current_k_start: "Started",
+  current_k_due: "Estimated completion",
   hub_tag: "Headquarters",
   hub_title: "Insta Grup S.A.",
   hub_desc: "35 Căminului St., Târgu-Mureș",
@@ -369,7 +416,7 @@ en: {
   contact_k_sediu: "Address",
   contact_v_sediu: "35 Căminului St., Târgu-Mureș, Mureș County",
   contact_k_telefon: "Phone",
-  contact_v_telefon: "+40 265 000 000",
+  contact_v_telefon: "+40 265 253 997",
   contact_k_email: "Email",
   contact_v_email: "office@insta-grup.ro",
   contact_k_program: "Hours",
@@ -388,8 +435,14 @@ en: {
   footer_copy: "© 2026 Insta Grup S.A. All rights reserved.",
   footer_gdpr: "Privacy Policy (GDPR)",
   footer_tc: "Terms & Conditions",
+  footer_cookies: "Cookie Policy",
   footer_location: "Târgu-Mureș, Romania",
   legal_ro_only_note: "This document is officially available in Romanian only.",
+
+  // Cookie consent banner
+  cookie_banner_text: "We only use cookies and local storage that are strictly necessary for the site to work (language preference, staff login) — no marketing or tracking cookies.",
+  cookie_banner_link: "Cookie Policy",
+  cookie_banner_accept: "Got it",
 
   ticket_type_func: "Functionality",
   ticket_type_accident: "Accident",
@@ -429,17 +482,27 @@ en: {
   public_k_address: "Address",
   public_k_desc: "Description of the issue",
   public_k_resolved: "Resolved on",
+  public_k_work_done: "Work done",
+  public_before: "Before",
+  public_after: "After",
 },
 
 hu: {
   nav_despre: "Rólunk",
   nav_servicii: "Szolgáltatások",
   nav_proiecte: "Projektek",
+  nav_relatii: "Közkapcsolatok",
   nav_contact: "Kapcsolat",
+  nav_modernizare: "Korszerűsítési projektek",
   nav_cta: "Közvilágítási hibabejelentés",
 
+  // Közkapcsolatok oldal
+  rp_hero_eyebrow: "Közkapcsolatok",
+  rp_hero_h1: "Korszerűsítési projektek és közvilágítási hibabejelentések",
+  rp_hero_lede: "Nyilvános áttekintés a folyamatban lévő korszerűsítési projektekről és a weboldalon keresztül beküldött közvilágítási hibabejelentésekről — csapatunk által rendszeresen frissítve.",
+
   hero_eyebrow: "Insta Grup S.A. · 1997 óta · Marosvásárhely",
-  hero_h1_html: "Elektromos infrastruktúra,&nbsp;<em>évtizedekre tervezve</em>.",
+  hero_h1_html: "Infrastruktúra&nbsp;<em>generációknak</em>",
   hero_lede: "Villamos hálózatok, közműhálózatok és ipari infrastruktúra tervezése és kivitelezése önkormányzatok, közműszolgáltatók és vállalati ügyfelek számára Maros megyében.",
 
   stat_1_label: "év folyamatos tevékenység a szakterületen",
@@ -449,7 +512,7 @@ hu: {
 
   about_eyebrow: "Rólunk",
   about_h2: "25 év sikeresen lezárt projekt",
-  about_p1: "A versenyképes piaci környezetre tervezett termékeink és szolgáltatásaink erős pozíciót vívtak ki Maros megye és a környező térség piacának egyes szegmenseiben. 1997-es alapításunk óta több mint 150 projektet valósítottunk meg villamos hálózatok, közműhálózatok és ipari infrastruktúra területén.",
+  about_p1: "A versenyképes piaci környezetre tervezett termékeink és szolgáltatásaink erős pozíciót vívtak ki Maros megye és a környező térség piacának egyes szegmenseiben. 1997-es alapításunk óta több mint 1500 projektet valósítottunk meg villamos hálózatok, közműhálózatok és ipari infrastruktúra területén.",
   about_p2: "Ügyfélportfóliónk azoknak a kapcsolatoknak köszönhetően bővült, amelyeket vezetőségünk az évek során kiépített, valamint a hosszú távú partnerségekre irányuló, következetes stratégiánknak köszönhetően.",
   about_slide1_cap: "Elektromos transzformátorállomás",
   about_slide2_cap: "Nagyfeszültségű villamos hálózatok",
@@ -497,10 +560,22 @@ hu: {
   proj_eyebrow: "Referenciamunkák",
   proj_h2: "Maros megyében megvalósított projektek",
   proj_lede: "Válogatás munkáinkból, földrajzi elhelyezkedés szerint. Vigye a kurzort egy pontra a részletekért.",
-  proj_map_full_label_html: "Maros megye — <strong>18 / 150+ projekt</strong>",
+  proj_map_full_label_html: "Maros megye — <strong>18 / 1500+ projekt</strong>",
   proj_map_updated: "Frissítve 2026",
   proj_footer_note: "Minden munkánk kategóriák szerint is rendszerezve van, a gyorsabb áttekintés érdekében.",
   proj_archive_btn: "Teljes archívum megtekintése →",
+
+  // Current projects section
+  current_eyebrow: "Folyamatban lévő munkák",
+  current_h2: "Mit csinálunk most",
+  current_lede: "Betekintés a jelenleg folyamatban lévő projektekbe, csapatunk által rendszeresen frissítve.",
+  current_empty: "Jelenleg nincs megjelenített aktív projekt.",
+  current_status_scheduled: "Tervezett",
+  current_status_progress: "Folyamatban",
+  current_status_done: "Befejezve",
+  current_progress_label: "Becsült előrehaladás",
+  current_k_start: "Kezdés",
+  current_k_due: "Becsült befejezés",
   hub_tag: "Székhely",
   hub_title: "Insta Grup S.A.",
   hub_desc: "Căminului utca 35, Marosvásárhely",
@@ -559,7 +634,7 @@ hu: {
   contact_k_sediu: "Székhely",
   contact_v_sediu: "Căminului utca 35, Marosvásárhely, Maros megye",
   contact_k_telefon: "Telefon",
-  contact_v_telefon: "+40 265 000 000",
+  contact_v_telefon: "+40 265 253 997",
   contact_k_email: "Email",
   contact_v_email: "office@insta-grup.ro",
   contact_k_program: "Nyitvatartás",
@@ -578,8 +653,14 @@ hu: {
   footer_copy: "© 2026 Insta Grup S.A. Minden jog fenntartva.",
   footer_gdpr: "Adatvédelmi tájékoztató (GDPR)",
   footer_tc: "Általános Szerződési Feltételek",
+  footer_cookies: "Cookie-szabályzat",
   footer_location: "Marosvásárhely, Románia",
   legal_ro_only_note: "Ez a dokumentum hivatalosan csak román nyelven érhető el.",
+
+  // Cookie consent banner
+  cookie_banner_text: "Csak a weboldal működéséhez feltétlenül szükséges cookie-kat és helyi tárolást használunk (nyelvi beállítás, munkatársi bejelentkezés) — marketing vagy nyomkövető cookie-k nélkül.",
+  cookie_banner_link: "Cookie-szabályzat",
+  cookie_banner_accept: "Rendben",
 
   ticket_type_func: "Működési hiba",
   ticket_type_accident: "Baleset",
@@ -619,6 +700,9 @@ hu: {
   public_k_address: "Cím",
   public_k_desc: "A probléma leírása",
   public_k_resolved: "Megoldás dátuma",
+  public_k_work_done: "Elvégzett munka",
+  public_before: "Előtte",
+  public_after: "Utána",
 },
 
 };
