@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insta Grup — Instalații electrice și infrastructură</title>
+<title>Insta Grup — Instalații electrice și infrastructură Târgu-Mureș</title>
+<meta name="description" content="Insta Grup S.A. — companie de instalații electrice, iluminat public, fotovoltaic și infrastructură din Târgu-Mureș, cu peste 25 de ani de experiență și 1500+ proiecte finalizate în județul Mureș.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -40,7 +41,6 @@
     background:var(--paper-000);
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
-    --scroll-progress:0;
   }
   img,svg{display:block;max-width:100%;}
   a{color:inherit;text-decoration:none;}
@@ -219,6 +219,12 @@
     .hero-wordmark{display:none;}
   }
   .hero-actions{display:flex;gap:16px;margin-top:44px;flex-wrap:wrap;}
+  .hero-note{
+    margin-top:18px;
+    max-width:640px;
+    color:var(--ink-600);
+    font-size:14.5px;
+  }
   .btn{
     font-family:var(--mono);font-size:14.5px;font-weight:500;
     padding:14px 26px;border-radius:2px;
@@ -262,6 +268,67 @@
   @media(max-width:760px){
     .stats-inner{grid-template-columns:repeat(2,1fr);}
     .stat{border-bottom:1px solid var(--line);}
+  }
+
+  /* ===== FLOW PATHS ===== */
+  .flow-paths{
+    background:var(--paper-000);
+    border-bottom:1px solid var(--line);
+  }
+  .flow-paths-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+  }
+  .flow-card{
+    border:1px solid var(--line-strong);
+    border-radius:4px;
+    padding:26px 24px;
+    background:linear-gradient(180deg, var(--paper-000) 0%, var(--paper-050) 100%);
+    min-height:100%;
+  }
+  .flow-card-icon{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--copper-050);
+    color:var(--copper-600);
+    font-family:var(--mono);
+    font-size:13px;
+    margin-bottom:20px;
+  }
+  .flow-card-step{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--copper-600);
+    margin-bottom:10px;
+  }
+  .flow-card h3{
+    font-size:21px;
+    margin-bottom:10px;
+  }
+  .flow-card p{
+    color:var(--ink-600);
+    font-size:15px;
+    margin-bottom:18px;
+  }
+  .flow-card-link{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:0.03em;
+    color:var(--ink-900);
+  }
+  .flow-card:hover .flow-card-link{color:var(--copper-600);}
+  @media(max-width:980px){
+    .flow-paths-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:640px){
+    .flow-paths-grid{grid-template-columns:1fr;}
   }
 
   /* ===== ABOUT ===== */
@@ -332,6 +399,13 @@
   .svc-card:hover,.svc-card.active{background:var(--copper-050);}
   .svc-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
   .svc-icon{width:34px;height:34px;color:var(--copper-600);margin-bottom:20px;}
+  @keyframes svc-icon-bounce{
+    0%,100%{transform:translateY(0);}
+    30%{transform:translateY(-5px);}
+    50%{transform:translateY(0);}
+    70%{transform:translateY(-2px);}
+  }
+  .svc-card:hover .svc-icon,.svc-card.active .svc-icon{animation:svc-icon-bounce .6s ease;}
   .svc-chevron{
     width:18px;height:18px;color:var(--ink-400);flex-shrink:0;margin-top:4px;
     transition:transform .25s ease,color .2s;
@@ -551,302 +625,6 @@
     .hero h1{font-size:clamp(34px,11vw,46px);max-width:320px;}
     .hero h1 em{display:block;margin-top:4px;}
   }
-  /* 3D wire-theme overrides */
-  :root{
-    --bg-0:#06111a; --bg-1:#0b1724; --bg-2:#122131;
-    --surface-1:rgba(13,24,36,0.78); --surface-2:rgba(17,30,44,0.94);
-    --text-main:#ebf5ff; --text-soft:#98acc1; --text-dim:#6f849a;
-  }
-  html{background:var(--bg-0);}
-  body{
-    background:
-      radial-gradient(circle at 15% 18%, rgba(209,31,36,0.16), transparent 25%),
-      radial-gradient(circle at 84% 12%, rgba(73,157,255,0.16), transparent 23%),
-      linear-gradient(180deg, #07111a 0%, #091521 38%, #06111a 100%);
-    color:var(--text-main);overflow-x:hidden;
-  }
-  body::before{
-    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;
-    background:
-      linear-gradient(rgba(126,170,212,0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(126,170,212,0.07) 1px, transparent 1px);
-    background-size:56px 56px;
-  }
-  .wrap,header,.modal-overlay,.cookie-banner{position:relative;z-index:1;}
-  header{background:rgba(5,12,19,0.78)!important;border-bottom:1px solid rgba(126,170,212,0.16)!important;box-shadow:0 16px 50px rgba(0,0,0,0.26);}
-  .hero,.services,.projects,.about,.cta,.stats,footer{background:transparent!important;}
-  .hero{padding-top:148px!important;min-height:92vh;border-bottom:1px solid rgba(126,170,212,0.12)!important;}
-  .hero::before{
-    content:"";position:absolute;right:7%;top:18%;width:min(36vw,420px);aspect-ratio:1;border-radius:28px;
-    background:linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01)), linear-gradient(145deg, rgba(10,18,28,0.96), rgba(16,30,45,0.84));
-    border:1px solid rgba(126,170,212,0.15);box-shadow:0 30px 80px rgba(0,0,0,0.42);transform:perspective(1200px) rotateY(-18deg) rotateX(10deg);
-  }
-  .hero::after{
-    content:"";position:absolute;right:11%;top:24%;width:min(25vw,260px);height:min(26vw,280px);border-radius:22px;
-    border:1px solid rgba(255,255,255,0.08);
-    background:linear-gradient(rgba(126,170,212,0.08) 1px, transparent 1px),linear-gradient(90deg, rgba(126,170,212,0.08) 1px, transparent 1px),linear-gradient(180deg, rgba(7,17,26,0.1), rgba(7,17,26,0.5));
-    background-size:24px 24px,24px 24px,auto;transform:perspective(1200px) rotateY(-18deg) rotateX(10deg);box-shadow:0 0 40px rgba(77,157,255,0.14);
-  }
-  h1,h2,h3,.num,.tt-title,.navlinks a,.nav-dropdown-trigger,.nav-cta,.footer-links button,.modal-head h3{color:var(--text-main)!important;}
-  p,.lede,.section-head p,.label,.contact-list .row,.projects-foot p,.svc-list,.svc-hint,.cc-address,.cc-dates,.ticket-body,.modal-body p,.modal-body li,.cookie-banner p,.footer-inner span{color:var(--text-soft)!important;}
-  .eyebrow,.hero-eyebrow,.contact-list .k,.tt-tag,.proj-tag,.ticket-num,.back-link,.modal-body a,.cookie-banner a{color:#ff9f95!important;}
-  .nav-dropdown-menu,.lang-switch,.modal-card,.tooltip,.cookie-banner,.stat,.svc-card,.map-shell,.about-photo,.form-card,.search-box input{
-    background:linear-gradient(180deg, rgba(18,31,45,0.94), rgba(11,21,31,0.96))!important;
-    border:1px solid rgba(126,170,212,0.15)!important;
-    box-shadow:0 28px 70px rgba(0,0,0,0.34)!important;
-  }
-  .hero h1{font-size:clamp(48px,7vw,94px)!important;line-height:.96;text-transform:uppercase;letter-spacing:-0.04em;max-width:760px;}
-  .hero h1 em{color:#9fd8ff;font-style:normal;text-shadow:0 0 28px rgba(98,178,255,0.32);}
-  .hero .lede{max-width:620px;font-size:18px!important;line-height:1.72;}
-  .hero-wordmark{color:rgba(233,243,255,0.06)!important;}
-  .hero-trace,.section-trace{opacity:.32!important;filter:drop-shadow(0 0 18px rgba(255,100,72,0.14));}
-  .stats{margin-top:-42px;position:relative;z-index:2;}
-  .stats-inner{max-width:1180px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-  .stat,.svc-card{transition:transform .22s ease,border-color .22s ease;}
-  .stat:hover,.svc-card:hover,.node-dot:hover{transform:translateY(-6px);}
-  .svc-grid,.svc-list li,.cc-bar-track,.modal-head,.res-photos{border-color:rgba(126,170,212,0.12)!important;}
-  .btn-ghost,.cert-pill{background:rgba(11,20,31,0.68)!important;border-color:rgba(126,170,212,0.18)!important;color:var(--text-main)!important;}
-  .btn-primary,.nav-cta,.cookie-banner-accept,.lang-switch button.active{background:linear-gradient(135deg, #d11f24 0%, #ff6448 100%)!important;color:#fff!important;border-color:transparent!important;}
-  .form-card input,.form-card textarea,.search-box input{background:rgba(7,16,25,0.8)!important;color:var(--text-main)!important;border-color:rgba(126,170,212,0.14)!important;}
-  .form-card input::placeholder,.form-card textarea::placeholder,.search-box input::placeholder{color:var(--text-dim)!important;}
-  .wire-line{stroke:#7cbcff!important;opacity:.22!important;}
-  .wire-joint,.hub-dot,.node-dot{background:#ff6448!important;fill:#ff6448!important;border-color:#09131d!important;}
-  footer{background:rgba(4,10,16,0.76)!important;border-top:1px solid rgba(126,170,212,0.12)!important;}
-  .current-stage{
-    position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
-    perspective:1200px;opacity:.95;
-  }
-  .current-stage-core{
-    position:absolute;inset:0;display:grid;place-items:center;
-    transform:translateY(calc(var(--scroll-progress) * -10vh));
-  }
-  .wire-tunnel{
-    position:relative;
-    width:min(88vw, 1080px);
-    height:min(72vh, 780px);
-    transform-style:preserve-3d;
-    transform:rotateX(72deg) translateY(calc(var(--scroll-progress) * 4vh));
-    filter:drop-shadow(0 0 34px rgba(255,116,84,0.08));
-  }
-  .wire-tunnel-sheath{
-    position:absolute;left:50%;top:50%;
-    width:min(78vw, 920px);height:min(56vh, 560px);
-    transform:translate3d(-50%, -50%, -160px);
-    border-radius:999px;
-    border:34px solid rgba(160,90,64,0.14);
-    box-shadow:inset 0 0 0 1px rgba(255,224,196,0.08), 0 0 120px rgba(255,116,84,0.06);
-    background:radial-gradient(circle at 50% 50%, rgba(255,140,102,0.04), transparent 62%);
-  }
-  .wire-tunnel-sheath::before,
-  .wire-tunnel-sheath::after{
-    content:"";position:absolute;inset:22px;border-radius:999px;
-  }
-  .wire-tunnel-sheath::before{
-    border:1px solid rgba(255,214,182,0.11);
-  }
-  .wire-tunnel-sheath::after{
-    inset:46px;
-    border:1px solid rgba(103,183,255,0.08);
-  }
-  .wire-tunnel-centerline,
-  .wire-tunnel-glow{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-    width:18px;height:140%;
-    border-radius:999px;
-  }
-  .wire-tunnel-centerline{
-    background:linear-gradient(180deg, rgba(255,210,168,0.04), rgba(255,134,95,0.26) 18%, rgba(255,125,90,0.18) 52%, rgba(255,210,168,0.04));
-    box-shadow:0 0 20px rgba(255,96,72,0.12), 0 0 120px rgba(255,96,72,0.08);
-  }
-  .wire-tunnel-glow{
-    width:100px;
-    background:linear-gradient(180deg, transparent 0%, rgba(255,118,86,0.06) 20%, rgba(115,188,255,0.08) 52%, transparent 100%);
-    filter:blur(18px);
-  }
-  .wire-tunnel-pulse{
-    position:absolute;left:50%;top:50%;
-    width:36px;height:140px;border-radius:999px;
-    transform:translate3d(-50%, calc(320px - var(--scroll-progress) * 1500px), 0);
-    background:linear-gradient(180deg, rgba(255,242,202,0), rgba(255,218,176,0.92) 25%, rgba(255,118,86,0.95) 65%, rgba(255,242,202,0));
-    box-shadow:0 0 18px rgba(255,171,131,0.55), 0 0 90px rgba(255,96,72,0.28);
-    opacity:.92;
-  }
-  .wire-tunnel-rings{
-    position:absolute;inset:0;transform-style:preserve-3d;
-  }
-  .wire-ring{
-    position:absolute;left:50%;top:50%;
-    width:var(--size);height:calc(var(--size) * 0.46);
-    transform:translate3d(-50%, -50%, calc(var(--z) + var(--scroll-progress) * 1300px));
-    border-radius:999px;
-    border:18px solid rgba(189,104,72,0.18);
-    box-shadow:0 0 0 1px rgba(255,255,255,0.04), inset 0 0 0 2px rgba(255,214,182,0.05), 0 0 24px rgba(255,123,87,0.12);
-    background:radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02), transparent 62%);
-  }
-  .wire-ring::after{
-    content:"";position:absolute;inset:8px;border-radius:999px;border:1px solid rgba(115,188,255,0.12);
-  }
-  .wire-helix,
-  .wire-tunnel-sparks{
-    position:absolute;inset:0;transform-style:preserve-3d;
-  }
-  .wire-coil{
-    position:absolute;left:50%;top:50%;
-    width:var(--coil-size);height:calc(var(--coil-size) * 0.2);
-    border-radius:999px;
-    border:2px solid rgba(255,186,148,0.24);
-    box-shadow:0 0 12px rgba(255,119,90,0.12);
-  }
-  .wire-helix-a .wire-coil{
-    transform:translate3d(calc(-50% + var(--coil-x)), calc(-50% + var(--coil-y)), calc(var(--coil-z) + var(--scroll-progress) * 1380px)) rotateZ(calc(var(--coil-rot) + var(--scroll-progress) * 160deg));
-  }
-  .wire-helix-b .wire-coil{
-    transform:translate3d(calc(-50% - var(--coil-x)), calc(-50% - var(--coil-y)), calc(var(--coil-z) + var(--scroll-progress) * 1380px)) rotateZ(calc(var(--coil-rot) * -1 + var(--scroll-progress) * -180deg));
-    border-color:rgba(111,191,255,0.2);
-  }
-  .wire-spark{
-    position:absolute;left:50%;top:50%;
-    width:8px;height:8px;border-radius:50%;
-    background:radial-gradient(circle, rgba(255,248,219,0.95) 0%, rgba(255,144,103,0.85) 42%, rgba(255,144,103,0) 74%);
-    box-shadow:0 0 12px rgba(255,190,149,0.45), 0 0 28px rgba(111,191,255,0.18);
-    transform:translate3d(calc(-50% + var(--spark-x)), calc(-50% + var(--spark-y) - var(--scroll-progress) * 760px), var(--spark-z));
-    opacity:calc(0.18 + var(--spark-alpha));
-  }
-  .wire-tunnel-arcs .arc{
-    position:absolute;left:50%;top:50%;width:58%;height:58%;
-    border-radius:50%;
-    border-top:2px solid rgba(115,188,255,0.18);
-    border-right:2px solid transparent;border-bottom:2px solid transparent;border-left:2px solid transparent;
-    transform-style:preserve-3d;
-  }
-  .wire-tunnel-arcs .arc-a{transform:translate3d(-50%,-50%,160px) rotateZ(calc(40deg + var(--scroll-progress) * 180deg));}
-  .wire-tunnel-arcs .arc-b{transform:translate3d(-50%,-50%,420px) rotateZ(calc(-80deg + var(--scroll-progress) * 240deg));width:70%;height:70%;}
-  .wire-tunnel-arcs .arc-c{transform:translate3d(-50%,-50%,720px) rotateZ(calc(12deg + var(--scroll-progress) * 300deg));width:46%;height:46%;}
-  .scroll-slice{
-    --slice-progress:0;
-    --slice-depth:0.08;
-    position:relative;z-index:2;
-    transform:translate3d(0, calc((1 - var(--slice-progress)) * 62px), calc(var(--slice-progress) * 260px * var(--slice-depth))) scale(calc(0.94 + var(--slice-progress) * 0.06));
-    opacity:calc(0.3 + var(--slice-progress) * 0.7);
-    transition:transform .22s linear, opacity .22s linear;
-  }
-  @media(max-width:960px){.hero{min-height:auto;padding-top:132px!important;}.hero::before,.hero::after{display:none;}.stats-inner{grid-template-columns:repeat(2,1fr);}}
-  @media(max-width:960px){.current-stage{opacity:.55;}.wire-tunnel{transform:rotateX(76deg) scale(1.08);}}
-  @media(max-width:640px){.hero h1{font-size:clamp(38px,14vw,62px)!important;}.stats-inner{grid-template-columns:1fr;padding:0 20px;}.current-stage{display:none;}.scroll-slice{transform:none!important;opacity:1!important;}}
-  header{display:none!important;}
-  body{
-    background:
-      radial-gradient(circle at 50% 18%, rgba(255,152,102,0.18), transparent 26%),
-      radial-gradient(circle at 50% 60%, rgba(73,136,201,0.11), transparent 36%),
-      linear-gradient(180deg, #050a11 0%, #08111a 42%, #03070c 100%)!important;
-  }
-  .hero-wordmark,.hero-trace,.section-trace,.map-shell,.projects-foot,.about-dots,.about-slide,.about-slide-cap,#contactForm,#contactMsg,.contact-list{display:none!important;}
-  .hero{min-height:100svh!important;padding-top:8vh!important;display:flex;align-items:center;}
-  .route-hero{max-width:760px;text-align:center;display:grid;gap:20px;justify-items:center;}
-  .hero-kicker,.route-copy .eyebrow{letter-spacing:.28em;text-transform:uppercase;color:#7eb1df;font-size:12px;}
-  .route-hero h1{font-size:clamp(56px, 11vw, 122px)!important;line-height:.9;text-transform:uppercase;margin:0;}
-  .route-hero .lede{max-width:620px;font-size:18px!important;color:rgba(231,242,255,0.82)!important;}
-  .hero-cable-caption{display:flex;align-items:center;gap:14px;color:rgba(231,242,255,0.68);font-size:13px;text-transform:uppercase;letter-spacing:.18em;}
-  .hero-caption-line{width:92px;height:2px;border-radius:999px;background:linear-gradient(90deg, rgba(255,132,94,0), rgba(255,132,94,1));box-shadow:0 0 18px rgba(255,132,94,0.45);}
-  .current-stage-core{transform:translateY(calc(var(--scroll-progress) * -16vh));}
-  .wire-tunnel{transform:rotateX(calc(64deg + var(--scroll-progress) * 18deg)) translateY(calc(10vh - var(--scroll-progress) * 12vh)) scale(calc(0.72 + var(--scroll-progress) * 0.52));}
-  .wire-mouth{position:absolute;left:50%;top:50%;width:min(72vw, 780px);height:min(42vh, 410px);transform:translate3d(-50%, -50%, 300px) scale(calc(1.08 - var(--scroll-progress) * 0.3));border-radius:999px;border:30px solid rgba(175,96,69,0.22);box-shadow:0 0 0 1px rgba(255,228,204,0.1), inset 0 0 0 10px rgba(20,29,40,0.88), 0 0 90px rgba(255,115,82,0.12);background:radial-gradient(circle at 50% 50%, rgba(2,7,12,0.94) 0%, rgba(5,11,18,0.86) 46%, rgba(255,145,106,0.04) 86%, transparent 100%);opacity:calc(1 - var(--scroll-progress) * 0.78);}
-  .wire-tunnel-pulse{width:48px;height:180px;transform:translate3d(-50%, calc(360px - var(--scroll-progress) * 1850px), 40px);box-shadow:0 0 22px rgba(255,171,131,0.7), 0 0 130px rgba(89,182,255,0.32);}
-  .wire-spark{width:10px;height:10px;box-shadow:0 0 16px rgba(255,190,149,0.65), 0 0 36px rgba(111,191,255,0.34);}
-  .wire-tunnel-arcs .arc{border-top-color:rgba(125,203,255,0.4);box-shadow:0 0 18px rgba(110,188,255,0.18);}
-  .route-stage,.services,.projects,.about,.cta{padding-top:clamp(70px, 12vw, 130px)!important;padding-bottom:clamp(70px, 12vw, 130px)!important;}
-  .stats-inner{grid-template-columns:repeat(3,1fr)!important;}
-  .route-node,.route-card,.branch-panel,.route-endcard,.route-monitor{background:rgba(7,16,25,0.72);border:1px solid rgba(119,171,221,0.13);backdrop-filter:blur(16px);}
-  .route-node{padding:28px;border-radius:28px;}
-  .route-grid{grid-template-columns:repeat(3,1fr)!important;gap:18px;}
-  .route-card{min-height:220px;border-radius:30px;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;box-shadow:inset 0 -90px 120px rgba(255,129,84,0.04);}
-  .route-card span{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#83bdf0;}
-  .route-card strong{font-size:28px;line-height:1.02;text-transform:uppercase;}
-  .branch-shell{display:grid;gap:26px;}
-  .branch-controls{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
-  .branch-btn,.branch-continue{padding:14px 20px;border-radius:999px;border:1px solid rgba(126,170,212,0.2);background:rgba(8,18,27,0.78);color:var(--text-main);text-decoration:none;font:inherit;cursor:pointer;transition:transform .2s ease,border-color .2s ease,background .2s ease;}
-  .branch-btn.active,.branch-btn:hover,.branch-continue:hover{transform:translateY(-2px);border-color:rgba(255,127,85,0.48);background:rgba(28,16,13,0.84);}
-  .branch-stage{display:grid;grid-template-columns:1fr 180px 1fr;align-items:center;gap:24px;}
-  .branch-pipe{position:relative;min-height:360px;opacity:.38;transform:scale(.96);transition:opacity .25s ease, transform .25s ease;}
-  .branch-pipe.active{opacity:1;transform:scale(1);}
-  .branch-pipe::before{content:"";position:absolute;top:50%;width:calc(100% + 40px);height:34px;border-radius:999px;background:linear-gradient(90deg, rgba(145,88,64,0.14), rgba(255,134,94,0.28), rgba(83,168,235,0.24));box-shadow:0 0 40px rgba(255,132,94,0.1);}
-  .branch-pipe-left::before{right:-20px;transform:translateY(-50%) rotate(-14deg);}
-  .branch-pipe-right::before{left:-20px;transform:translateY(-50%) rotate(14deg);}
-  .branch-panel{position:relative;z-index:1;padding:34px;border-radius:34px;min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;}
-  .branch-tag{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#82bdf2;}
-  .branch-link{color:#ffd7c8;text-decoration:none;}
-  .branch-core{position:relative;height:180px;display:grid;place-items:center;}
-  .branch-core-ring,.branch-core-pulse{position:absolute;border-radius:50%;}
-  .branch-core-ring{width:180px;height:180px;border:16px solid rgba(174,99,71,0.22);box-shadow:inset 0 0 0 1px rgba(255,225,200,0.1), 0 0 80px rgba(255,123,87,0.14);}
-  .branch-core-pulse{width:54px;height:54px;background:radial-gradient(circle, rgba(255,245,223,0.96) 0%, rgba(255,129,91,0.92) 52%, rgba(91,178,255,0.08) 100%);box-shadow:0 0 22px rgba(255,180,146,0.7), 0 0 72px rgba(86,175,255,0.32);animation:branchPulse 2.2s ease-in-out infinite;}
-  .route-finale{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:stretch;}
-  .route-actions{display:flex;gap:12px;flex-wrap:wrap;}
-  .route-actions .cert-pill{text-decoration:none;}
-  .route-monitor{border-radius:36px;padding:24px;min-height:320px;display:grid;place-items:center;}
-  .route-monitor-grid{width:100%;height:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
-  .route-monitor-grid span{border-radius:18px;background:linear-gradient(180deg, rgba(255,136,94,0.24), rgba(83,167,233,0.06)), rgba(6,15,24,0.84);border:1px solid rgba(118,175,226,0.12);box-shadow:inset 0 0 24px rgba(255,132,94,0.05);}
-  .route-endcard{border-radius:30px;padding:32px;display:grid;gap:16px;}
-  .route-endline{width:100%;height:10px;border-radius:999px;background:linear-gradient(90deg, rgba(255,132,94,0.15), rgba(255,132,94,0.95), rgba(102,182,255,0.3));box-shadow:0 0 28px rgba(255,132,94,0.2);}
-  @keyframes branchPulse{0%,100%{transform:scale(.86);opacity:.72;}50%{transform:scale(1.16);opacity:1;}}
-  @media(max-width:960px){.stats-inner,.route-grid,.route-finale,.branch-stage{grid-template-columns:1fr!important;}.branch-core{order:-1;height:120px;}}
-  /* ===== CINEMATIC ENTRY: POLE TOP TO COPPER CONDUCTOR ===== */
-  body{--entry-progress:0;}
-  .hero::before,.hero::after{display:none!important;}
-  .landscape-stage{
-    position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
-    background:linear-gradient(180deg,#79c8f0 0%,#c9e9f3 48%,#e8dcb2 70%,#78945d 100%);
-    opacity:clamp(0,calc(1.12 - var(--entry-progress) * 1.45),1);
-    transform:scale(calc(1 + var(--entry-progress) * 1.85));
-    transform-origin:50% 46%;
-    filter:saturate(calc(1 - var(--entry-progress) * .48)) blur(calc(var(--entry-progress) * 7px));
-    will-change:transform,opacity,filter;
-  }
-  .landscape-stage::after{
-    content:"";position:absolute;inset:0;
-    background:radial-gradient(circle at 50% 46%,transparent 0 9%,rgba(4,10,16,.08) 32%,rgba(3,8,13,.72) 100%);
-    opacity:clamp(0,calc((var(--entry-progress) - .35) * 2.2),1);
-  }
-  .landscape-sun{position:absolute;right:13vw;top:10vh;width:clamp(84px,11vw,170px);aspect-ratio:1;border-radius:50%;background:#fff5c3;box-shadow:0 0 55px 24px rgba(255,241,168,.45),0 0 160px 70px rgba(255,235,158,.18);}
-  .cloud{position:absolute;width:clamp(180px,24vw,380px);height:54px;border-radius:999px;background:rgba(255,255,255,.72);filter:blur(1px);box-shadow:70px -24px 0 8px rgba(255,255,255,.58),140px 3px 0 -3px rgba(255,255,255,.5);}
-  .cloud-a{left:8vw;top:17vh;transform:scale(.72);}
-  .cloud-b{right:29vw;top:28vh;transform:scale(.42);opacity:.72;}
-  .hill{position:absolute;left:-10%;width:120%;border-radius:50% 50% 0 0/100% 100% 0 0;transform-origin:50% 100%;}
-  .hill-far{bottom:16vh;height:37vh;background:linear-gradient(165deg,#769b75,#55765c);clip-path:polygon(0 62%,9% 38%,18% 56%,29% 26%,39% 55%,51% 18%,62% 54%,72% 30%,84% 58%,94% 35%,100% 53%,100% 100%,0 100%);}
-  .hill-near{bottom:-4vh;height:35vh;background:linear-gradient(150deg,#5f7e4d,#2f5738);clip-path:polygon(0 47%,12% 21%,24% 54%,39% 12%,55% 48%,69% 19%,83% 52%,100% 17%,100% 100%,0 100%);}
-  .field-lines{position:absolute;left:0;right:0;bottom:-2vh;height:29vh;background:repeating-linear-gradient(108deg,transparent 0 9vw,rgba(239,217,145,.24) 9.2vw 9.5vw),linear-gradient(180deg,transparent,#45633a);clip-path:polygon(0 30%,100% 0,100% 100%,0 100%);}
-  .distant-town{position:absolute;left:7%;right:7%;bottom:21vh;height:34px;background:repeating-linear-gradient(90deg,transparent 0 22px,rgba(238,231,204,.72) 23px 34px,transparent 35px 48px);opacity:.56;}
-  .pole-rig{position:absolute;left:50%;bottom:-33vh;width:min(76vw,930px);height:78vh;transform:translateX(-50%);filter:drop-shadow(0 18px 22px rgba(15,23,18,.3));}
-  .pole-mast{position:absolute;left:50%;top:17%;bottom:0;width:clamp(64px,7vw,106px);transform:translateX(-50%);clip-path:polygon(28% 0,72% 0,100% 100%,0 100%);background:linear-gradient(90deg,#403328,#8e7152 42%,#ad8b63 55%,#4a382a);}
-  .pole-crossarm{position:absolute;left:2%;right:2%;top:14%;height:clamp(25px,3vw,42px);border-radius:5px;background:linear-gradient(180deg,#89745a,#3f352a 70%,#241e19);box-shadow:0 10px 18px rgba(21,26,20,.22);}
-  .pole-cap{position:absolute;left:50%;top:4%;width:14%;height:16%;transform:translateX(-50%);background:linear-gradient(90deg,#40352a,#927758,#44372a);clip-path:polygon(25% 0,75% 0,100% 100%,0 100%);}
-  .insulator{position:absolute;top:8%;width:30px;height:86px;transform:translateX(-50%);background:repeating-linear-gradient(180deg,#d6e8dc 0 9px,#759796 10px 14px,transparent 15px 19px);filter:drop-shadow(0 4px 3px rgba(16,30,29,.24));}
-  .insulator::after{content:"";position:absolute;left:50%;bottom:-12px;width:9px;height:26px;background:#343a38;transform:translateX(-50%);}
-  .insulator-left{left:14%;}.insulator-mid{left:50%;}.insulator-right{left:86%;}
-  .overhead-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
-  .overhead-wires path{fill:none;stroke:#222b2d;stroke-width:4;vector-effect:non-scaling-stroke;filter:drop-shadow(0 2px 1px rgba(255,255,255,.18));}
-  .wire-entry{position:absolute;left:50%;top:46%;width:54px;height:32px;transform:translate(-50%,-50%) scale(calc(.65 + var(--entry-progress) * 2.8));border-radius:50%;border:8px solid #b96c43;background:#11181c;box-shadow:0 0 0 5px #20292c,0 0 34px rgba(255,183,110,.44);opacity:clamp(0,calc((var(--entry-progress) - .08) * 3),1);}
-  .entry-vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 46%,transparent 0 12%,rgba(2,6,10,.88) 68%);opacity:clamp(0,calc((var(--entry-progress) - .5) * 2),1);}
-  .current-stage{opacity:clamp(0,calc((var(--entry-progress) - .42) * 2.4),.95);}
-  .current-stage-core{transform:translateY(calc((1 - var(--entry-progress)) * 14vh - var(--scroll-progress) * 16vh)) scale(calc(.28 + var(--entry-progress) * .72));}
-  .wire-tunnel{transform:rotateX(calc(55deg + var(--entry-progress) * 9deg + var(--scroll-progress) * 18deg)) translateY(calc(9vh - var(--entry-progress) * 9vh - var(--scroll-progress) * 12vh)) scale(calc(.55 + var(--entry-progress) * .17 + var(--scroll-progress) * .52));}
-  .wire-mouth{opacity:clamp(.14,calc(1.2 - var(--entry-progress) * .45 - var(--scroll-progress) * .78),1);}
-  .hero{min-height:175svh!important;padding:0!important;align-items:flex-start;}
-  .route-hero{position:sticky;top:0;min-height:100svh;max-width:none!important;width:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;text-align:left!important;padding:0 5vw 9vh;gap:12px!important;opacity:clamp(0,calc(1 - var(--entry-progress) * 1.7),1);transform:translateY(calc(var(--entry-progress) * -7vh));}
-  .route-hero::before{content:"VIEW FROM GRID / 46.542° N";font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:rgba(16,37,46,.65);}
-  .route-hero .hero-kicker{color:#173743!important;background:rgba(245,250,241,.64);border:1px solid rgba(255,255,255,.55);padding:8px 12px;border-radius:999px;backdrop-filter:blur(10px);}
-  .route-hero h1{max-width:780px;font-size:clamp(48px,8vw,104px)!important;color:#f7fbf1!important;text-shadow:0 5px 28px rgba(24,48,45,.35);}
-  .route-hero .lede{max-width:540px!important;color:rgba(247,251,241,.92)!important;text-shadow:0 2px 12px rgba(22,42,36,.45);}
-  .hero-cable-caption{color:#f8fbf2!important;text-shadow:0 2px 10px rgba(20,34,31,.5);}
-  @media(max-width:640px){
-    .current-stage{display:block!important;opacity:clamp(0,calc((var(--entry-progress) - .48) * 2.2),.9);}
-    .landscape-stage{transform:scale(calc(1 + var(--entry-progress) * 1.35));}
-    .pole-rig{width:110vw;bottom:-27vh;height:70vh;}
-    .route-hero{padding:0 22px 8vh;}
-    .route-hero h1{font-size:clamp(46px,16vw,72px)!important;}
-    .route-hero .lede{font-size:16px!important;}
-    .wire-tunnel{width:130vw;height:70vh;}
-  }
-  @media(prefers-reduced-motion:reduce){.landscape-stage,.current-stage-core,.wire-tunnel,.route-hero{transform:none!important;filter:none!important;}}
 </style>
 </head>
 <body>
@@ -864,10 +642,10 @@
           <a href="#proiecte" data-i18n="nav_proiecte">Proiecte</a>
           <a href="#servicii" data-i18n="nav_servicii">Servicii</a>
           <a href="#despre" data-i18n="nav_despre">Despre noi</a>
+          <a href="#contact" data-i18n="nav_contact">Contact</a>
         </div>
       </div>
-      <a href="relatii-publice.html" data-i18n="nav_relatii">Relații publice</a>
-      <a href="#contact" data-i18n="nav_contact">Contact</a>
+      <a href="relatii-publice.html" data-i18n="nav_relatii">Iluminat public</a>
     </div>
     <div class="nav-right">
       <div class="lang-switch">
@@ -880,165 +658,210 @@
   </nav>
 </header>
 
-<div class="landscape-stage" aria-hidden="true">
-  <div class="landscape-sun"></div>
-  <div class="cloud cloud-a"></div>
-  <div class="cloud cloud-b"></div>
-  <div class="hill hill-far"></div>
-  <div class="distant-town"></div>
-  <div class="hill hill-near"></div>
-  <div class="field-lines"></div>
-  <svg class="overhead-wires" viewBox="0 0 1000 700" preserveAspectRatio="none">
-    <path d="M-40 70 C190 235 360 305 500 322 C640 305 810 235 1040 70" />
-    <path d="M-40 190 C200 285 370 322 500 326 C630 322 800 285 1040 190" />
-    <path d="M-40 325 C205 334 372 334 500 330 C628 334 795 334 1040 325" />
-  </svg>
-  <div class="wire-entry"></div>
-  <div class="pole-rig">
-    <div class="pole-cap"></div>
-    <div class="pole-mast"></div>
-    <div class="pole-crossarm"></div>
-    <div class="insulator insulator-left"></div>
-    <div class="insulator insulator-mid"></div>
-    <div class="insulator insulator-right"></div>
-  </div>
-</div>
-<div class="entry-vignette" aria-hidden="true"></div>
-
-<div class="current-stage" aria-hidden="true">
-  <div class="current-stage-core">
-    <div class="wire-tunnel">
-      <div class="wire-tunnel-sheath"></div>
-      <div class="wire-mouth"></div>
-      <div class="wire-tunnel-centerline"></div>
-      <div class="wire-tunnel-glow"></div>
-      <div class="wire-tunnel-pulse"></div>
-      <div class="wire-tunnel-rings" id="currentStageRings"></div>
-      <div class="wire-helix wire-helix-a" id="currentStageHelixA"></div>
-      <div class="wire-helix wire-helix-b" id="currentStageHelixB"></div>
-      <div class="wire-tunnel-sparks" id="currentStageSparks"></div>
-      <div class="wire-tunnel-arcs">
-        <span class="arc arc-a"></span>
-        <span class="arc arc-b"></span>
-        <span class="arc arc-c"></span>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- ===== HERO ===== -->
-<section class="hero scroll-slice" data-depth="0.04">
-  <div class="wrap route-hero">
-    <div class="hero-kicker">INSTA GRUP</div>
-    <h1>Deasupra retelei</h1>
-    <p class="lede">Privesti peste vale de la inaltimea liniei electrice. Urmeaza conductorul si lasa-te purtat de curent.</p>
-    <div class="hero-cable-caption">
-      <span class="hero-caption-line"></span>
-      <span>Scroll pentru a prinde curentul</span>
+<section class="hero">
+  <svg class="hero-trace" viewBox="0 0 1180 640" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#D3D4CE" stroke-width="1.4" fill="none" opacity="0.9">
+      <path d="M -20 120 H 340 V 40 H 900" />
+      <path d="M -20 260 H 220 V 340 H 640 V 220 H 1200" />
+      <path d="M -20 460 H 480 V 520 H 1200" />
+      <path d="M 760 40 V 200 H 1200" />
+      <path d="M 300 40 V -20" />
+    </g>
+    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
+      <path d="M -20 120 H 340 V 40 H 900" />
+      <path d="M -20 260 H 220 V 340 H 640 V 220 H 1200" />
+      <path d="M -20 460 H 480 V 520 H 1200" />
+    </g>
+    <g fill="#D11F24">
+      <circle cx="340" cy="120" r="3.5"/>
+      <circle cx="640" cy="340" r="3.5"/>
+      <circle cx="480" cy="460" r="3.5"/>
+      <circle cx="900" cy="40" r="3.5"/>
+    </g>
+  </svg>
+  <div class="hero-wordmark" aria-hidden="true">INSTA<br>GRUP</div>
+  <div class="wrap">
+    <div class="hero-eyebrow" data-i18n="hero_eyebrow">Insta Grup S.A. · din 1997 · Târgu-Mureș</div>
+    <h1 data-i18n-html="hero_h1_html">Infrastructură&nbsp;<em>pentru generații</em></h1>
+    <p class="lede" data-i18n="hero_lede">Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#servicii" data-i18n="hero_cta_services">Vezi serviciile</a>
+      <a class="btn btn-ghost" href="#contact" data-i18n="hero_cta_contact">Solicită o ofertă</a>
+      <a class="btn btn-ghost" href="relatii-publice.html" data-i18n="hero_cta_public">Portal iluminat public</a>
     </div>
+    <p class="hero-note" data-i18n="hero_note">Dacă sunteți rezident și vreți să urmăriți lucrări de modernizare sau să raportați o problemă de iluminat public, folosiți portalul dedicat de relații publice.</p>
   </div>
 </section>
 
 <!-- ===== STATS ===== -->
-<div class="stats scroll-slice" data-depth="0.08">
+<div class="stats">
   <div class="stats-inner">
-    <div class="stat route-node"><div class="num">01</div><div class="label">Exteriorul cablului, inainte de intrare</div></div>
-    <div class="stat route-node"><div class="num">02</div><div class="label">Impulsuri de lumina care aprind traseul</div></div>
-    <div class="stat route-node"><div class="num">03</div><div class="label">Tunelul accelereaza spre zona de decizie</div></div>
+    <div class="stat"><div class="num">25</div><div class="label" data-i18n="stat_1_label">ani de activitate neîntreruptă în domeniu</div></div>
+    <div class="stat"><div class="num">1500+</div><div class="label" data-i18n="stat_2_label">proiecte finalizate în județul Mureș</div></div>
+    <div class="stat"><div class="num">10</div><div class="label" data-i18n="stat_3_label">atestări și certificări ISO / ANRE / ANRSC</div></div>
+    <div class="stat"><div class="num">12</div><div class="label" data-i18n="stat_4_label">clienți parteneri pe termen lung</div></div>
   </div>
 </div>
+
+<section class="flow-paths">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="flow_eyebrow">Parcurs rapid</div>
+      <h2 data-i18n="flow_h2">Alegeți traseul potrivit de la început</h2>
+      <p data-i18n="flow_lede">Am separat mai clar partea comercială de utilitatea publică, ca să ajungeți mai repede exact unde aveți nevoie.</p>
+    </div>
+    <div class="flow-paths-grid">
+      <a class="flow-card" href="#servicii">
+        <div class="flow-card-icon">01</div>
+        <div class="flow-card-step" data-i18n="flow_card1_step">Pentru clienți corporate</div>
+        <h3 data-i18n="flow_card1_title">Servicii și capabilități</h3>
+        <p data-i18n="flow_card1_body">Vedeți rapid ce tipuri de lucrări executăm și în ce zone tehnice putem interveni.</p>
+        <span class="flow-card-link" data-i18n="flow_card1_link">Deschide serviciile</span>
+      </a>
+      <a class="flow-card" href="proiecte.html">
+        <div class="flow-card-icon">02</div>
+        <div class="flow-card-step" data-i18n="flow_card2_step">Pentru validare</div>
+        <h3 data-i18n="flow_card2_title">Proiecte și referințe</h3>
+        <p data-i18n="flow_card2_body">Parcurgeți lucrări reprezentative și arhiva completă pentru a înțelege scara și tipologia proiectelor.</p>
+        <span class="flow-card-link" data-i18n="flow_card2_link">Vezi referințele</span>
+      </a>
+      <a class="flow-card" href="relatii-publice.html">
+        <div class="flow-card-icon">03</div>
+        <div class="flow-card-step" data-i18n="flow_card3_step">Pentru public</div>
+        <h3 data-i18n="flow_card3_title">Lucrări și sesizări de iluminat</h3>
+        <p data-i18n="flow_card3_body">Urmăriți proiectele de modernizare și starea sesizărilor într-un spațiu public separat de prezentarea companiei.</p>
+        <span class="flow-card-link" data-i18n="flow_card3_link">Intră în portal</span>
+      </a>
+      <a class="flow-card" href="#contact">
+        <div class="flow-card-icon">04</div>
+        <div class="flow-card-step" data-i18n="flow_card4_step">Pentru demarare</div>
+        <h3 data-i18n="flow_card4_title">Discuție și ofertare</h3>
+        <p data-i18n="flow_card4_body">Dacă aveți deja o lucrare sau o nevoie clară, mergeți direct la contact și cereți o discuție tehnică.</p>
+        <span class="flow-card-link" data-i18n="flow_card4_link">Contact rapid</span>
+      </a>
+    </div>
+  </div>
+</section>
 
 
 
 <!-- ===== SERVICES ===== -->
-<section class="services scroll-slice" id="servicii" data-depth="0.11">
+<section class="services" id="servicii">
+  <svg class="section-trace" viewBox="0 0 1180 700" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
+      <path d="M 1200 -20 V 100 H 940" />
+      <path d="M -20 720 V 600 H 260" />
+    </g>
+    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
+      <path d="M 1200 -20 V 100 H 940" />
+    </g>
+    <g fill="#D11F24">
+      <circle cx="940" cy="100" r="3"/>
+      <circle cx="260" cy="600" r="3"/>
+    </g>
+  </svg>
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Segment energizat</div>
-      <h2>Bobine, impulsuri, directie</h2>
-      <p>Aici curentul este vizibil. Lumina aluneca prin tub, iar pagina devine mai mult traseu decat prezentare clasica.</p>
+      <div class="eyebrow" data-i18n="svc_eyebrow">Servicii oferite</div>
+      <h2 data-i18n="svc_h2">Opt domenii, o singură echipă</h2>
+      <p data-i18n="svc_lede">De la proiectare la execuție și mentenanță — acoperim întregul ciclu al lucrărilor de infrastructură electrică și utilități.</p>
     </div>
-    <div class="svc-grid route-grid">
-      <article class="svc-card route-card">
-        <span>Iluminat public</span>
-        <strong>retele urbane</strong>
-      </article>
-      <article class="svc-card route-card">
-        <span>Instalatii electrice</span>
-        <strong>energie distribuita</strong>
-      </article>
-      <article class="svc-card route-card">
-        <span>Utilitati</span>
-        <strong>conducte tehnice</strong>
-      </article>
+    <div class="svc-grid" id="svcGrid">
+      <!-- cards injected by JS -->
     </div>
   </div>
 </section>
 
 <!-- ===== PROJECTS MAP ===== -->
-<section class="projects scroll-slice" id="proiecte" data-depth="0.15">
+<section class="projects" id="proiecte">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">Junctiune</div>
-      <h2>Alege directia in conducta</h2>
-      <p>La intersectie poti vira spre doua proiecte diferite sau poti continua pe magistrala principala catre restul website-ului.</p>
+      <div class="eyebrow" data-i18n="proj_eyebrow">Lucrări de referință</div>
+      <h2 data-i18n="proj_h2">Proiecte realizate în județul Mureș</h2>
+      <p data-i18n="proj_lede">O selecție din lucrările noastre, poziționate geografic. Treceți cursorul peste un punct pentru detalii.</p>
     </div>
-    <div class="branch-shell" id="branchShell">
-      <div class="branch-controls">
-        <button type="button" class="branch-btn active" data-branch-target="left">Viraj stanga</button>
-        <button type="button" class="branch-btn" data-branch-target="right">Viraj dreapta</button>
-        <a href="proiecte.html" class="branch-continue">Continua pe magistrala</a>
+    <div class="map-shell">
+      <div class="map-label"><span data-i18n-html="proj_map_full_label_html">Județul Mureș — <strong>18 din 1500+ proiecte</strong></span><span data-i18n="proj_map_updated">Actualizat 2026</span></div>
+      <div class="map-svg-wrap" id="mapWrap">
+        <svg viewBox="0 0 800 450" width="100%" height="100%" style="position:absolute;inset:0;" xmlns="http://www.w3.org/2000/svg">
+          <!-- Populated by JS: one elbow "wire" path per project, running from
+               the headquarters hub (center) out to that project's dot position,
+               so every line always connects two real points — see buildMapWires()
+               below, which replaces the old hand-placed decorative paths that
+               didn't line up with the actual dot positions. -->
+          <g id="wireLines"></g>
+        </svg>
       </div>
-      <div class="branch-stage">
-        <div class="branch-pipe branch-pipe-left active" data-branch-panel="left">
-          <div class="branch-panel">
-            <span class="branch-tag">Stanga</span>
-            <h3>Modernizare iluminat stradal</h3>
-            <p>Traseu urban cu retele de alimentare, puncte de lumina si control in teren.</p>
-            <a href="proiecte.html" class="branch-link">Vezi proiecte de iluminat</a>
-          </div>
-        </div>
-        <div class="branch-core">
-          <div class="branch-core-ring"></div>
-          <div class="branch-core-pulse"></div>
-        </div>
-        <div class="branch-pipe branch-pipe-right" data-branch-panel="right">
-          <div class="branch-panel">
-            <span class="branch-tag">Dreapta</span>
-            <h3>Retele electrice industriale</h3>
-            <p>Traseu tehnic pentru alimentari, tablouri si infrastructura de putere.</p>
-            <a href="proiecte.html" class="branch-link">Vezi proiecte industriale</a>
-          </div>
-        </div>
+      <div id="tooltip" class="tooltip">
+        <div class="tt-tag"></div>
+        <div class="tt-title"></div>
+        <div class="tt-desc"></div>
       </div>
+    </div>
+    <div class="projects-foot">
+      <p data-i18n="proj_footer_note">Toate lucrările sunt organizate și pe categorii, pentru o parcurgere mai rapidă.</p>
+      <a href="proiecte.html" class="btn btn-ghost" data-i18n="proj_archive_btn">Vezi arhiva completă →</a>
     </div>
   </div>
 </section>
 
 <!-- ===== ABOUT ===== -->
-<section class="about scroll-slice" id="despre" data-depth="0.19">
-  <div class="wrap route-finale">
+<section class="about" id="despre">
+  <svg class="section-trace" viewBox="0 0 1180 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
+      <path d="M 1200 -20 V 90 H 980" />
+      <path d="M -20 620 V 510 H 200" />
+    </g>
+    <g stroke="#D11F24" stroke-width="1.6" fill="none" class="flow">
+      <path d="M 1200 -20 V 90 H 980" />
+    </g>
+    <g fill="#D11F24">
+      <circle cx="980" cy="90" r="3"/>
+      <circle cx="200" cy="510" r="3"/>
+    </g>
+  </svg>
+  <div class="wrap about-grid">
     <div class="about-inner">
-      <div class="eyebrow">Camera tehnica</div>
-      <h2 style="margin-bottom:20px;">Traseul se deschide in detaliu</h2>
-      <p>Dupa ramificatie, fluxul poate continua spre paginile existente, unde poti pastra continutul complet sau il putem transforma in camere conectate ale aceleiasi retele.</p>
-      <div class="cert-row route-actions">
-        <a href="relatii-publice.html" class="cert-pill">Relatii publice</a>
-        <a href="raportare.html" class="cert-pill">Raportare</a>
-        <a href="sesizari.html" class="cert-pill">Sesizari</a>
+      <div class="eyebrow" data-i18n="about_eyebrow">Despre noi</div>
+      <h2 style="margin-bottom:20px;" data-i18n="about_h2">25 de ani de proiecte duse la bun sfârșit</h2>
+      <p data-i18n="about_p1">Proiectate şi dezvoltate pentru mediul concurenţial, produsele şi serviciile firmei au reuşit să se impună pe anumite segmente ale pieţei din judeţul Mureş şi din împrejurimi. De la înfiinţarea societăţii, în 1997, am dus la bun sfârşit peste 1500 de proiecte în domeniul instalaţiilor electrice, reţelelor de utilităţi şi infrastructurii industriale.</p>
+      <p data-i18n="about_p2">Beneficiarii care au intrat în portofoliul firmei noastre au făcut-o ca urmare a relaţiilor pe care echipa managerială le-a promovat în timp şi a unei strategii orientate constant către parteneriate pe termen lung.</p>
+      <div class="cert-row">
+        <span class="cert-pill">ISO 9001</span>
+        <span class="cert-pill">ISO 14001</span>
+        <span class="cert-pill">Autorizație de mediu</span>
+        <span class="cert-pill">ANRE B / E1 / E2 / C1A / C1B / C2B</span>
+        <span class="cert-pill">ANRSC clasa 2</span>
       </div>
     </div>
-    <div class="about-photo route-monitor">
-      <div class="route-monitor-grid">
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
+    <div class="about-photo" id="aboutSlideshow">
+      <!-- All 4 photos: Unsplash License (free for commercial use, no
+           attribution required), no identifiable people. Rotated
+           automatically by JS — see aboutSlideshow logic below. -->
+      <div class="about-slide active">
+        <img src="https://images.unsplash.com/photo-1693013112835-5f3128bb555f?auto=format&fit=crop&w=900&q=80" alt="Stație de transformare electrică">
+        <div class="about-slide-cap" data-i18n="about_slide1_cap">Stație de transformare electrică</div>
       </div>
+      <div class="about-slide">
+        <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80" alt="Piloni de înaltă tensiune">
+        <div class="about-slide-cap" data-i18n="about_slide2_cap">Rețele electrice de înaltă tensiune</div>
+      </div>
+      <div class="about-slide">
+        <img src="https://images.unsplash.com/photo-1677273459827-e212995b079d?auto=format&fit=crop&w=900&q=80" alt="Panouri fotovoltaice, vedere aeriană">
+        <div class="about-slide-cap" data-i18n="about_slide3_cap">Instalații fotovoltaice</div>
+      </div>
+      <div class="about-slide">
+        <img src="https://images.unsplash.com/photo-1709244596176-0e14b3b8a517?auto=format&fit=crop&w=900&q=80" alt="Conducte pe un șantier">
+        <div class="about-slide-cap" data-i18n="about_slide4_cap">Rețele de apă și canalizare</div>
+      </div>
+      <div class="about-dots"></div>
     </div>
   </div>
 </section>
 
 <!-- ===== CTA / CONTACT ===== -->
-<section class="cta scroll-slice" id="contact" data-depth="0.23">
+<section class="cta" id="contact">
   <svg class="section-trace" viewBox="0 0 1180 560" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <g stroke="#D3D4CE" stroke-width="1.4" fill="none">
       <path d="M 1200 -20 V 90 H 900" />
@@ -1054,9 +877,9 @@
   </svg>
   <div class="wrap cta-grid">
     <div>
-      <div class="eyebrow">Iesire din traseu</div>
-      <h2>Final de parcurs</h2>
-      <p class="lede">Homepage-ul functioneaza acum ca o calatorie prin cablu. Urmatorul pas poate fi sa transformam si subpaginile in camere legate de aceeasi retea.</p>
+      <div class="eyebrow" data-i18n="contact_eyebrow">Contact</div>
+      <h2 data-i18n="contact_h2">Aveți un proiect în derulare?</h2>
+      <p class="lede" data-i18n="contact_lede">Spuneți-ne despre lucrare — răspundem cu o estimare de timp și cost în cel mult 2 zile lucrătoare.</p>
       <div class="contact-list">
         <div class="row"><span class="k" data-i18n="contact_k_sediu">Sediu</span><span data-i18n="contact_v_sediu">Str. Căminului nr. 35, Târgu-Mureș, jud. Mureș</span></div>
         <div class="row"><span class="k" data-i18n="contact_k_telefon">Telefon</span><span data-i18n="contact_v_telefon">+40 265 253 997</span></div>
@@ -1065,12 +888,16 @@
       </div>
     </div>
     <div class="form-card">
-      <div class="route-endcard">
-        <div class="route-endline"></div>
-        <strong>Flux pregatit pentru extindere</strong>
-        <p>Ramificatia poate continua in proiecte, raportare si sesizari fara sa iesi din naratiunea 3D.</p>
-        <a href="proiecte.html" class="btn btn-primary" style="width:100%;justify-content:center;">Continua</a>
-      </div>
+      <form id="contactForm">
+        <label data-i18n="cf_name_label">Nume</label>
+        <input type="text" id="c-name" placeholder="Numele dvs." data-i18n-placeholder="cf_name_ph" required>
+        <label data-i18n="cf_email_label">Email</label>
+        <input type="email" id="c-email" placeholder="nume@companie.ro" data-i18n-placeholder="cf_email_ph" required>
+        <label data-i18n="cf_message_label">Detalii proiect</label>
+        <textarea id="c-message" placeholder="Descrieți pe scurt lucrarea..." data-i18n-placeholder="cf_message_ph" required></textarea>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="contactSubmitBtn" data-i18n="cf_submit_btn">Trimite solicitarea</button>
+      </form>
+      <div class="form-msg" id="contactMsg"></div>
     </div>
   </div>
 </section>
@@ -1161,7 +988,7 @@
       <p>1.5 INSTA GRUP își rezervă dreptul de a actualiza forma și conținutul site-ului fără o notificare prealabilă a vizitatorilor. Prezenții Termeni și Condiții pot fi de asemenea modificați fără o notificare prealabilă, intrând în vigoare din momentul publicării pe site.</p>
 
       <h4>2. Cine suntem</h4>
-      <p>2.1 Website-ul este proprietatea Insta Grup S.A., persoană juridică română, cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, <em>[înregistrată la Oficiul Registrului Comerțului sub nr. J.../.../..., având CIF RO...]</em> — de completat cu numărul de înregistrare și CIF-ul real.</p>
+      <p>2.1 Website-ul este proprietatea Insta Grup S.A., persoană juridică română, cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, înregistrată la Oficiul Registrului Comerțului sub nr. J1997000621267 (EUID: ROONRC.J1997000621267), având CUI 9808027.</p>
 
       <h4>3. Drepturi de autor</h4>
       <p>3.1 Drepturile de autor sau alte drepturi de proprietate intelectuală cu privire la textele, imaginile, graficele, elementele de grafică web, precum și orice alte materiale din interiorul acestui site sunt proprietatea exclusivă a INSTA GRUP, cu excepția cazului în care se menționează altfel.</p>
@@ -1206,7 +1033,7 @@
       <h4>11. Suport</h4>
       <p>11.1 Pentru orice întrebări sau sesizări, vă rugăm să ne contactați la adresa de e-mail <a href="mailto:office@insta-grup.ro">office@insta-grup.ro</a> sau la numărul de telefon 0265 253997.</p>
 
-      <div class="modal-foot">Prezenții Termeni și Condiții au fost actualizați în data de [de completat].</div>
+      <div class="modal-foot">Prezenții Termeni și Condiții au fost actualizați în data de 08.2026.</div>
     </div>
   </div>
 </div>
@@ -1239,7 +1066,7 @@
       <h4>5. Contact</h4>
       <p>5.1 Pentru întrebări legate de această politică, ne puteți contacta la <a href="mailto:office@insta-grup.ro">office@insta-grup.ro</a> sau la numărul de telefon 0265 253997. Pentru detalii privind prelucrarea datelor cu caracter personal, consultați Nota de informare privind protecția datelor cu caracter personal (GDPR) afișată pe site.</p>
 
-      <div class="modal-foot">Prezenta Politică de cookie-uri a fost actualizată în data de [de completat].</div>
+      <div class="modal-foot">Prezenta Politică de cookie-uri a fost actualizată în data de 08.2026.</div>
     </div>
   </div>
 </div>
@@ -1344,104 +1171,6 @@
     });
   })();
 
-  /* ============================================================
-     SCROLL CURRENT EXPERIENCE — turns the homepage into a wire
-     tunnel journey. As the user scrolls, a pulse travels through a
-     copper conduit in the background while each page section subtly
-     advances toward the viewer.
-     ============================================================ */
-  (function initCurrentTunnel(){
-    const ringsWrap = document.getElementById('currentStageRings');
-    const helixA = document.getElementById('currentStageHelixA');
-    const helixB = document.getElementById('currentStageHelixB');
-    const sparksWrap = document.getElementById('currentStageSparks');
-    const slices = Array.from(document.querySelectorAll('.scroll-slice'));
-    if (!ringsWrap || !helixA || !helixB || !sparksWrap || !slices.length) return;
-
-    for (let i = 0; i < 16; i += 1) {
-      const ring = document.createElement('div');
-      ring.className = 'wire-ring';
-      ring.style.setProperty('--size', `${220 + i * 88}px`);
-      ring.style.setProperty('--z', `${-1200 + i * 150}px`);
-      ringsWrap.appendChild(ring);
-    }
-
-    for (let i = 0; i < 12; i += 1) {
-      const coilA = document.createElement('div');
-      coilA.className = 'wire-coil';
-      coilA.style.setProperty('--coil-size', `${190 + i * 52}px`);
-      coilA.style.setProperty('--coil-x', `${26 + i * 3}px`);
-      coilA.style.setProperty('--coil-y', `${(i % 2 === 0 ? -1 : 1) * (10 + i * 3)}px`);
-      coilA.style.setProperty('--coil-z', `${-1100 + i * 165}px`);
-      coilA.style.setProperty('--coil-rot', `${i * 28}deg`);
-      helixA.appendChild(coilA);
-
-      const coilB = coilA.cloneNode(false);
-      helixB.appendChild(coilB);
-    }
-
-    for (let i = 0; i < 18; i += 1) {
-      const spark = document.createElement('span');
-      spark.className = 'wire-spark';
-      spark.style.setProperty('--spark-x', `${(i % 2 === 0 ? -1 : 1) * (12 + (i % 5) * 11)}px`);
-      spark.style.setProperty('--spark-y', `${220 - i * 34}px`);
-      spark.style.setProperty('--spark-z', `${-920 + i * 92}px`);
-      spark.style.setProperty('--spark-alpha', `${(0.22 + (i % 4) * 0.08).toFixed(2)}`);
-      sparksWrap.appendChild(spark);
-    }
-
-    slices.forEach((slice) => {
-      slice.style.setProperty('--slice-depth', slice.dataset.depth || '0.08');
-    });
-
-    let ticking = false;
-    function updateTunnel(){
-      ticking = false;
-      const doc = document.documentElement;
-      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
-      const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
-      const entryDistance = Math.max(window.innerHeight * 1.08, 1);
-      const entryProgress = Math.min(1, Math.max(0, window.scrollY / entryDistance));
-      document.body.style.setProperty('--scroll-progress', progress.toFixed(4));
-      document.body.style.setProperty('--entry-progress', entryProgress.toFixed(4));
-
-      slices.forEach((slice) => {
-        const rect = slice.getBoundingClientRect();
-        const local = Math.min(1, Math.max(0, (window.innerHeight * 0.82 - rect.top) / (window.innerHeight * 1.05)));
-        slice.style.setProperty('--slice-progress', local.toFixed(4));
-      });
-    }
-
-    function onScroll(){
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(updateTunnel);
-    }
-
-    updateTunnel();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateTunnel);
-  })();
-
-  (function initProjectBranch(){
-    const buttons = Array.from(document.querySelectorAll('.branch-btn'));
-    const panels = Array.from(document.querySelectorAll('[data-branch-panel]'));
-    if (!buttons.length || !panels.length) return;
-
-    function setBranch(target){
-      buttons.forEach((button) => {
-        button.classList.toggle('active', button.dataset.branchTarget === target);
-      });
-      panels.forEach((panel) => {
-        panel.classList.toggle('active', panel.dataset.branchPanel === target);
-      });
-    }
-
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => setBranch(button.dataset.branchTarget));
-    });
-  })();
-
 
   /* ============================================================
      "DESPRE NOI" PHOTO SLIDESHOW — simple auto-rotating crossfade
@@ -1494,11 +1223,11 @@
     {tagKey:"svc5_tag", titleKey:"svc5_title", itemKeys:["svc5_i1","svc5_i2","svc5_i3"], icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l2-3 3 6 2-4h7"/></svg>'},
     {tagKey:"svc6_tag", titleKey:"svc6_title", itemKeys:["svc6_i1","svc6_i2"], icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h16M4 8h10M4 16h13"/></svg>'},
     {tagKey:"svc7_tag", titleKey:"svc7_title", itemKeys:["svc7_i1","svc7_i2","svc7_i3"], icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>'},
+    {tagKey:"svc8_tag", titleKey:"svc8_title", itemKeys:["svc8_i1","svc8_i2"], icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg>'},
   ];
 
   const grid = document.getElementById('svcGrid');
   function renderServices(){
-    if (!grid) return;
     const wasActive = Array.from(grid.querySelectorAll('.svc-card')).map(c => c.classList.contains('active'));
     grid.innerHTML = '';
     services.forEach((s,i)=>{
@@ -1547,8 +1276,6 @@
   const mapWrap = document.getElementById('mapWrap');
   const tooltip = document.getElementById('tooltip');
   const wireLayer = document.getElementById('wireLines');
-
-  if (mapWrap && tooltip && wireLayer) {
 
   // Headquarters position — center of the map panel. All wire traces
   // originate here, matching the hub-dot's CSS position (left/top 50%).
@@ -1742,7 +1469,6 @@
       if (key) dot.setAttribute('aria-label', t(key));
     });
   });
-  }
 
   /* ============================================================
      CONTACT FORM (bottom of page) — sends a notification email to
@@ -1754,7 +1480,7 @@
   const contactMsg = document.getElementById('contactMsg');
   const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 
-  if (contactForm && contactMsg && contactSubmitBtn) contactForm.addEventListener('submit', async (e)=>{
+  contactForm.addEventListener('submit', async (e)=>{
     e.preventDefault();
     contactSubmitBtn.disabled = true;
     contactSubmitBtn.textContent = t('cf_submit_sending');
@@ -1807,13 +1533,26 @@
     document.body.appendChild(banner);
     requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('show')));
 
+    const bannerText = banner.querySelector('[data-i18n="cookie_banner_text"]');
+    const bannerLink = banner.querySelector('[data-i18n="cookie_banner_link"]');
+    const bannerAccept = banner.querySelector('[data-i18n="cookie_banner_accept"]');
+
+    function refreshBannerCopy(){
+      if (bannerText) bannerText.textContent = t('cookie_banner_text');
+      if (bannerLink) bannerLink.textContent = t('cookie_banner_link');
+      if (bannerAccept) bannerAccept.textContent = t('cookie_banner_accept');
+    }
+
     banner.querySelector('.cookie-banner-accept').addEventListener('click', () => {
       localStorage.setItem(STORAGE_KEY, 'true');
       banner.classList.remove('show');
       setTimeout(() => banner.remove(), 320);
     });
 
-    if (typeof applyTranslations === 'function') applyTranslations();
+    refreshBannerCopy();
+    window.addEventListener('langchange', () => {
+      if (document.body.contains(banner)) refreshBannerCopy();
+    });
   })();
 </script>
 

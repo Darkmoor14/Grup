@@ -1,7 +1,8 @@
 /* ================================================================
    i18n.js -- shared translation system for insta-grup.ro
    ----------------------------------------------------------------
-   Used by: index.html, proiecte.html, sesizari.html
+   Used by: index.html, proiecte.html, sesizari.html,
+            raportare.html, relatii-publice.html
    NOT used by: admin.html (stays Romanian-only, no switcher, by design)
 
    How it works:
@@ -43,7 +44,7 @@ ro: {
   nav_despre: "Despre noi",
   nav_servicii: "Servicii",
   nav_proiecte: "Proiecte",
-  nav_relatii: "Relații publice",
+  nav_relatii: "Iluminat public",
   nav_contact: "Contact",
   nav_modernizare: "Proiecte de modernizare",
   nav_cta: "Sesizări iluminat public",
@@ -57,12 +58,37 @@ ro: {
   hero_eyebrow: "Insta Grup S.A. · din 1997 · Târgu-Mureș",
   hero_h1_html: "Infrastructură&nbsp;<em>pentru generații</em>",
   hero_lede: "Proiectare și execuție de instalații electrice, rețele de utilități și infrastructură industrială pentru autorități publice, utilități și clienți corporate din județul Mureș.",
+  hero_cta_services: "Vezi serviciile",
+  hero_cta_contact: "Solicită o ofertă",
+  hero_cta_public: "Portal iluminat public",
+  hero_note: "Dacă sunteți rezident și vreți să urmăriți lucrări de modernizare sau să raportați o problemă de iluminat public, folosiți portalul dedicat de relații publice.",
 
   // Stats
   stat_1_label: "ani de activitate neîntreruptă în domeniu",
   stat_2_label: "proiecte finalizate în județul Mureș",
   stat_3_label: "atestări și certificări ISO / ANRE / ANRSC",
   stat_4_label: "clienți parteneri pe termen lung",
+
+  // Visitor paths
+  flow_eyebrow: "Parcurs rapid",
+  flow_h2: "Alegeți traseul potrivit de la început",
+  flow_lede: "Am separat mai clar partea comercială de utilitatea publică, ca să ajungeți mai repede exact unde aveți nevoie.",
+  flow_card1_step: "Pentru clienți corporate",
+  flow_card1_title: "Servicii și capabilități",
+  flow_card1_body: "Vedeți rapid ce tipuri de lucrări executăm și în ce zone tehnice putem interveni.",
+  flow_card1_link: "Deschide serviciile",
+  flow_card2_step: "Pentru validare",
+  flow_card2_title: "Proiecte și referințe",
+  flow_card2_body: "Parcurgeți lucrări reprezentative și arhiva completă pentru a înțelege scara și tipologia proiectelor.",
+  flow_card2_link: "Vezi referințele",
+  flow_card3_step: "Pentru public",
+  flow_card3_title: "Lucrări și sesizări de iluminat",
+  flow_card3_body: "Urmăriți proiectele de modernizare și starea sesizărilor într-un spațiu public separat de prezentarea companiei.",
+  flow_card3_link: "Intră în portal",
+  flow_card4_step: "Pentru demarare",
+  flow_card4_title: "Discuție și ofertare",
+  flow_card4_body: "Dacă aveți deja o lucrare sau o nevoie clară, mergeți direct la contact și cereți o discuție tehnică.",
+  flow_card4_link: "Contact rapid",
 
   // About
   about_eyebrow: "Despre noi",
@@ -76,7 +102,7 @@ ro: {
 
   // Services section head
   svc_eyebrow: "Servicii oferite",
-  svc_h2: "Șapte domenii, o singură echipă",
+  svc_h2: "Opt domenii, o singură echipă",
   svc_lede: "De la proiectare la execuție și mentenanță — acoperim întregul ciclu al lucrărilor de infrastructură electrică și utilități.",
   svc_hint: "Vezi detalii",
 
@@ -113,6 +139,9 @@ ro: {
   svc7_i1: "Instalaţii electrice de curenţi slabi",
   svc7_i2: "Instalaţii de comandă, control şi protecţii prin relee",
   svc7_i3: "Măsurarea rezistenţei de izolaţie şi continuitate",
+  svc8_tag: "Betoane", svc8_title: "Fabricare produselor din beton",
+  svc8_i1: "Cămine",
+  svc8_i2: "Capace de cămine",
 
   // Projects map section
   proj_eyebrow: "Lucrări de referință",
@@ -168,6 +197,7 @@ ro: {
   type_func_desc: "Bec ars, stâlp defect, cablu vizibil deteriorat sau altă problemă care nu reprezintă un pericol imediat.",
   type_accident_title: "Accident / urgență",
   type_accident_desc: "Stâlp căzut, cabluri sub tensiune expuse sau orice situație cu pericol imediat pentru siguranța publică.",
+  type_card_cta: "Sesizează →",
   emergency_title: "Pericol imediat? Sunați acum",
   emergency_desc: "Pentru urgențe cu risc pentru siguranța publică, sunați direct — nu așteptați procesarea formularului.",
   f_name_label: "Nume",
@@ -273,7 +303,7 @@ en: {
   nav_despre: "About us",
   nav_servicii: "Services",
   nav_proiecte: "Projects",
-  nav_relatii: "Public Relations",
+  nav_relatii: "Public Lighting",
   nav_contact: "Contact",
   nav_modernizare: "Modernization projects",
   nav_cta: "Report a streetlight issue",
@@ -286,11 +316,35 @@ en: {
   hero_eyebrow: "Insta Grup S.A. · since 1997 · Târgu-Mureș",
   hero_h1_html: "Infrastructure&nbsp;<em>for generations</em>",
   hero_lede: "Design and execution of electrical installations, utility networks and industrial infrastructure for public authorities, utility companies and corporate clients across Mureș County.",
+  hero_cta_services: "View services",
+  hero_cta_contact: "Request a quote",
+  hero_cta_public: "Public lighting portal",
+  hero_note: "If you're a resident looking to follow modernization works or report a public-lighting issue, use the dedicated public-relations portal.",
 
   stat_1_label: "years of continuous activity in the field",
   stat_2_label: "completed projects in Mureș County",
   stat_3_label: "ISO / ANRE / ANRSC attestations and certifications",
   stat_4_label: "long-term partner clients",
+
+  flow_eyebrow: "Quick path",
+  flow_h2: "Choose the right path from the start",
+  flow_lede: "We separated the commercial side more clearly from the public-utility side, so you can reach the right destination faster.",
+  flow_card1_step: "For corporate clients",
+  flow_card1_title: "Services and capabilities",
+  flow_card1_body: "Quickly see what kinds of works we execute and which technical areas we can cover.",
+  flow_card1_link: "Open services",
+  flow_card2_step: "For validation",
+  flow_card2_title: "Projects and references",
+  flow_card2_body: "Browse representative works and the full archive to understand the scale and types of projects delivered.",
+  flow_card2_link: "See references",
+  flow_card3_step: "For the public",
+  flow_card3_title: "Lighting works and reports",
+  flow_card3_body: "Track modernization works and the status of streetlight reports in a public space separate from the company presentation.",
+  flow_card3_link: "Open the portal",
+  flow_card4_step: "For starting a job",
+  flow_card4_title: "Discussion and quotation",
+  flow_card4_body: "If you already have a defined project or need, go straight to contact and request a technical discussion.",
+  flow_card4_link: "Quick contact",
 
   about_eyebrow: "About us",
   about_h2: "25 years of projects delivered",
@@ -302,7 +356,7 @@ en: {
   about_slide4_cap: "Water and sewage networks",
 
   svc_eyebrow: "Services offered",
-  svc_h2: "Seven domains, one team",
+  svc_h2: "Eight domains, one team",
   svc_lede: "From design to execution and maintenance — we cover the entire lifecycle of electrical infrastructure and utility works.",
   svc_hint: "See details",
 
@@ -338,6 +392,9 @@ en: {
   svc7_i1: "Low-current electrical installations",
   svc7_i2: "Relay-based control and protection installations",
   svc7_i3: "Insulation resistance and continuity testing",
+  svc8_tag: "Concrete", svc8_title: "Concrete product manufacturing",
+  svc8_i1: "Manholes",
+  svc8_i2: "Manhole covers",
 
   proj_eyebrow: "Reference works",
   proj_h2: "Projects completed in Mureș County",
@@ -391,6 +448,7 @@ en: {
   type_func_desc: "Burnt-out bulb, damaged pole, visibly damaged cable, or another issue that isn't an immediate danger.",
   type_accident_title: "Accident / emergency",
   type_accident_desc: "Fallen pole, exposed live cables, or any situation posing an immediate danger to public safety.",
+  type_card_cta: "Report →",
   emergency_title: "Immediate danger? Call now",
   emergency_desc: "For emergencies posing a risk to public safety, call directly — don't wait for the form to be processed.",
   f_name_label: "Name",
@@ -491,7 +549,7 @@ hu: {
   nav_despre: "Rólunk",
   nav_servicii: "Szolgáltatások",
   nav_proiecte: "Projektek",
-  nav_relatii: "Közkapcsolatok",
+  nav_relatii: "Közvilágítás",
   nav_contact: "Kapcsolat",
   nav_modernizare: "Korszerűsítési projektek",
   nav_cta: "Közvilágítási hibabejelentés",
@@ -504,11 +562,35 @@ hu: {
   hero_eyebrow: "Insta Grup S.A. · 1997 óta · Marosvásárhely",
   hero_h1_html: "Infrastruktúra&nbsp;<em>generációknak</em>",
   hero_lede: "Villamos hálózatok, közműhálózatok és ipari infrastruktúra tervezése és kivitelezése önkormányzatok, közműszolgáltatók és vállalati ügyfelek számára Maros megyében.",
+  hero_cta_services: "Szolgáltatások megtekintése",
+  hero_cta_contact: "Ajánlatkérés",
+  hero_cta_public: "Közvilágítási portál",
+  hero_note: "Ha lakosként korszerűsítési munkákat szeretne követni vagy közvilágítási hibát bejelenteni, használja a külön közkapcsolati portált.",
 
   stat_1_label: "év folyamatos tevékenység a szakterületen",
   stat_2_label: "befejezett projekt Maros megyében",
   stat_3_label: "ISO / ANRE / ANRSC tanúsítvány",
   stat_4_label: "hosszú távú partner ügyfél",
+
+  flow_eyebrow: "Gyors útvonal",
+  flow_h2: "Válassza ki rögtön a megfelelő irányt",
+  flow_lede: "Világosabban szétválasztottuk a kereskedelmi bemutatást a közhasznú felülettől, hogy gyorsabban eljusson a megfelelő helyre.",
+  flow_card1_step: "Vállalati ügyfeleknek",
+  flow_card1_title: "Szolgáltatások és kapacitások",
+  flow_card1_body: "Gyorsan áttekintheti, milyen munkákat végzünk és mely műszaki területeken tudunk beavatkozni.",
+  flow_card1_link: "Szolgáltatások megnyitása",
+  flow_card2_step: "Ellenőrzéshez",
+  flow_card2_title: "Projektek és referenciák",
+  flow_card2_body: "Nézze át a reprezentatív munkákat és a teljes archívumot, hogy lássa a projektek léptékét és típusait.",
+  flow_card2_link: "Referenciák megtekintése",
+  flow_card3_step: "A lakosság számára",
+  flow_card3_title: "Közvilágítási munkák és bejelentések",
+  flow_card3_body: "Kövesse a korszerűsítési munkákat és a közvilágítási bejelentések állapotát a cégbemutatótól elkülönített nyilvános felületen.",
+  flow_card3_link: "Portál megnyitása",
+  flow_card4_step: "Induló munkákhoz",
+  flow_card4_title: "Egyeztetés és árajánlat",
+  flow_card4_body: "Ha már van konkrét munkája vagy igénye, menjen közvetlenül a kapcsolatfelvételhez és kérjen műszaki egyeztetést.",
+  flow_card4_link: "Gyors kapcsolat",
 
   about_eyebrow: "Rólunk",
   about_h2: "25 év sikeresen lezárt projekt",
@@ -520,7 +602,7 @@ hu: {
   about_slide4_cap: "Víz- és csatornahálózatok",
 
   svc_eyebrow: "Szolgáltatásaink",
-  svc_h2: "Hét szakterület, egy csapat",
+  svc_h2: "Nyolc szakterület, egy csapat",
   svc_lede: "A tervezéstől a kivitelezésen át a karbantartásig — a villamos infrastruktúra és közműmunkák teljes körű lefedése.",
   svc_hint: "Részletek",
 
@@ -556,6 +638,9 @@ hu: {
   svc7_i1: "Gyengeáramú villamos berendezések",
   svc7_i2: "Relés vezérlési és védelmi berendezések",
   svc7_i3: "Szigetelési ellenállás és folytonosság mérése",
+  svc8_tag: "Beton", svc8_title: "Betontermékek gyártása",
+  svc8_i1: "Aknák",
+  svc8_i2: "Aknafedlapok",
 
   proj_eyebrow: "Referenciamunkák",
   proj_h2: "Maros megyében megvalósított projektek",
@@ -609,6 +694,7 @@ hu: {
   type_func_desc: "Kiégett izzó, sérült oszlop, láthatóan sérült kábel vagy más, nem közvetlen veszélyt jelentő probléma.",
   type_accident_title: "Baleset / vészhelyzet",
   type_accident_desc: "Ledőlt oszlop, szabadon lévő feszültség alatti kábelek vagy bármilyen, a közbiztonságot közvetlenül veszélyeztető helyzet.",
+  type_card_cta: "Bejelentés →",
   emergency_title: "Közvetlen veszély? Hívjon most",
   emergency_desc: "Közbiztonságot veszélyeztető vészhelyzet esetén hívjon közvetlenül — ne várja meg az űrlap feldolgozását.",
   f_name_label: "Név",

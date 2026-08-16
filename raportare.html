@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raportează o problemă — Insta Grup</title>
+<title>Raportează o problemă de iluminat public — Insta Grup Târgu-Mureș</title>
+<meta name="description" content="Raportați o defecțiune sau un accident la rețeaua de iluminat public din Târgu-Mureș. Sesizarea dumneavoastră primește un număr de înregistrare și este procesată de echipa Insta Grup.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -26,16 +27,16 @@
   h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-0.01em;}
   h2{font-size:clamp(28px,3.4vw,42px);color:var(--ink-900);}
 
-  header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
   nav{max-width:1180px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:76px;}
-  .logo-img{height:56px;width:auto;display:block;}
-  .navlinks{display:flex;gap:36px;font-size:14.5px;color:var(--ink-600);}
+  .logo-img{height:60px;width:auto;display:block;}
+  .navlinks{display:flex;gap:36px;font-size:15.5px;color:var(--ink-900);}
   .navlinks a:hover{color:var(--copper-600);}
-  .nav-cta{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--paper-000);background:var(--copper-500);padding:10px 20px;border-radius:2px;transition:background .2s;}
+  .nav-cta{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--paper-000);background:var(--copper-500);padding:10px 20px;border-radius:2px;transition:background .2s;}
   .nav-cta:hover{background:var(--copper-600);}
   .lang-switch{display:flex;align-items:center;gap:2px;border:1px solid var(--line-strong);border-radius:3px;padding:2px;}
   .lang-switch button{
-    font-family:var(--mono);font-size:11.5px;font-weight:500;letter-spacing:0.03em;
+    font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:0.03em;
     padding:5px 9px;border-radius:2px;border:none;background:transparent;
     color:var(--ink-400);cursor:pointer;transition:all .15s;
   }
@@ -50,14 +51,14 @@
     transform:translateX(-50%);
     width:230px;height:16px;
   }
-  .nav-dropdown-trigger{display:flex;align-items:center;gap:6px;font-family:inherit;font-size:14.5px;color:var(--ink-600);background:none;border:none;padding:0;cursor:pointer;transition:color .2s;}
+  .nav-dropdown-trigger{display:flex;align-items:center;gap:6px;font-family:inherit;font-size:15.5px;color:var(--ink-900);background:none;border:none;padding:0;cursor:pointer;transition:color .2s;}
   .nav-dropdown-trigger:hover{color:var(--copper-600);}
   .nav-dropdown.open .nav-dropdown-trigger{color:var(--copper-600);}
   .nav-dropdown-chevron{width:13px;height:13px;transition:transform .2s ease;flex-shrink:0;}
   .nav-dropdown.open .nav-dropdown-chevron{transform:rotate(180deg);}
   .nav-dropdown-menu{position:absolute;top:calc(100% + 16px);left:50%;transform:translateX(-50%) translateY(-6px);background:var(--paper-000);border:1px solid var(--line-strong);border-radius:4px;box-shadow:0 14px 32px rgba(20,24,29,0.14);min-width:230px;padding:8px;z-index:120;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease, transform .18s ease, visibility .18s;}
   .nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown.open .nav-dropdown-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);}
-  .nav-dropdown-menu a{display:block;padding:10px 12px;border-radius:3px;font-size:14px;color:var(--ink-700);transition:background .15s,color .15s;}
+  .nav-dropdown-menu a{display:block;padding:10px 12px;border-radius:3px;font-size:15px;color:var(--ink-700);transition:background .15s,color .15s;}
   .nav-dropdown-menu a:hover{background:var(--paper-050);color:var(--copper-600);}
   @media(max-width:860px){
     nav{flex-wrap:wrap;height:auto;padding:14px 20px;row-gap:12px;}
@@ -66,9 +67,9 @@
   }
 
   .section-head{max-width:640px;margin-bottom:56px;}
-  .section-head p{color:var(--ink-600);font-size:16.5px;margin-top:14px;}
+  .section-head p{color:var(--ink-900);font-size:17.5px;margin-top:14px;}
   .eyebrow{
-    font-family:var(--mono);font-size:12.5px;letter-spacing:0.14em;
+    font-family:var(--mono);font-size:13.5px;letter-spacing:0.14em;
     text-transform:uppercase;color:var(--copper-600);
     display:flex;align-items:center;gap:10px;margin-bottom:18px;
   }
@@ -94,9 +95,9 @@
   .btn-ghost:hover{border-color:var(--copper-500);color:var(--copper-600);}
   .btn:disabled{opacity:0.55;cursor:not-allowed;}
   /* ===== REPORT / TICKET FORM ===== */
-  .report{background:var(--paper-050);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden;}
+  .report{background:var(--paper-050);border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden;padding-top:140px;padding-bottom:72px;}
   .report .section-head h2{color:var(--ink-900);}
-  .report .section-head p{color:var(--ink-600);}
+  .report .section-head p{color:var(--ink-900);}
   .report-shell{
     background:var(--paper-000);
     border:1px solid var(--line-strong);
@@ -121,19 +122,56 @@
     cursor:pointer;
     transition:all .18s;
     background:var(--paper-000);
+    box-shadow:0 1px 3px rgba(20,24,29,0.06);
   }
-  .type-card:hover{border-color:var(--copper-500);}
+  .type-card:hover{border-color:var(--copper-500);box-shadow:0 4px 14px rgba(20,24,29,0.10);transform:translateY(-1px);}
   .type-card.selected{border-color:var(--copper-500);background:var(--copper-050);box-shadow:0 0 0 1px var(--copper-500);}
   .type-card .tc-icon{width:26px;height:26px;color:var(--copper-600);margin-bottom:14px;}
-  .type-card h4{font-size:15.5px;font-weight:600;margin-bottom:6px;color:var(--ink-900);}
-  .type-card p{font-size:13px;color:var(--ink-600);line-height:1.4;}
+  .type-card .tc-head{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .type-card h4{font-size:15.5px;font-weight:600;color:var(--ink-900);}
   .type-card.urgent .tc-icon{color:var(--signal-red);}
+  @keyframes tc-icon-bounce{
+    0%,100%{transform:translateY(0);}
+    30%{transform:translateY(-5px);}
+    50%{transform:translateY(0);}
+    70%{transform:translateY(-2px);}
+  }
+  .type-card:hover .tc-icon,.type-card.selected .tc-icon{animation:tc-icon-bounce .6s ease;}
+  .tc-cta{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:12.5px;letter-spacing:0.03em;
+    font-weight:500;color:#fff;background:var(--copper-500);
+    padding:9px 16px;border-radius:2px;
+    margin-top:16px;transition:background .18s,transform .18s;
+  }
+  .type-card:hover .tc-cta{background:var(--copper-600);transform:translateX(3px);}
+  .tc-info{position:relative;display:inline-flex;flex-shrink:0;}
+  .tc-info-icon{
+    width:17px;height:17px;border-radius:50%;
+    border:1px solid var(--line-strong);color:var(--ink-400);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    cursor:help;transition:all .15s;
+  }
+  .tc-info:hover .tc-info-icon,.tc-info.show .tc-info-icon{border-color:var(--copper-500);color:var(--copper-600);}
+  .tc-tooltip{
+    position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+    background:var(--paper-000);color:var(--ink-900);
+    padding:12px 14px;border-radius:3px;width:220px;
+    font-size:13px;line-height:1.4;font-weight:400;font-family:var(--body);
+    text-align:left;text-transform:none;letter-spacing:normal;
+    pointer-events:none;opacity:0;visibility:hidden;
+    transition:opacity .15s,visibility .15s;
+    z-index:10;box-shadow:0 8px 24px rgba(20,24,29,0.18);
+    border:1px solid var(--line-strong);
+  }
+  .tc-info:hover .tc-tooltip,.tc-info.show .tc-tooltip{opacity:1;visibility:visible;}
   @media(max-width:600px){.type-choice{grid-template-columns:1fr;}}
 
   .field{margin-bottom:20px;}
   .field label{
     font-family:var(--mono);font-size:11.5px;text-transform:uppercase;
-    letter-spacing:0.05em;color:var(--ink-600);
+    letter-spacing:0.05em;color:var(--ink-900);
     display:block;margin-bottom:8px;
   }
   .field label .opt{text-transform:none;letter-spacing:0;color:var(--ink-400);font-family:var(--body);}
@@ -159,10 +197,10 @@
   .emergency-note svg{width:20px;height:20px;color:var(--signal-red);flex-shrink:0;margin-top:2px;}
   .emergency-note .en-title{font-weight:600;font-size:14.5px;margin-bottom:4px;color:var(--signal-red);}
   .emergency-note .en-num{font-family:var(--mono);font-size:19px;color:var(--ink-900);margin-top:6px;}
-  .emergency-note p{font-size:13px;color:var(--ink-600);}
+  .emergency-note p{font-size:13px;color:var(--ink-900);}
 
   .report-actions{display:flex;gap:14px;margin-top:8px;justify-content:space-between;align-items:center;}
-  .back-link{font-family:var(--mono);font-size:13px;color:var(--ink-400);cursor:pointer;transition:color .2s;}
+  .back-link{font-family:var(--mono);font-size:13px;color:var(--ink-900);cursor:pointer;transition:color .2s;}
   .back-link:hover{color:var(--copper-600);}
 
   .form-msg{
@@ -176,10 +214,10 @@
   .report-step.active{display:block;}
 
 
-  footer{background:var(--paper-050);color:var(--ink-400);padding:32px 0;font-size:12.5px;border-top:1px solid var(--line);}
+  footer{background:var(--paper-050);color:var(--ink-900);padding:32px 0;font-size:12.5px;border-top:1px solid var(--line);}
   .footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center;}
   .footer-links{display:flex;gap:22px;flex-wrap:wrap;}
-  .footer-links button{font-family:var(--body);font-size:12.5px;color:var(--ink-400);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;transition:color .2s;}
+  .footer-links button{font-family:var(--body);font-size:12.5px;color:var(--ink-900);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;transition:color .2s;}
   .footer-links button:hover{color:var(--copper-600);}
 
   .modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(20,24,29,0.55);padding:40px 20px;overflow-y:auto;}
@@ -192,12 +230,12 @@
   .modal-body{padding:32px;max-height:70vh;overflow-y:auto;}
   .modal-body h4{font-family:var(--display);font-size:15.5px;color:var(--ink-900);margin-top:26px;margin-bottom:10px;}
   .modal-body h4:first-child{margin-top:0;}
-  .modal-body p{font-size:14.5px;color:var(--ink-600);margin-bottom:12px;line-height:1.65;}
+  .modal-body p{font-size:15.5px;color:var(--ink-900);margin-bottom:12px;line-height:1.65;}
   .modal-body ul{margin:0 0 14px 0;padding-left:20px;}
-  .modal-body li{font-size:14.5px;color:var(--ink-600);margin-bottom:8px;line-height:1.6;}
+  .modal-body li{font-size:15.5px;color:var(--ink-900);margin-bottom:8px;line-height:1.6;}
   .modal-body a{color:var(--copper-600);text-decoration:underline;text-underline-offset:2px;}
   .modal-body strong{color:var(--ink-900);font-weight:600;}
-  .modal-foot{padding:16px 32px 28px;font-size:12.5px;color:var(--ink-400);font-style:italic;}
+  .modal-foot{padding:16px 32px 28px;font-size:12.5px;color:var(--ink-900);font-style:italic;}
 
   @media(max-width:640px){
     nav{flex-wrap:wrap;height:auto;padding:14px 20px;row-gap:12px;}
@@ -232,26 +270,6 @@
     .cookie-banner{padding:16px 20px;flex-direction:column;align-items:stretch;gap:14px;}
     .cookie-banner-actions{justify-content:center;}
   }
-  /* 3D wire-theme overrides */
-  :root{--bg-0:#06111a;--text-main:#ebf5ff;--text-soft:#98acc1;--text-dim:#6f849a;}
-  html{background:var(--bg-0);}
-  body{background:radial-gradient(circle at 15% 18%, rgba(209,31,36,0.14), transparent 24%),radial-gradient(circle at 84% 12%, rgba(73,157,255,0.16), transparent 22%),linear-gradient(180deg, #07111a 0%, #091521 38%, #06111a 100%);color:var(--text-main);overflow-x:hidden;}
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;background:linear-gradient(rgba(126,170,212,0.07) 1px, transparent 1px),linear-gradient(90deg, rgba(126,170,212,0.07) 1px, transparent 1px);background-size:56px 56px;}
-  .wrap,header,.modal-overlay,.cookie-banner{position:relative;z-index:1;}
-  header{background:rgba(6,13,21,0.82)!important;border-color:rgba(126,170,212,0.14)!important;box-shadow:0 18px 50px rgba(0,0,0,0.25);}
-  .report,footer{background:transparent!important;}
-  .section-head h2,.type-card h4,.footer-links button,.navlinks a,.nav-dropdown-trigger,.nav-cta{color:var(--text-main)!important;}
-  .section-head p,.type-card p,.field label,.emergency-note p,.form-msg,.modal-body p,.modal-body li,.footer-inner span,.cookie-banner p{color:var(--text-soft)!important;}
-  .eyebrow,.step-indicator span.active,.en-title,.modal-body a,.cookie-banner a{color:#ff9f95!important;}
-  .report-shell,.type-card,.field input,.field textarea,.emergency-note,.nav-dropdown-menu,.modal-card,.cookie-banner,.lang-switch{background:linear-gradient(180deg, rgba(18,31,45,0.94), rgba(11,21,31,0.96))!important;border-color:rgba(126,170,212,0.15)!important;box-shadow:0 28px 70px rgba(0,0,0,0.34)!important;}
-  .report-shell{border-radius:28px!important;}
-  .type-card{border-radius:18px!important;transition:transform .2s ease,border-color .2s ease;}
-  .type-card:hover,.type-card.selected{transform:translateY(-4px);border-color:rgba(255,110,87,0.34)!important;}
-  .field input,.field textarea{color:var(--text-main)!important;}
-  .field input::placeholder,.field textarea::placeholder{color:var(--text-dim)!important;}
-  .btn-primary,.nav-cta,.lang-switch button.active{background:linear-gradient(135deg, #d11f24 0%, #ff6448 100%)!important;color:#fff!important;border-color:transparent!important;}
-  .btn-ghost{background:rgba(11,20,31,0.68)!important;border-color:rgba(126,170,212,0.18)!important;color:var(--text-main)!important;}
-  footer{background:rgba(4,10,16,0.76)!important;border-top:1px solid rgba(126,170,212,0.12)!important;}
 </style>
 </head>
 <body>
@@ -269,10 +287,10 @@
           <a href="index.html#proiecte" data-i18n="nav_proiecte">Proiecte</a>
           <a href="index.html#servicii" data-i18n="nav_servicii">Servicii</a>
           <a href="index.html#despre" data-i18n="nav_despre">Despre noi</a>
+          <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
         </div>
       </div>
-      <a href="relatii-publice.html" data-i18n="nav_relatii">Relații publice</a>
-      <a href="index.html#contact" data-i18n="nav_contact">Contact</a>
+      <a href="relatii-publice.html" data-i18n="nav_relatii">Iluminat public</a>
     </div>
     <div class="nav-right">
       <div class="lang-switch">
@@ -304,7 +322,6 @@
       <div class="eyebrow" data-i18n="report_eyebrow">Sesizări iluminat public</div>
       <h2 data-i18n="report_h2">Raportează o problemă</h2>
       <p data-i18n="report_lede">Sesizați o defecțiune de funcționalitate sau un accident/urgență la rețeaua de iluminat public. Fiecare sesizare primește un număr de înregistrare.</p>
-      <a href="relatii-publice.html#sesizari-iluminat" class="btn btn-ghost" style="margin-top:20px;" data-i18n="report_all_btn">Toate sesizările →</a>
     </div>
 
     <div class="report-shell">
@@ -319,13 +336,25 @@
         <div class="type-choice">
           <div class="type-card" data-type="Sesizare functionala" id="card-functionala">
             <svg class="tc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a5 5 0 0 0-3 9v2h6v-2a5 5 0 0 0-3-9z"/><path d="M10 17h4M11 20h2"/></svg>
-            <h4 data-i18n="type_func_title">Problemă de funcționalitate</h4>
-            <p data-i18n="type_func_desc">Bec ars, stâlp defect, cablu vizibil deteriorat sau altă problemă care nu reprezintă un pericol imediat.</p>
+            <div class="tc-head">
+              <h4 data-i18n="type_func_title">Problemă de funcționalitate</h4>
+              <div class="tc-info">
+                <span class="tc-info-icon">i</span>
+                <div class="tc-tooltip" data-i18n="type_func_desc">Bec ars, stâlp defect, cablu vizibil deteriorat sau altă problemă care nu reprezintă un pericol imediat.</div>
+              </div>
+            </div>
+            <div class="tc-cta" data-i18n="type_card_cta">Sesizează →</div>
           </div>
           <div class="type-card urgent" data-type="Anunt accident" id="card-accident">
             <svg class="tc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2 1 21h22L12 2z"/><path d="M12 9v5M12 17h.01"/></svg>
-            <h4 data-i18n="type_accident_title">Accident / urgență</h4>
-            <p data-i18n="type_accident_desc">Stâlp căzut, cabluri sub tensiune expuse sau orice situație cu pericol imediat pentru siguranța publică.</p>
+            <div class="tc-head">
+              <h4 data-i18n="type_accident_title">Accident / urgență</h4>
+              <div class="tc-info">
+                <span class="tc-info-icon">i</span>
+                <div class="tc-tooltip" data-i18n="type_accident_desc">Stâlp căzut, cabluri sub tensiune expuse sau orice situație cu pericol imediat pentru siguranța publică.</div>
+              </div>
+            </div>
+            <div class="tc-cta" data-i18n="type_card_cta">Sesizează →</div>
           </div>
         </div>
       </div>
@@ -372,6 +401,9 @@
         <div class="form-msg" id="formMsg"></div>
       </div>
     </div>
+    <div style="text-align:center;margin-top:24px;margin-bottom:24px;">
+      <a href="relatii-publice.html#sesizari-iluminat" class="btn btn-ghost" data-i18n="report_all_btn">Toate sesizările →</a>
+    </div>
   </div>
 </section>
 
@@ -395,7 +427,7 @@
       <button class="modal-close" onclick="closeModal('gdprModal')" aria-label="Închide">✕</button>
     </div>
     <div class="modal-body">
-      <p class="legal-ro-note" data-i18n="legal_ro_only_note" style="font-style:italic;color:var(--ink-400);margin-bottom:18px;">Acest document este disponibil oficial doar în limba română.</p>
+      <p class="legal-ro-note" data-i18n="legal_ro_only_note" style="font-style:italic;color:var(--ink-900);margin-bottom:18px;">Acest document este disponibil oficial doar în limba română.</p>
       <h4>1. Cine suntem</h4>
       <p>Insta Grup S.A., cu sediul social în Târgu-Mureș, str. Căminului nr. 35, jud. Mureș, cod poștal 540243, este operator de date cu caracter personal atunci când prelucrează datele persoanelor care ne contactează, ale reprezentanților clienților și partenerilor noștri, precum și ale altor persoane cu care intrăm în contact în activitatea de proiectare și execuție a instalațiilor electrice și a lucrărilor conexe.</p>
       <p>Date de contact: <a href="mailto:office@insta-grup.ro">office@insta-grup.ro</a>, tel. 0265 253997.</p>
@@ -417,7 +449,7 @@
       <button class="modal-close" onclick="closeModal('tcModal')" aria-label="Închide">✕</button>
     </div>
     <div class="modal-body">
-      <p class="legal-ro-note" data-i18n="legal_ro_only_note" style="font-style:italic;color:var(--ink-400);margin-bottom:18px;">Acest document este disponibil oficial doar în limba română.</p>
+      <p class="legal-ro-note" data-i18n="legal_ro_only_note" style="font-style:italic;color:var(--ink-900);margin-bottom:18px;">Acest document este disponibil oficial doar în limba română.</p>
       <p>Prin accesarea și utilizarea website-ului www.insta-grup.ro confirmați faptul că ați luat la cunoștință Termenii și Condițiile publicate pe pagina principală a site-ului, îi acceptați, îi înțelegeți și îi respectați pe deplin.</p>
       <p>Pentru textul complet al Termenilor și Condițiilor, vă rugăm consultați pagina principală a site-ului.</p>
       <h4>Suport</h4>
@@ -435,7 +467,7 @@
       <button class="modal-close" onclick="closeModal('cookieModal')" aria-label="Închide">✕</button>
     </div>
     <div class="modal-body">
-      <p class="legal-ro-note" data-i18n="legal_ro_only_note" style="font-style:italic;color:var(--ink-400);margin-bottom:18px;">Acest document este disponibil oficial doar în limba română.</p>
+      <p class="legal-ro-note" data-i18n="legal_ro_only_note" style="font-style:italic;color:var(--ink-900);margin-bottom:18px;">Acest document este disponibil oficial doar în limba română.</p>
       <h4>Ce stocăm</h4>
       <p>Site-ul www.insta-grup.ro <strong>nu folosește cookie-uri de marketing, publicitate sau urmărire</strong>. Reținem local, în browser, doar preferința dumneavoastră de limbă (RO/EN/HU) și, exclusiv pe pagina de administrare folosită de personalul INSTA GRUP, sesiunea de autentificare tehnică furnizată de furnizorul nostru de infrastructură. Ambele sunt strict necesare pentru funcționarea site-ului.</p>
       <h4>Resurse de la terți</h4>
@@ -523,6 +555,24 @@
     }
   }
 
+  // Push notification to every staff device that has installed the
+  // Admin PWA and enabled notifications there (see admin.html). This
+  // is the free replacement for the WhatsApp notification above.
+  async function sendPushNotification(payload){
+    try {
+      const { error } = await supabaseClient.functions.invoke('send-push', {
+        body: {
+          title: 'Sesizare nouă',
+          body: `${payload.ticket_number} — ${payload.address}`,
+          url: 'admin.html?ticket=' + encodeURIComponent(payload.ticket_number),
+        },
+      });
+      if (error) console.error('send-push failed:', error);
+    } catch (err) {
+      console.error('send-push call failed:', err);
+    }
+  }
+
   /* ============================================================
      TICKET REPORT FORM
      ============================================================ */
@@ -587,6 +637,22 @@
   });
   backBtn.addEventListener('click', goToStep1);
 
+  // Info ("i") icon on each type card: tapping it shows the tooltip on
+  // touch devices (hover alone doesn't work there) without also
+  // triggering the card's own click handler above, which would jump
+  // straight to step 2. Tapping anywhere else closes any open tooltip.
+  document.querySelectorAll('.tc-info').forEach(info => {
+    info.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const wasOpen = info.classList.contains('show');
+      document.querySelectorAll('.tc-info.show').forEach(i => i.classList.remove('show'));
+      if (!wasOpen) info.classList.add('show');
+    });
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.tc-info.show').forEach(i => i.classList.remove('show'));
+  });
+
   // Handles the actual ticket submission: calls the create_ticket()
   // Postgres function (via Supabase RPC) instead of inserting directly,
   // since anonymous visitors are not allowed to read back rows from the
@@ -648,7 +714,15 @@
       description: payload.description || '-',
     };
     sendNotification(notifyPayload);
-    sendWhatsAppNotification(notifyPayload);
+    // WhatsApp notifications turned off — Meta bills each one as a
+    // billable Utility template message, and Adam decided the
+    // recurring cost isn't worth it. Email notifications above are
+    // unaffected and continue exactly as before. All the WhatsApp
+    // setup (Edge Function, secrets, approved template) is still in
+    // place if this ever needs to be switched back on — just
+    // uncomment the line below.
+    // sendWhatsAppNotification(notifyPayload);
+    sendPushNotification(notifyPayload); // free — replaces WhatsApp for staff alerts
 
     ticketForm.reset();
     ticketForm.style.display = 'none';
@@ -684,14 +758,27 @@
     document.body.appendChild(banner);
     requestAnimationFrame(() => requestAnimationFrame(() => banner.classList.add('show')));
 
+    const bannerText = banner.querySelector('[data-i18n="cookie_banner_text"]');
+    const bannerLink = banner.querySelector('[data-i18n="cookie_banner_link"]');
+    const bannerAccept = banner.querySelector('[data-i18n="cookie_banner_accept"]');
+
+    function refreshBannerCopy(){
+      if (typeof t !== 'function') return;
+      if (bannerText) bannerText.textContent = t('cookie_banner_text');
+      if (bannerLink) bannerLink.textContent = t('cookie_banner_link');
+      if (bannerAccept) bannerAccept.textContent = t('cookie_banner_accept');
+    }
+
     banner.querySelector('.cookie-banner-accept').addEventListener('click', () => {
       localStorage.setItem(STORAGE_KEY, 'true');
       banner.classList.remove('show');
       setTimeout(() => banner.remove(), 320);
     });
 
-    if (typeof applyTranslations === 'function') applyTranslations();
-    window.addEventListener('langchange', () => { if (document.body.contains(banner)) applyTranslations(); });
+    refreshBannerCopy();
+    window.addEventListener('langchange', () => {
+      if (document.body.contains(banner)) refreshBannerCopy();
+    });
   })();
 </script>
 
