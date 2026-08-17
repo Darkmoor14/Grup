@@ -187,7 +187,10 @@
   .overview-table td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle;color:var(--ink-900);}
   .overview-table tr:last-child td{border-bottom:none;}
   .overview-table tr.done-row{opacity:0.7;}
-  .overview-table tr.urgent-row td:not(:first-child){color:var(--signal-red);}
+  .overview-table tr.urgent-row{background:var(--signal-red-bg);}
+  .overview-table tr.urgent-row td{border-bottom-color:rgba(181,80,47,0.25);}
+  .overview-table tr.urgent-row td:first-child{border-left:3px solid var(--signal-red);}
+  .overview-table tr.urgent-row td:not(:first-child){color:var(--signal-red);font-weight:600;}
   .overview-table td.aging-date{color:var(--signal-orange);font-weight:600;}
   .status-bubble{width:11px;height:11px;border-radius:50%;display:block;}
   .status-bubble.active{background:var(--signal-orange);}
@@ -207,8 +210,35 @@
   .chart-card canvas{max-height:170px;}
   .chart-stat{font-family:var(--mono);font-size:20px;color:var(--copper-600);text-align:center;margin-top:10px;}
   @media(max-width:900px){
-    .overview-table-wrap{max-height:320px;}
+    .overview-table-wrap{max-height:none;overflow-x:visible;}
     .overview-sidebar{flex-direction:column;}
+
+    /* Mobile card view — the standard fix for the "user doesn't know
+       the table is scrollable" failure mode that plain horizontal
+       scrolling has. Below this width, every row becomes its own
+       small card with inline labels instead of a wide table needing
+       a sideways swipe nobody's told about. */
+    .overview-table thead{display:none;}
+    .overview-table, .overview-table tbody, .overview-table tr, .overview-table td{display:block;width:100%;}
+    .overview-table{white-space:normal;}
+    .overview-table tr{
+      border:1px solid var(--line-strong);border-radius:4px;
+      margin-bottom:10px;padding:4px 12px;background:var(--paper-000);
+    }
+    .overview-table tr.urgent-row td:first-child{border-left:none;} /* the left-edge accent doesn't translate to card layout */
+    .overview-table td{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      padding:8px 0;border-bottom:1px solid var(--line);text-align:right;
+    }
+    .overview-table tr:last-child td, .overview-table td:last-child{border-bottom:none;}
+    .overview-table td::before{
+      content:attr(data-label);
+      font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;
+      color:var(--ink-600);flex-shrink:0;text-align:left;
+    }
+    .overview-table td:first-child{justify-content:flex-start;}
+    .overview-table td.overview-empty{display:block;text-align:center;padding:24px;}
+    .overview-table td.overview-empty::before{content:none;}
   }
   .admin-panel.active{display:block;}
 
@@ -464,8 +494,8 @@
         </div>
         <div class="overview-sidebar">
           <div class="chart-card">
-            <h4>Active vs. rezolvate</h4>
-            <canvas id="statusPieChart"></canvas>
+            <h4>Sesizări pe lună</h4>
+            <canvas id="ticketVolumeChart"></canvas>
           </div>
           <div class="chart-card">
             <h4>Timp mediu de rezolvare</h4>
@@ -1286,14 +1316,14 @@
       const isAging = !isDone && daysOpen > AGING_THRESHOLD_DAYS;
       return `
         <tr class="${isDone ? 'done-row' : ''} ${isUrgent && !isDone ? 'urgent-row' : ''}">
-          <td><span class="status-bubble ${isDone ? 'done' : 'active'}" title="${isDone ? 'Rezolvat' : 'Activ'}"></span></td>
-          <td class="${isAging ? 'aging-date' : ''}" title="${isAging ? 'Deschis de peste ' + AGING_THRESHOLD_DAYS + ' zile' : ''}">${isAging ? '⚠ ' : ''}${fmtDateOnly(t.submitted_on)}</td>
-          <td class="overview-ticket-num"><a href="#" class="ticket-link" data-ticket-id="${t.id}">${escapeHtml(t.ticket_number || '—')}</a></td>
-          <td>${isUrgent ? 'Accident' : 'Funcțional'}</td>
-          <td>${escapeHtml(t.name || '—')}</td>
-          <td>${escapeHtml(t.phone || '—')}</td>
-          <td>${escapeHtml(t.address || '—')}</td>
-          <td>${isDone ? fmtDateOnly(t.resolved_on) : '—'}</td>
+          <td data-label="Stare"><span class="status-bubble ${isDone ? 'done' : 'active'}" title="${isDone ? 'Rezolvat' : 'Activ'}"></span></td>
+          <td data-label="Data" class="${isAging ? 'aging-date' : ''}" title="${isAging ? 'Deschis de peste ' + AGING_THRESHOLD_DAYS + ' zile' : ''}">${isAging ? '⚠ ' : ''}${fmtDateOnly(t.submitted_on)}</td>
+          <td data-label="Nr." class="overview-ticket-num"><a href="#" class="ticket-link" data-ticket-id="${t.id}">${escapeHtml(t.ticket_number || '—')}</a></td>
+          <td data-label="Tip">${isUrgent ? 'Accident' : 'Funcțional'}</td>
+          <td data-label="Nume">${escapeHtml(t.name || '—')}</td>
+          <td data-label="Telefon">${escapeHtml(t.phone || '—')}</td>
+          <td data-label="Adresă">${escapeHtml(t.address || '—')}</td>
+          <td data-label="Rezolvat">${isDone ? fmtDateOnly(t.resolved_on) : '—'}</td>
         </tr>
       `;
     }).join('');
@@ -1371,13 +1401,23 @@
   });
 
   /* ============================================================
-     OVERVIEW CHARTS — active vs. resolved counts, and average time
-     to resolution (overall + by ticket type). Chart instances are
+     OVERVIEW CHARTS — ticket volume by month, and average time to
+     resolution (overall + by ticket type). Chart instances are
      destroyed and recreated on every refresh rather than updated in
      place, since refreshes here are infrequent (only on load / after
      an edit) and this keeps the logic simple.
+
+     The pie chart that used to live here (active vs. resolved counts)
+     was dropped: once the priority cards existed, it was just
+     re-showing the same "Active" number a second time on the same
+     page in a weaker visual form — pie charts encode values in angle
+     and area, which people read far less precisely than the plain
+     number a card already shows. A ticket-volume-by-month chart earns
+     its place instead, since it's the one piece of information
+     nowhere else on this page shows: whether ticket volume is
+     climbing, flat, or shrinking over time.
      ============================================================ */
-  let statusPieChartInstance = null;
+  let ticketVolumeChartInstance = null;
   let resolutionTimeChartInstance = null;
 
   function formatDuration(hours){
@@ -1391,26 +1431,41 @@
 
   function renderOverviewCharts(){
     const visible = allTickets.filter(t => !t.archived && matchesYear(t, ticketYearFilter));
-    const activeCount = visible.filter(t => t.status !== 'Terminat').length;
-    const doneCount = visible.filter(t => t.status === 'Terminat').length;
 
-    const pieCanvas = document.getElementById('statusPieChart');
-    if (statusPieChartInstance) statusPieChartInstance.destroy();
-    if (typeof Chart !== 'undefined' && pieCanvas) {
-      statusPieChartInstance = new Chart(pieCanvas, {
-        type: 'pie',
+    const MONTH_NAMES = ['Ian','Feb','Mar','Apr','Mai','Iun','Iul','Aug','Sep','Oct','Noi','Dec'];
+    const monthCounts = {}; // 'YYYY-MM' -> count
+    visible.forEach(t => {
+      if (!t.submitted_on) return;
+      const d = new Date(t.submitted_on);
+      const key = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      monthCounts[key] = (monthCounts[key] || 0) + 1;
+    });
+    const sortedKeys = Object.keys(monthCounts).sort();
+    const volumeLabels = sortedKeys.map(k => {
+      const [y, m] = k.split('-');
+      return MONTH_NAMES[parseInt(m, 10) - 1] + ' ' + y.slice(2);
+    });
+    const volumeData = sortedKeys.map(k => monthCounts[k]);
+
+    const volumeCanvas = document.getElementById('ticketVolumeChart');
+    if (ticketVolumeChartInstance) ticketVolumeChartInstance.destroy();
+    if (typeof Chart !== 'undefined' && volumeCanvas) {
+      ticketVolumeChartInstance = new Chart(volumeCanvas, {
+        type: 'bar',
         data: {
-          labels: ['Active (' + activeCount + ')', 'Rezolvate (' + doneCount + ')'],
+          labels: volumeLabels,
           datasets: [{
-            data: [activeCount, doneCount],
-            backgroundColor: ['#B5792F', '#3E7A57'],
-            borderWidth: 0,
+            data: volumeData,
+            backgroundColor: '#D11F24',
+            borderRadius: 3,
           }],
         },
         options: {
           responsive: true,
-          plugins: {
-            legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } },
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { precision: 0, font: { size: 10 } } },
+            x: { ticks: { font: { size: 10 } } },
           },
         },
       });
@@ -1804,11 +1859,25 @@
   // ticket list narrowed to exactly what the card is describing,
   // rather than just scrolling to a general area and leaving the
   // user to hunt for the relevant rows themselves.
+  // If a priority card's narrowed filter matches exactly one ticket,
+  // skip the intermediate list entirely and jump straight to that
+  // ticket's editable card — same deep-link mechanism already used
+  // for ticket-number links and push notifications. With 2+ matches,
+  // a real judgment call is needed about which one matters most, so
+  // that case still falls back to the filtered list as before.
   function openTicketsWith({ narrowAging = false, narrowType = null } = {}){
     agingOnlyFilter = narrowAging;
     typeOnlyFilter = narrowType;
-    updateActiveNarrowFilterUI();
     if (ticketSearchBox) { ticketSearchBox.value = ''; ticketSearchQuery = ''; }
+    activeFilter = 'Ongoing';
+
+    const matches = getFilteredTickets();
+    if (matches.length === 1) {
+      goToTicket(matches[0].id); // this itself resets agingOnlyFilter/typeOnlyFilter — desired once we've landed
+      return;
+    }
+
+    updateActiveNarrowFilterUI();
     setTicketFilter('Ongoing');
     openAdminTab('tickets');
   }
