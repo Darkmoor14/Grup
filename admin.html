@@ -209,36 +209,48 @@
   .chart-card h4{font-size:12.5px;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.03em;color:var(--ink-600);margin-bottom:14px;font-weight:500;}
   .chart-card canvas{max-height:170px;}
   .chart-stat{font-family:var(--mono);font-size:20px;color:var(--copper-600);text-align:center;margin-top:10px;}
-  @media(max-width:900px){
-    .overview-table-wrap{max-height:none;overflow-x:visible;}
-    .overview-sidebar{flex-direction:column;}
+  /* ===== MOBILE/TABLET TICKET CARDS =====
+     Not a CSS reflow of the desktop table — a genuinely different
+     layout, purpose-built for someone glancing at a phone in the
+     field, not reading a spreadsheet. Leads with the address (the one
+     field that actually matters for "do I need to go there"), keeps
+     ticket number/phone/date as small secondary text, and makes the
+     entire card a large tap target instead of a small text link —
+     thumb-friendly, not mouse-precise. Built from the same sorted,
+     filtered data as the desktop table, so the two never drift out
+     of sync with each other. */
+  .overview-cards-mobile{display:none;flex-direction:column;gap:10px;}
+  .ov-card{
+    display:block;width:100%;text-align:left;cursor:pointer;
+    border:1px solid var(--line-strong);border-radius:6px;
+    background:var(--paper-000);padding:14px 16px;margin:0;
+    border-left:4px solid var(--signal-orange);
+    font-family:var(--body);
+  }
+  .ov-card.done{border-left-color:var(--signal-green);opacity:0.75;}
+  .ov-card.urgent{border-left-color:var(--signal-red);background:var(--signal-red-bg);}
+  .ov-card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .ov-card-top .status-bubble{flex-shrink:0;}
+  .ov-card-type{
+    font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:0.04em;
+    color:var(--ink-600);
+  }
+  .ov-card.urgent .ov-card-type{color:var(--signal-red);font-weight:600;}
+  .ov-card-num{
+    margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--copper-600);font-weight:600;
+  }
+  .ov-card-address{font-size:16px;font-weight:600;color:var(--ink-900);line-height:1.35;margin-bottom:6px;}
+  .ov-card-meta{
+    display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+    font-size:12.5px;color:var(--ink-600);
+  }
+  .ov-card-meta .aging{color:var(--signal-orange);font-weight:600;}
+  .ov-card-resolved{margin-top:8px;font-size:12px;color:var(--ink-600);}
 
-    /* Mobile card view — the standard fix for the "user doesn't know
-       the table is scrollable" failure mode that plain horizontal
-       scrolling has. Below this width, every row becomes its own
-       small card with inline labels instead of a wide table needing
-       a sideways swipe nobody's told about. */
-    .overview-table thead{display:none;}
-    .overview-table, .overview-table tbody, .overview-table tr, .overview-table td{display:block;width:100%;}
-    .overview-table{white-space:normal;}
-    .overview-table tr{
-      border:1px solid var(--line-strong);border-radius:4px;
-      margin-bottom:10px;padding:4px 12px;background:var(--paper-000);
-    }
-    .overview-table tr.urgent-row td:first-child{border-left:none;} /* the left-edge accent doesn't translate to card layout */
-    .overview-table td{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      padding:8px 0;border-bottom:1px solid var(--line);text-align:right;
-    }
-    .overview-table tr:last-child td, .overview-table td:last-child{border-bottom:none;}
-    .overview-table td::before{
-      content:attr(data-label);
-      font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.04em;
-      color:var(--ink-600);flex-shrink:0;text-align:left;
-    }
-    .overview-table td:first-child{justify-content:flex-start;}
-    .overview-table td.overview-empty{display:block;text-align:center;padding:24px;}
-    .overview-table td.overview-empty::before{content:none;}
+  @media(max-width:900px){
+    .overview-table-wrap{display:none;}
+    .overview-cards-mobile{display:flex;}
+    .overview-sidebar{flex-direction:column;}
   }
   .admin-panel.active{display:block;}
 
@@ -492,6 +504,7 @@
             <tbody id="overviewTableBody"></tbody>
           </table>
         </div>
+        <div class="overview-cards-mobile" id="overviewCardsMobile"></div>
         <div class="overview-sidebar">
           <div class="chart-card">
             <h4>Sesizări pe lună</h4>
@@ -1300,10 +1313,12 @@
 
   function renderOverviewTable(){
     const tbody = document.getElementById('overviewTableBody');
+    const cardsWrap = document.getElementById('overviewCardsMobile');
     const visible = allTickets.filter(t => !t.archived && matchesYear(t, ticketYearFilter));
 
     if (visible.length === 0) {
       tbody.innerHTML = '<tr><td colspan="8" class="overview-empty">Nicio sesizare de afișat.</td></tr>';
+      if (cardsWrap) cardsWrap.innerHTML = '<div class="overview-empty">Nicio sesizare de afișat.</div>';
       return;
     }
 
@@ -1316,17 +1331,54 @@
       const isAging = !isDone && daysOpen > AGING_THRESHOLD_DAYS;
       return `
         <tr class="${isDone ? 'done-row' : ''} ${isUrgent && !isDone ? 'urgent-row' : ''}">
-          <td data-label="Stare"><span class="status-bubble ${isDone ? 'done' : 'active'}" title="${isDone ? 'Rezolvat' : 'Activ'}"></span></td>
-          <td data-label="Data" class="${isAging ? 'aging-date' : ''}" title="${isAging ? 'Deschis de peste ' + AGING_THRESHOLD_DAYS + ' zile' : ''}">${isAging ? '⚠ ' : ''}${fmtDateOnly(t.submitted_on)}</td>
-          <td data-label="Nr." class="overview-ticket-num"><a href="#" class="ticket-link" data-ticket-id="${t.id}">${escapeHtml(t.ticket_number || '—')}</a></td>
-          <td data-label="Tip">${isUrgent ? 'Accident' : 'Funcțional'}</td>
-          <td data-label="Nume">${escapeHtml(t.name || '—')}</td>
-          <td data-label="Telefon">${escapeHtml(t.phone || '—')}</td>
-          <td data-label="Adresă">${escapeHtml(t.address || '—')}</td>
-          <td data-label="Rezolvat">${isDone ? fmtDateOnly(t.resolved_on) : '—'}</td>
+          <td><span class="status-bubble ${isDone ? 'done' : 'active'}" title="${isDone ? 'Rezolvat' : 'Activ'}"></span></td>
+          <td class="${isAging ? 'aging-date' : ''}" title="${isAging ? 'Deschis de peste ' + AGING_THRESHOLD_DAYS + ' zile' : ''}">${isAging ? '⚠ ' : ''}${fmtDateOnly(t.submitted_on)}</td>
+          <td class="overview-ticket-num"><a href="#" class="ticket-link" data-ticket-id="${t.id}">${escapeHtml(t.ticket_number || '—')}</a></td>
+          <td>${isUrgent ? 'Accident' : 'Funcțional'}</td>
+          <td>${escapeHtml(t.name || '—')}</td>
+          <td>${escapeHtml(t.phone || '—')}</td>
+          <td>${escapeHtml(t.address || '—')}</td>
+          <td>${isDone ? fmtDateOnly(t.resolved_on) : '—'}</td>
         </tr>
       `;
     }).join('');
+
+    // Mobile/tablet card list — same data, deliberately different
+    // layout: address leads (that's what determines whether a
+    // technician needs to go there), ticket number/phone/date are
+    // secondary, and the whole card is one large tap target rather
+    // than a small text link.
+    if (cardsWrap) {
+      cardsWrap.innerHTML = ordered.map(t => {
+        const isDone = t.status === 'Terminat';
+        const isUrgent = t.type === 'Anunt accident';
+        const daysOpen = t.submitted_on ? (Date.now() - new Date(t.submitted_on)) / (1000 * 60 * 60 * 24) : 0;
+        const isAging = !isDone && daysOpen > AGING_THRESHOLD_DAYS;
+        return `
+          <button type="button" class="ov-card ${isDone ? 'done' : ''} ${isUrgent && !isDone ? 'urgent' : ''}" data-ticket-id="${t.id}">
+            <div class="ov-card-top">
+              <span class="status-bubble ${isDone ? 'done' : 'active'}"></span>
+              <span class="ov-card-type">${isUrgent ? 'Accident' : 'Funcțional'}</span>
+              <span class="ov-card-num">${escapeHtml(t.ticket_number || '—')}</span>
+            </div>
+            <div class="ov-card-address">${escapeHtml(t.address || '—')}</div>
+            <div class="ov-card-meta">
+              <span class="${isAging ? 'aging' : ''}">${isAging ? '⚠ ' : ''}${fmtDateOnly(t.submitted_on)}</span>
+              <span>${escapeHtml(t.name || '—')} · ${escapeHtml(t.phone || '—')}</span>
+            </div>
+            ${isDone ? `<div class="ov-card-resolved">Rezolvat: ${fmtDateOnly(t.resolved_on)}</div>` : ''}
+          </button>
+        `;
+      }).join('');
+    }
+  }
+
+  const overviewCardsMobileEl = document.getElementById('overviewCardsMobile');
+  if (overviewCardsMobileEl) {
+    overviewCardsMobileEl.addEventListener('click', (e) => {
+      const card = e.target.closest('.ov-card');
+      if (card) goToTicket(card.dataset.ticketId);
+    });
   }
 
   // Clicking a ticket number in the overview table jumps straight to
