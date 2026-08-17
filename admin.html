@@ -76,50 +76,6 @@
   .dash-head{padding:36px 0 24px;border-bottom:1px solid var(--line);}
   .dash-head h1{font-size:26px;margin-bottom:6px;}
   .dash-head p{color:var(--ink-600);font-size:14.5px;}
-  .dash-subgrid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-    margin-top:22px;
-  }
-  .priority-card{
-    border:1px solid var(--line-strong);
-    border-radius:4px;
-    padding:16px 18px;
-    background:var(--paper-050);
-  }
-  .priority-card.warn{
-    border-color:rgba(181,80,47,0.28);
-    background:var(--signal-red-bg);
-  }
-  .priority-card.watch{
-    border-color:rgba(181,121,47,0.28);
-    background:var(--signal-orange-bg);
-  }
-  .priority-card .k{
-    display:block;
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    color:var(--ink-600);
-    margin-bottom:8px;
-  }
-  .priority-card .num{
-    font-family:var(--display);
-    font-size:34px;
-    line-height:1;
-    margin-bottom:8px;
-  }
-  .priority-card p{
-    color:var(--ink-600);
-    font-size:13.5px;
-    margin-bottom:14px;
-  }
-  .priority-card .btn{
-    width:100%;
-    justify-content:center;
-  }
   .toolbar{padding:20px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
 
   .admin-tabs{display:flex;gap:6px;margin:24px 0 4px;border-bottom:1px solid var(--line);}
@@ -131,6 +87,63 @@
   .admin-tab:hover{color:var(--ink-700);}
   .admin-tab.active{color:var(--copper-600);border-bottom-color:var(--copper-500);}
   .admin-panel{display:none;}
+
+  /* ===== PRIORITY SUMMARY CARDS =====
+     The very first thing shown on "Prezentare generală" — answers
+     "do I need to worry about anything right now" before any
+     scrolling or scanning. Deliberately just 4 cards (dashboard
+     research consistently points to 4-6 as the effective range before
+     cognitive overload sets in), and deliberately reflects true
+     right-now reality regardless of whichever year is selected in the
+     table below — an active accident matters regardless of what
+     year's archive you happen to be browsing.
+     Color follows the same convention used everywhere else on this
+     page, without exception: red = accident/urgent, orange = aging /
+     at-risk, and NOT green for the "routine" card, since green is
+     already reserved site-wide to mean "resolved" — reusing it here
+     for something else would break that convention rather than
+     reinforce it. */
+  .priority-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+    margin-bottom:28px;
+  }
+  .priority-card{
+    border:1px solid var(--line-strong);border-radius:4px;
+    padding:16px 18px;background:var(--paper-050);
+    cursor:pointer;transition:border-color .15s,transform .15s;
+    text-align:left;
+  }
+  .priority-card:hover{border-color:var(--copper-500);transform:translateY(-1px);}
+  .priority-card.danger{border-color:rgba(181,80,47,0.3);background:var(--signal-red-bg);}
+  .priority-card.warn{border-color:rgba(181,121,47,0.3);background:var(--signal-orange-bg);}
+  .priority-card .k{
+    display:flex;align-items:center;gap:6px;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--ink-600);margin-bottom:10px;
+  }
+  .priority-card.danger .k{color:var(--signal-red);}
+  .priority-card.warn .k{color:var(--signal-orange);}
+  .priority-card .num{font-family:var(--display);font-weight:700;font-size:32px;line-height:1;color:var(--ink-900);}
+  .priority-card.danger .num{color:var(--signal-red);}
+  .priority-card.warn .num{color:var(--signal-orange);}
+  .priority-card .sub{font-size:12px;color:var(--ink-600);margin-top:6px;}
+  @media(max-width:900px){
+    .priority-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:560px){
+    .priority-grid{grid-template-columns:1fr;}
+  }
+
+  .active-narrow-filter{
+    display:none;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:12px;color:var(--copper-600);
+    margin-bottom:14px;
+  }
+  .active-narrow-filter.show{display:flex;}
+  .active-narrow-filter button{
+    background:none;border:none;color:var(--copper-600);cursor:pointer;
+    text-decoration:underline;font-family:inherit;font-size:inherit;padding:0;
+  }
 
   /* ===== TICKET OVERVIEW TABLE + CHARTS =====
      Purely a glanceable summary — a compact, sortable table of every
@@ -196,10 +209,6 @@
   @media(max-width:900px){
     .overview-table-wrap{max-height:320px;}
     .overview-sidebar{flex-direction:column;}
-    .dash-subgrid{grid-template-columns:repeat(2,1fr);}
-  }
-  @media(max-width:640px){
-    .dash-subgrid{grid-template-columns:1fr;}
   }
   .admin-panel.active{display:block;}
 
@@ -397,33 +406,7 @@
   <div class="wrap">
     <div class="dash-head">
       <h1>Insta Grup Admin</h1>
-      <p>Porniți cu ce are nevoie de atenție acum, apoi continuați cu administrarea completă a sesizărilor și proiectelor afișate public.</p>
-      <div class="dash-subgrid">
-        <div class="priority-card warn">
-          <span class="k">Accidente active</span>
-          <div class="num" id="prioUrgentCount">0</div>
-          <p>Sesizări de tip accident sau urgență care sunt încă deschise.</p>
-          <button class="btn" type="button" id="prioUrgentBtn">Deschide sesizările urgente</button>
-        </div>
-        <div class="priority-card watch">
-          <span class="k">Peste 7 zile</span>
-          <div class="num" id="prioAgingCount">0</div>
-          <p>Tichete active care riscă să rămână blocate prea mult timp.</p>
-          <button class="btn" type="button" id="prioAgingBtn">Vezi în prezentarea generală</button>
-        </div>
-        <div class="priority-card">
-          <span class="k">Ultimele 48h</span>
-          <div class="num" id="prioFreshCount">0</div>
-          <p>Sesizări noi care au intrat recent și merită triere rapidă.</p>
-          <button class="btn" type="button" id="prioFreshBtn">Filtrează sesizările noi</button>
-        </div>
-        <div class="priority-card">
-          <span class="k">Proiecte în curs</span>
-          <div class="num" id="prioProjectCount">0</div>
-          <p>Lucrări active sau programate care apar public pe site.</p>
-          <button class="btn" type="button" id="prioProjectsBtn">Deschide proiectele curente</button>
-        </div>
-      </div>
+      <p>Gestionați tichetele primite prin formularul de pe site și proiectele afișate public.</p>
     </div>
 
     <div class="admin-tabs">
@@ -433,6 +416,29 @@
     </div>
 
     <div class="admin-panel active" id="panel-overview">
+      <div class="priority-grid">
+        <button type="button" class="priority-card" id="prioActiveCard">
+          <span class="k">● Active</span>
+          <div class="num" id="prioActiveCount">0</div>
+          <div class="sub">Sesizări încă nerezolvate</div>
+        </button>
+        <button type="button" class="priority-card warn" id="prioAgingCard">
+          <span class="k">⚠ Peste 7 zile</span>
+          <div class="num" id="prioAgingCount">0</div>
+          <div class="sub">Active de prea mult timp</div>
+        </button>
+        <button type="button" class="priority-card" id="prioFuncCard">
+          <span class="k">● Funcționale</span>
+          <div class="num" id="prioFuncCount">0</div>
+          <div class="sub">Sesizări active, fără urgență</div>
+        </button>
+        <button type="button" class="priority-card danger" id="prioAccidentCard">
+          <span class="k">⛔ Accidente</span>
+          <div class="num" id="prioAccidentCount">0</div>
+          <div class="sub">Urgențe active — pericol imediat</div>
+        </button>
+      </div>
+
       <div class="overview-year-bar">
         <label for="yearFilterSelect">An:</label>
         <select id="yearFilterSelect"></select>
@@ -483,6 +489,10 @@
           <div class="result-count" id="resultCount"></div>
           <button class="btn" id="exportBtn" type="button">⭳ Descarcă CSV</button>
         </div>
+      </div>
+      <div class="active-narrow-filter" id="activeNarrowFilter">
+        <span id="activeNarrowFilterLabel"></span>
+        <button type="button" id="clearNarrowFilterBtn">✕ Elimină acest filtru</button>
       </div>
       <div class="archive-bar" id="archiveBar">
         <span id="selectionCount">0 selectate</span>
@@ -898,6 +908,9 @@
     return [...urgentActive, ...regularActive, ...done];
   }
 
+  let agingOnlyFilter = false;
+  let typeOnlyFilter = null; // null | 'functional' | 'accident'
+
   function getFilteredTickets(){
     const query = ticketSearchQuery.trim().toLowerCase();
     let base;
@@ -906,7 +919,21 @@
     } else {
       base = allTickets.filter(t => !t.archived && (activeFilter === 'Toate' || t.status === activeFilter));
     }
-    return base.filter(t => matchesSearch(t, query) && matchesYear(t, ticketYearFilter));
+    base = base.filter(t => matchesSearch(t, query) && matchesYear(t, ticketYearFilter));
+
+    // Extra narrowing applied when a priority card was clicked — see
+    // clearNarrowFilter()/the priority card handlers further down.
+    if (agingOnlyFilter) {
+      base = base.filter(t => {
+        if (t.status === 'Terminat' || !t.submitted_on) return false;
+        const daysOpen = (Date.now() - new Date(t.submitted_on)) / (1000 * 60 * 60 * 24);
+        return daysOpen > AGING_THRESHOLD_DAYS;
+      });
+    }
+    if (typeOnlyFilter === 'functional') base = base.filter(t => t.type !== 'Anunt accident');
+    if (typeOnlyFilter === 'accident') base = base.filter(t => t.type === 'Anunt accident');
+
+    return base;
   }
 
   // Populates the "An" (Year) dropdown from whatever years actually
@@ -1163,45 +1190,9 @@
     chip.className = 'chip' + (c.key === activeFilter ? ' active' : '');
     chip.textContent = c.label;
     chip.dataset.key = c.key;
-    chip.addEventListener('click', () => {
-      activeFilter = c.key;
-      selectedIds.clear();
-      updateArchiveBar();
-      document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-      chip.classList.add('active');
-      renderTickets();
-    });
+    chip.addEventListener('click', () => setTicketFilter(c.key));
     chipsWrap.appendChild(chip);
   });
-
-  function openAdminTab(tabKey){
-    document.querySelectorAll('.admin-tab').forEach(t => {
-      t.classList.toggle('active', t.dataset.tab === tabKey);
-    });
-    document.querySelectorAll('.admin-panel').forEach(p => {
-      p.classList.toggle('active', p.id === 'panel-' + tabKey);
-    });
-  }
-
-  function setTicketFilter(filterKey){
-    activeFilter = filterKey;
-    selectedIds.clear();
-    updateArchiveBar();
-    document.querySelectorAll('#chipsWrap .chip').forEach(chip => {
-      chip.classList.toggle('active', chip.dataset.key === filterKey);
-    });
-    renderTickets();
-  }
-
-  function setProjectFilter(filterKey){
-    projectsFilter = filterKey;
-    projectSelectedIds.clear();
-    updateProjectsArchiveBar();
-    document.querySelectorAll('#projectsChipsWrap .chip').forEach(chip => {
-      chip.classList.toggle('active', chip.dataset.key === filterKey);
-    });
-    renderProjects();
-  }
 
   async function loadTickets(){
     const list = document.getElementById('ticketList');
@@ -1223,6 +1214,31 @@
     renderOverviewCharts();
     renderPrioritySummary();
     handlePendingTicketUrlParam();
+  }
+
+  // The 4 cards at the top of "Prezentare generală" — deliberately
+  // ignores whichever year is selected in the table below. These are
+  // meant to answer "what needs attention right now," and an active
+  // accident matters regardless of what year's archive someone
+  // happens to be browsing at the time.
+  function renderPrioritySummary(){
+    const active = allTickets.filter(t => !t.archived && t.status !== 'Terminat');
+    const agingCount = active.filter(t => {
+      if (!t.submitted_on) return false;
+      const daysOpen = (Date.now() - new Date(t.submitted_on)) / (1000 * 60 * 60 * 24);
+      return daysOpen > AGING_THRESHOLD_DAYS;
+    }).length;
+    const accidentCount = active.filter(t => t.type === 'Anunt accident').length;
+    const funcCount = active.length - accidentCount;
+
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = String(value);
+    };
+    setText('prioActiveCount', active.length);
+    setText('prioAgingCount', agingCount);
+    setText('prioFuncCount', funcCount);
+    setText('prioAccidentCount', accidentCount);
   }
 
   // If the admin panel was just opened fresh (e.g. tapping a push
@@ -1288,7 +1304,52 @@
   // ticket filter to "Toate" first (so the card is guaranteed to
   // actually be rendered regardless of which filter was previously
   // selected), then scrolling to and briefly highlighting it.
+  function openAdminTab(tabKey){
+    document.querySelectorAll('.admin-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === tabKey);
+    });
+    document.querySelectorAll('.admin-panel').forEach(p => {
+      p.classList.toggle('active', p.id === 'panel-' + tabKey);
+    });
+  }
+
+  function setTicketFilter(filterKey){
+    activeFilter = filterKey;
+    selectedIds.clear();
+    updateArchiveBar();
+    document.querySelectorAll('#chipsWrap .chip').forEach(chip => {
+      chip.classList.toggle('active', chip.dataset.key === filterKey);
+    });
+    renderTickets();
+  }
+
+  function updateActiveNarrowFilterUI(){
+    const wrap = document.getElementById('activeNarrowFilter');
+    const label = document.getElementById('activeNarrowFilterLabel');
+    if (!wrap || !label) return;
+    let text = '';
+    if (agingOnlyFilter) text = 'Filtru activ: doar tichete deschise de peste ' + AGING_THRESHOLD_DAYS + ' zile';
+    else if (typeOnlyFilter === 'functional') text = 'Filtru activ: doar tichete funcționale';
+    else if (typeOnlyFilter === 'accident') text = 'Filtru activ: doar accidente';
+    label.textContent = text;
+    wrap.classList.toggle('show', !!text);
+  }
+
+  function clearNarrowFilter(){
+    agingOnlyFilter = false;
+    typeOnlyFilter = null;
+    updateActiveNarrowFilterUI();
+    renderTickets();
+  }
+
+  const clearNarrowFilterBtn = document.getElementById('clearNarrowFilterBtn');
+  if (clearNarrowFilterBtn) clearNarrowFilterBtn.addEventListener('click', clearNarrowFilter);
+
   function goToTicket(ticketId){
+    agingOnlyFilter = false;
+    typeOnlyFilter = null;
+    updateActiveNarrowFilterUI();
+    if (ticketSearchBox) { ticketSearchBox.value = ''; ticketSearchQuery = ''; }
     setTicketFilter('Toate');
     openAdminTab('tickets');
 
@@ -1396,28 +1457,6 @@
         },
       });
     }
-  }
-
-  function renderPrioritySummary(){
-    const activeTickets = allTickets.filter(t => !t.archived && t.status !== 'Terminat');
-    const urgentCount = activeTickets.filter(t => t.type === 'Anunt accident').length;
-    const agingCount = activeTickets.filter(t => {
-      if (!t.submitted_on) return false;
-      const daysOpen = (Date.now() - new Date(t.submitted_on)) / (1000 * 60 * 60 * 24);
-      return daysOpen > AGING_THRESHOLD_DAYS;
-    }).length;
-    const freshCutoff = Date.now() - (48 * 60 * 60 * 1000);
-    const freshCount = activeTickets.filter(t => t.submitted_on && new Date(t.submitted_on).getTime() >= freshCutoff).length;
-    const projectCount = allProjects.filter(p => !p.archived && getProjectStatusFilterKey(p) === 'Ongoing').length;
-
-    const setText = (id, value) => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = String(value);
-    };
-    setText('prioUrgentCount', urgentCount);
-    setText('prioAgingCount', agingCount);
-    setText('prioFreshCount', freshCount);
-    setText('prioProjectCount', projectCount);
   }
 
   function renderTickets(){
@@ -1761,54 +1800,31 @@
     tab.addEventListener('click', () => openAdminTab(tab.dataset.tab));
   });
 
-  const prioUrgentBtn = document.getElementById('prioUrgentBtn');
-  if (prioUrgentBtn) {
-    prioUrgentBtn.addEventListener('click', () => {
-      openAdminTab('tickets');
-      setTicketFilter('Ongoing');
-      if (ticketSearchBox) {
-        ticketSearchBox.value = '';
-        ticketSearchQuery = '';
-      }
-      renderTickets();
-    });
+  // Priority summary cards — each one jumps to Sesizări with the
+  // ticket list narrowed to exactly what the card is describing,
+  // rather than just scrolling to a general area and leaving the
+  // user to hunt for the relevant rows themselves.
+  function openTicketsWith({ narrowAging = false, narrowType = null } = {}){
+    agingOnlyFilter = narrowAging;
+    typeOnlyFilter = narrowType;
+    updateActiveNarrowFilterUI();
+    if (ticketSearchBox) { ticketSearchBox.value = ''; ticketSearchQuery = ''; }
+    setTicketFilter('Ongoing');
+    openAdminTab('tickets');
   }
 
-  const prioAgingBtn = document.getElementById('prioAgingBtn');
-  if (prioAgingBtn) {
-    prioAgingBtn.addEventListener('click', () => {
-      openAdminTab('overview');
-      document.getElementById('overviewTable')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
+  const prioActiveCard = document.getElementById('prioActiveCard');
+  if (prioActiveCard) prioActiveCard.addEventListener('click', () => openTicketsWith());
 
-  const prioFreshBtn = document.getElementById('prioFreshBtn');
-  if (prioFreshBtn) {
-    prioFreshBtn.addEventListener('click', () => {
-      const currentYear = String(new Date().getFullYear());
-      setTicketYearFilter(currentYear);
-      openAdminTab('tickets');
-      setTicketFilter('Ongoing');
-      if (ticketSearchBox) {
-        ticketSearchBox.value = '';
-        ticketSearchQuery = '';
-      }
-      renderTickets();
-    });
-  }
+  const prioAgingCard = document.getElementById('prioAgingCard');
+  if (prioAgingCard) prioAgingCard.addEventListener('click', () => openTicketsWith({ narrowAging: true }));
 
-  const prioProjectsBtn = document.getElementById('prioProjectsBtn');
-  if (prioProjectsBtn) {
-    prioProjectsBtn.addEventListener('click', () => {
-      openAdminTab('projects');
-      setProjectFilter('Ongoing');
-      if (projectSearchBox) {
-        projectSearchBox.value = '';
-        projectSearchQuery = '';
-      }
-      renderProjects();
-    });
-  }
+  const prioFuncCard = document.getElementById('prioFuncCard');
+  if (prioFuncCard) prioFuncCard.addEventListener('click', () => openTicketsWith({ narrowType: 'functional' }));
+
+  const prioAccidentCard = document.getElementById('prioAccidentCard');
+  if (prioAccidentCard) prioAccidentCard.addEventListener('click', () => openTicketsWith({ narrowType: 'accident' }));
+
 
   /* ============================================================
      CURRENT PROJECTS — full CRUD (add/edit/delete) for the
@@ -1985,7 +2001,14 @@
     chip.className = 'chip' + (c.key === projectsFilter ? ' active' : '');
     chip.textContent = c.label;
     chip.dataset.key = c.key;
-    chip.addEventListener('click', () => setProjectFilter(c.key));
+    chip.addEventListener('click', () => {
+      projectsFilter = c.key;
+      projectSelectedIds.clear();
+      updateProjectsArchiveBar();
+      document.querySelectorAll('#projectsChipsWrap .chip').forEach(x => x.classList.remove('active'));
+      chip.classList.add('active');
+      renderProjects();
+    });
     projectsChipsWrap.appendChild(chip);
   });
 
@@ -2001,7 +2024,6 @@
     allProjects = data || [];
     populateProjectYearFilterSelect();
     renderProjects();
-    renderPrioritySummary();
   }
 
   function renderProjects(){
