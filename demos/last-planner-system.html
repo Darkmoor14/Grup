@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last Planner System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* ============================================================
+     TOKENS — same palette as the companion "Public Lighting Ops
+     Console" piece (sodium-lamp amber, warm dossier paper / night
+     grid). Shared deliberately: this is the second half of one
+     project's case study, not a standalone page, so it should read
+     as the same voice rather than a different product.
+     ============================================================ */
+  :root{
+    --ink-950:#12181F;
+    --ink-800:#232E39;
+    --ink-600:#4B5A66;
+    --ink-400:#8695A0;
+    --paper-000:#FFFFFF;
+    --paper-050:#FAF7F1;
+    --paper-100:#F1EBDE;
+    --line:#E2DACB;
+    --line-strong:#CFC4AE;
+    --accent:#C87D1E;
+    --accent-ink:#8F5810;
+    --accent-bg:#FBEFDC;
+    --good:#3F7A52;
+    --good-bg:#E8F2EA;
+    --warn:#B5762B;
+    --warn-bg:#FBF0E1;
+    --bad:#A8442E;
+    --bad-bg:#FAEAE5;
+    --on-accent:#20140A;
+    --shadow:0 18px 44px rgba(18,24,31,0.14);
+    --font-display:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --font-body:'IBM Plex Sans', -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'SF Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink-950:#F5F1E8;
+      --ink-800:#DAD3C3;
+      --ink-600:#A9AFAE;
+      --ink-400:#71787C;
+      --paper-000:#161B21;
+      --paper-050:#12161B;
+      --paper-100:#1D242C;
+      --line:#2B333B;
+      --line-strong:#3A434D;
+      --accent:#E3A34C;
+      --accent-ink:#F4C783;
+      --accent-bg:#2C2110;
+      --good:#6FAE81;
+      --good-bg:#16261B;
+      --warn:#D9A059;
+      --warn-bg:#2A2013;
+      --bad:#D98368;
+      --bad-bg:#2B1912;
+      --shadow:0 18px 44px rgba(0,0,0,0.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink-950:#F5F1E8;
+    --ink-800:#DAD3C3;
+    --ink-600:#A9AFAE;
+    --ink-400:#71787C;
+    --paper-000:#161B21;
+    --paper-050:#12161B;
+    --paper-100:#1D242C;
+    --line:#2B333B;
+    --line-strong:#3A434D;
+    --accent:#E3A34C;
+    --accent-ink:#F4C783;
+    --accent-bg:#2C2110;
+    --good:#6FAE81;
+    --good-bg:#16261B;
+    --warn:#D9A059;
+    --warn-bg:#2A2013;
+    --bad:#D98368;
+    --bad-bg:#2B1912;
+    --shadow:0 18px 44px rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper-050);color:var(--ink-800);
+    font-family:var(--font-body);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:920px;margin:0 auto;padding-inline:24px;}
+  h1,h2,h3{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance;color:var(--ink-950);margin:0;}
+  p{margin:0;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--accent-ink);display:flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:'';width:16px;height:1.5px;background:var(--accent);display:block;}
+  .lede{font-size:18.5px;line-height:1.65;color:var(--ink-600);max-width:62ch;}
+  .lede em{font-style:normal;color:var(--ink-950);font-weight:500;}
+  .hero .lede em{color:var(--paper-050);}
+  .kicker-link{margin-top:22px;font-family:var(--font-mono);font-size:12px;color:#9AA3AC;}
+  .kicker-link a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb, var(--accent) 45%, transparent);}
+  .kicker-link a:hover{border-bottom-color:var(--accent);}
+
+  /* ---------- Hero ---------- */
+  .hero{background:var(--ink-950);color:var(--paper-050);padding-block:64px 56px;border-bottom:3px solid var(--accent);}
+  .hero h1{color:var(--paper-050);font-size:clamp(40px,6.4vw,64px);line-height:0.96;margin-top:14px;}
+  .hero .lede{color:#C7C2B4;margin-top:18px;}
+  .hero .eyebrow{color:var(--accent);}
+  .hero .eyebrow::before{background:var(--accent);}
+  .spec-plate{margin-top:40px;border:1px solid #3A4048;border-radius:3px;display:grid;grid-template-columns:repeat(4,1fr);background:#171D24;}
+  .spec-plate div{padding:16px 18px;border-left:1px solid #3A4048;}
+  .spec-plate div:first-child{border-left:none;}
+  .spec-k{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8B93A0;display:block;}
+  .spec-v{font-family:var(--font-mono);font-size:17px;color:var(--accent);margin-top:6px;display:block;font-variant-numeric:tabular-nums;}
+
+  /* ---------- Section rhythm ---------- */
+  section{padding-block:64px;}
+  section.band-dark{background:var(--ink-950);color:var(--paper-050);}
+  section.band-dark h2{color:var(--paper-050);}
+  section.band-dark .eyebrow{color:var(--accent);}
+  section.band-dark .lede{color:#C7C2B4;}
+  section.band-dark .prose strong{color:var(--paper-050);}
+  .section-head{margin-bottom:34px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,38px);margin-top:10px;}
+  .section-head p{margin-top:12px;}
+  .prose{max-width:64ch;font-size:15.5px;color:var(--ink-600);}
+  .prose + .prose{margin-top:14px;}
+  .prose strong{color:var(--ink-950);font-weight:600;}
+
+  /* ---------- Five conversations rail ---------- */
+  .conv-rail{margin-top:36px;display:flex;flex-direction:column;}
+  .conv{display:grid;grid-template-columns:120px 1fr;gap:22px;padding-block:20px;border-top:1px solid #333B44;}
+  .conv:last-child{border-bottom:1px solid #333B44;}
+  .conv-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);padding-top:2px;}
+  .conv h4{font-family:var(--font-display);font-size:20px;text-transform:uppercase;color:var(--paper-050);margin-bottom:5px;}
+  .conv p{font-size:14px;color:#B9B4A5;line-height:1.6;max-width:58ch;}
+  .conv .conv-impl{margin-top:8px;font-size:13px;color:var(--accent-ink);}
+  .conv .conv-impl b{color:var(--accent-ink);font-weight:600;}
+  @media(max-width:640px){.conv{grid-template-columns:1fr;gap:6px;}}
+
+  /* ---------- Gate: look-ahead + constraints ---------- */
+  .gate-cols{margin-top:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .gate-box{border:1px solid var(--line-strong);border-radius:6px;background:var(--paper-000);overflow:hidden;box-shadow:var(--shadow);}
+  .gate-box-head{padding:12px 16px;background:var(--paper-100);border-bottom:1px solid var(--line);font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-400);}
+  .gate-row{padding:12px 16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-800);}
+  .gate-row:first-of-type{border-top:none;}
+  .gate-row-top{display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .gate-title{font-weight:500;color:var(--ink-950);}
+  .gate-tag{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:0.05em;padding:3px 7px;border-radius:3px;white-space:nowrap;}
+  .gate-tag.ready{background:var(--good-bg);color:var(--good);}
+  .gate-tag.blocked{background:var(--bad-bg);color:var(--bad);}
+  .gate-tag.open{background:var(--warn-bg);color:var(--warn);}
+  .gate-meta{margin-top:3px;font-size:12px;color:var(--ink-400);}
+  @media(max-width:640px){.gate-cols{grid-template-columns:1fr;}}
+
+  /* ---------- Weekly promises / PPC demo ---------- */
+  .demo-badge{
+    margin-left:auto;flex-shrink:0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent-bg);border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    border-radius:20px;padding:3px 10px;white-space:nowrap;
+  }
+  .board-frame{margin-top:32px;background:var(--paper-000);border:1px solid var(--line-strong);border-radius:6px;box-shadow:var(--shadow);overflow:hidden;color:var(--ink-800);}
+  .board-bar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--paper-100);border-bottom:1px solid var(--line);flex-wrap:wrap;row-gap:6px;}
+  .board-dot{width:8px;height:8px;border-radius:50%;background:var(--line-strong);flex-shrink:0;}
+  .board-label{margin-left:6px;flex-shrink:0;font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-400);white-space:nowrap;}
+  .board-body{padding:22px;}
+  .ppc-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+  .ppc-tile{border:1px solid var(--line-strong);border-radius:6px;padding:16px 18px;background:var(--paper-050);}
+  .ppc-tile-k{font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-400);}
+  .ppc-tile-v{font-family:var(--font-mono);font-size:30px;color:var(--accent-ink);margin-top:4px;font-variant-numeric:tabular-nums;}
+  .ppc-tile-note{font-size:12px;color:var(--ink-600);margin-top:6px;}
+  .ppc-tile.live .ppc-tile-v{color:var(--ink-600);font-size:22px;}
+  @media(max-width:640px){.ppc-row{grid-template-columns:1fr;}}
+
+  .promise{border:1px solid var(--line-strong);border-radius:5px;padding:12px 16px;background:var(--paper-000);}
+  .promise + .promise{margin-top:8px;}
+  .promise-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .promise-title{font-size:13.5px;font-weight:500;color:var(--ink-950);}
+  .promise-owner{font-family:var(--font-mono);font-size:11px;color:var(--ink-400);margin-top:2px;}
+  .promise-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .status-btn-row{display:inline-flex;border:1px solid var(--line-strong);border-radius:20px;overflow:hidden;}
+  .status-btn-row button{font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.02em;padding:5px 10px;border:none;background:var(--paper-000);color:var(--ink-600);cursor:pointer;}
+  .status-btn-row button+button{border-left:1px solid var(--line-strong);}
+  .status-btn-row button.active.done{background:var(--good-bg);color:var(--good);}
+  .status-btn-row button.active.missed{background:var(--bad-bg);color:var(--bad);}
+  .status-btn-row button.active.promised{background:var(--paper-100);color:var(--ink-600);}
+  .variance-select{font-family:var(--font-body);font-size:12px;color:var(--ink-800);background:var(--paper-000);border:1px solid var(--line-strong);border-radius:4px;padding:4px 7px;}
+  .promise.readonly .status-btn-row button{cursor:default;}
+
+  .variance-panel{margin-top:22px;padding-top:18px;border-top:1px dashed var(--line);}
+  .variance-panel h4{font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:var(--ink-400);margin-bottom:10px;font-weight:500;}
+  .variance-bar-row{display:grid;grid-template-columns:120px 1fr 24px;align-items:center;gap:10px;font-size:12px;color:var(--ink-600);margin-top:6px;}
+  .variance-bar-track{height:8px;border-radius:4px;background:var(--paper-100);overflow:hidden;}
+  .variance-bar-fill{display:block;height:100%;background:var(--accent);border-radius:4px;transition:width 0.25s ease;}
+  .variance-empty{font-size:12.5px;color:var(--ink-400);margin-top:4px;}
+  .role-switch:focus-visible,.status-btn-row button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ---------- Auto-timeline mockup ---------- */
+  .tl{margin-top:30px;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden;background:var(--paper-000);color:var(--ink-800);}
+  .tl-group{padding:7px 12px;background:var(--paper-100);font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-400);border-top:1px solid var(--line);}
+  .tl-group:first-child{border-top:none;}
+  .tl-row{display:grid;grid-template-columns:150px 1fr;border-top:1px solid var(--line);}
+  .tl-label{padding:8px 12px;font-size:12px;color:var(--ink-600);border-right:1px solid var(--line);display:flex;align-items:center;}
+  .tl-track{position:relative;padding:8px 0;}
+  .tl-bar{height:13px;border-radius:3px;position:absolute;top:7px;}
+  .tl-bar.ready{background:var(--good);}
+  .tl-bar.blocked{background:var(--bad);}
+  .tl-diamond{width:10px;height:10px;position:absolute;top:8px;transform:rotate(45deg);border-radius:2px;}
+  .tl-diamond.done{background:var(--good);}
+  .tl-diamond.open{background:var(--accent);}
+  .tl-dot{width:9px;height:9px;border-radius:50%;position:absolute;top:8px;}
+  .tl-dot.status-done{background:var(--good);}
+  .tl-dot.status-missed{background:var(--bad);}
+  .tl-dot.status-pending{background:var(--ink-400);}
+  .tl-marker{width:9px;height:9px;position:absolute;top:8px;background:var(--bad);transform:rotate(45deg);}
+  .tl-today{position:absolute;top:0;bottom:0;width:0;border-left:2px dashed var(--accent-ink);}
+  .tl-today span{position:absolute;top:-18px;left:4px;font-family:var(--font-mono);font-size:9px;color:var(--accent-ink);white-space:nowrap;}
+
+  /* ---------- Engineering notes ---------- */
+  .notes{margin-top:34px;display:flex;flex-direction:column;}
+  .note{display:grid;grid-template-columns:120px 1fr;gap:22px;padding-block:22px;border-top:1px solid #333B44;}
+  .note:last-child{border-bottom:1px solid #333B44;}
+  .note-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent);padding-top:2px;}
+  .note h4{font-family:var(--font-display);font-size:20px;text-transform:uppercase;color:var(--paper-050);margin-bottom:6px;}
+  .note p{font-size:14px;color:#B9B4A5;line-height:1.6;max-width:56ch;}
+  .note code{font-family:var(--font-mono);font-size:0.92em;color:var(--accent-ink);}
+
+  /* ---------- Colophon ---------- */
+  footer{background:var(--ink-950);color:#8B93A0;padding-block:40px;border-top:1px solid #2B333B;}
+  .stack-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
+  .stack-chip{font-family:var(--font-mono);font-size:11.5px;color:#D3CEC0;border:1px solid #3A4048;border-radius:3px;padding:6px 11px;background:#171D24;}
+  footer .foot-meta{margin-top:28px;font-family:var(--font-mono);font-size:11.5px;color:#5C636C;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  footer .foot-meta a{color:#8B93A0;}
+
+  @media(max-width:640px){
+    .spec-plate{grid-template-columns:1fr 1fr;}
+    .spec-plate div:nth-child(3){border-left:none;}
+    .note{grid-template-columns:1fr;gap:6px;}
+    .tl-row{grid-template-columns:110px 1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="shell">
+    <span class="eyebrow">Case study — Lean Construction planning tool</span>
+    <h1>Last Planner<br>System</h1>
+    <p class="lede">A weekly promise-and-tracking layer for the bigger internal jobs — a new distribution
+      post, a line rebuild — that a ticket queue was never built for:
+      <em>milestones, a filtered look-ahead, a constraint log, and weekly promises scored once the week
+      actually closes</em>, built on Lean Construction's Last Planner method rather than a Gantt chart
+      nobody keeps up to date.</p>
+    <div class="spec-plate">
+      <div><span class="spec-k">Method</span><span class="spec-v">LCI Last Planner</span></div>
+      <div><span class="spec-k">Cadence</span><span class="spec-v">Weekly promises</span></div>
+      <div><span class="spec-k">Metric</span><span class="spec-v">PPC, lagging</span></div>
+      <div><span class="spec-k">Timeline</span><span class="spec-v">Self-generating</span></div>
+    </div>
+    <p class="kicker-link">Companion piece to <a href="public-lighting-ops-console.html">Public Lighting Ops Console</a> — same contractor, same system, the project-planning half.</p>
+  </div>
+</div>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Why not just a Gantt chart</span>
+      <h2>A schedule is a guess. A promise is a commitment.</h2>
+    </div>
+    <div class="prose">A distribution-post build or a line rebuild runs for weeks, touches multiple crews,
+      and depends on materials, permits, and other trades finishing first. The instinct is to draw one
+      master schedule up front and push dates down to whoever's doing the work. In practice that schedule
+      is built by someone who isn't on site next Tuesday, gets stale within days, and nobody re-plans it
+      until it's already wrong.</div>
+    <div class="prose">Last Planner inverts who gets to promise: work only enters next week's plan once
+      it's genuinely ready to start — no missing material, no missing permit, no unfinished predecessor —
+      and the person actually doing it is the one who commits to it. The schedule stops being a document
+      someone hands down and becomes something the crew builds a week at a time, together.</div>
+  </div>
+</section>
+
+<section class="band-dark">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Five conversations, not one big plan</h2>
+    </div>
+    <div class="prose" style="color:#C7C2B4;">Lean Construction Institute frames Last Planner as five
+      connected conversations, run on a repeating cycle rather than once at kickoff. Each one maps to a
+      specific piece of this build:</div>
+    <div class="conv-rail">
+      <div class="conv">
+        <span class="conv-tag">01 — Should</span>
+        <div>
+          <h4>Milestone planning</h4>
+          <p>What the finished phases actually are, and by when — the handful of dates the whole job is
+            organized around.</p>
+          <p class="conv-impl"><b>In this build:</b> a milestone list per project, each with an owner and
+            a due date, marked done as they land.</p>
+        </div>
+      </div>
+      <div class="conv">
+        <span class="conv-tag">02 — Can</span>
+        <div>
+          <h4>Look-ahead &amp; make-ready</h4>
+          <p>Working backward from each milestone: what handoffs does it actually depend on, and of the
+            work coming up in the next six weeks, what's genuinely unblocked?</p>
+          <p class="conv-impl"><b>In this build:</b> a pull-planning handoff log (who hands what to whom,
+            and the condition that makes it "done") feeding a six-week look-ahead, plus a constraint
+            register — each blocker gets an owner, a category, and a removal action, not just a note.</p>
+        </div>
+      </div>
+      <div class="conv">
+        <span class="conv-tag">03 — Will</span>
+        <div>
+          <h4>Weekly work plan</h4>
+          <p>Only work marked <strong style="color:var(--paper-050);">ready</strong> in the look-ahead can
+            be promised for the coming week — and the promise has an owner, a day, and a condition of
+            satisfaction, not just a task name.</p>
+          <p class="conv-impl"><b>In this build:</b> promoting a look-ahead item to "ready" surfaces a
+            one-click "promise this week" action; the weekly board itself still takes freeform promises
+            too, for anything not routed through look-ahead.</p>
+        </div>
+      </div>
+      <div class="conv">
+        <span class="conv-tag">04 — Did</span>
+        <div>
+          <h4>PPC &amp; huddle</h4>
+          <p>Once the week closes, every promise is scored Done or Missed — Percent Plan Complete — and
+            the team huddles briefly on what actually happened.</p>
+          <p class="conv-impl"><b>In this build:</b> PPC computes off the most recently <em>closed</em>
+            week specifically (see below), plus a short huddle log — date, facilitator, blockers.</p>
+        </div>
+      </div>
+      <div class="conv">
+        <span class="conv-tag">05 — Learn</span>
+        <div>
+          <h4>Variance analysis</h4>
+          <p>A missed promise on its own is just a log entry. The point is spotting which <em>reason</em>
+            keeps recurring, so it gets fixed instead of rediscovered every huddle.</p>
+          <p class="conv-impl"><b>In this build:</b> every missed promise gets tagged with a reason from a
+            fixed list, tallied project-wide into a ranked breakdown — see the board below.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Can — the make-ready gate</span>
+      <h2>Nothing gets promised until it's actually workable</h2>
+    </div>
+    <div class="prose">The look-ahead and the constraint log are the same conversation from two sides.
+      Anything not yet <strong>ready</strong> in the look-ahead has a reason why — and that reason lives
+      as its own row in the constraint register, with an owner and a concrete action to clear it, not just
+      a status. An item only flips to ready — and only then becomes promisable — once every constraint
+      tied to it is gone.</div>
+    <div class="gate-cols">
+      <div class="gate-box">
+        <div class="gate-box-head">Look-ahead — next 6 weeks</div>
+        <div class="gate-row">
+          <div class="gate-row-top"><span class="gate-title">Panel T1 install</span><span class="gate-tag ready">Ready</span></div>
+          <div class="gate-meta">Crew B · 22.09 → 26.09 · PT 12</div>
+        </div>
+        <div class="gate-row">
+          <div class="gate-row-top"><span class="gate-title">Sub 12 wiring</span><span class="gate-tag blocked">Blocked</span></div>
+          <div class="gate-meta">Crew A · 29.09 → 03.10 · PT 12</div>
+        </div>
+        <div class="gate-row">
+          <div class="gate-row-top"><span class="gate-title">Trench backfill, north run</span><span class="gate-tag blocked">Blocked</span></div>
+          <div class="gate-meta">Crew C · 06.10 → 08.10 · Str. Nordului</div>
+        </div>
+      </div>
+      <div class="gate-box">
+        <div class="gate-box-head">Constraint register</div>
+        <div class="gate-row">
+          <div class="gate-row-top"><span class="gate-title">Access permit not confirmed</span><span class="gate-tag open">Open</span></div>
+          <div class="gate-meta">Permit / design · owner: office · due 24.09</div>
+        </div>
+        <div class="gate-row">
+          <div class="gate-row-top"><span class="gate-title">Cable drum still in transit</span><span class="gate-tag open">Open</span></div>
+          <div class="gate-meta">Materials · owner: depot · due 27.09</div>
+        </div>
+        <div class="gate-row">
+          <div class="gate-row-top"><span class="gate-title">Trench inspection pending</span><span class="gate-tag ready">Cleared</span></div>
+          <div class="gate-meta">Predecessor · owner: Crew C · resolved 20.09</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-dark">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Will &amp; Did — try it</span>
+      <h2>PPC only counts the week that's actually over</h2>
+    </div>
+    <div class="prose" style="color:#C7C2B4;">Toggle the promises below for <strong style="color:var(--paper-050);">this week</strong> — the
+      one still in progress. Notice what doesn't move: the PPC tile stays pinned to <strong style="color:var(--paper-050);">last week</strong>,
+      the one that's actually closed. Mark something <strong style="color:var(--paper-050);">Missed</strong> and pick a reason — it
+      rolls straight into the variance breakdown underneath, the same histogram that drives the huddle.</div>
+  </div>
+  <div class="shell">
+    <div class="board-frame" style="margin-top:32px;color:var(--ink-800);">
+      <div class="board-bar">
+        <span class="board-dot"></span><span class="board-dot"></span><span class="board-dot"></span>
+        <span class="board-label" id="lpsBoardLabel">Weekly plan</span>
+        <span class="demo-badge">Interactive</span>
+      </div>
+      <div class="board-body">
+        <div class="ppc-row">
+          <div class="ppc-tile">
+            <div class="ppc-tile-k">PPC — week of 08.09–14.09 (closed)</div>
+            <div class="ppc-tile-v" id="lpsPpcValue">67%</div>
+            <div class="ppc-tile-note" id="lpsPpcNote">4 of 6 promises complete</div>
+          </div>
+          <div class="ppc-tile live">
+            <div class="ppc-tile-k">This week — 15.09–21.09 (in progress)</div>
+            <div class="ppc-tile-v" id="lpsLiveValue">—</div>
+            <div class="ppc-tile-note" id="lpsLiveNote">not scored until the week closes</div>
+          </div>
+        </div>
+        <div id="lpsPromiseList"></div>
+        <div class="variance-panel">
+          <h4>Variance reasons — since project start</h4>
+          <div id="lpsVarianceBreakdown"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var VARIANCE_REASONS = ['Materials', 'Access', 'Permit / design', 'Resources', 'Predecessor', 'Weather', 'Plan change', 'Overcommitment', 'Other'];
+
+  // Last week is fixed — it's already closed, PPC for it doesn't change.
+  var lastWeekPromises = [
+    {status: 'done'}, {status: 'done'}, {status: 'done'}, {status: 'done'}, {status: 'missed'}, {status: 'missed'}
+  ];
+
+  // This week is interactive. Starts with a realistic in-progress mix —
+  // some already scored, some still open — never all-blank, so the board
+  // reads as "a real week partway through" at rest, not an empty form.
+  var thisWeek = [
+    {id:'w1', title:'Finish panel T1 wiring', owner:'M. Radu', status:'done', reason:''},
+    {id:'w2', title:'Pull cable, north run', owner:'Crew C', status:'promised', reason:''},
+    {id:'w3', title:'Backfill trench, north run', owner:'Crew C', status:'promised', reason:''},
+    {id:'w4', title:'Torque + tag panel T1 breakers', owner:'M. Radu', status:'missed', reason:'Materials'},
+    {id:'w5', title:'Confirm access permit with beneficiary', owner:'Office', status:'promised', reason:''}
+  ];
+
+  // Existing history the variance chart is tallied against, so the demo's
+  // own missed promise (w4, above) lands in a chart that already has
+  // other entries in it — a single toggle visibly moving a real
+  // histogram, not conjuring one from nothing.
+  var priorMissedReasons = ['Materials', 'Materials', 'Access', 'Predecessor', 'Permit / design', 'Materials', 'Weather', 'Overcommitment'];
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function renderPpcHeader(){
+    var lastDone = lastWeekPromises.filter(function(p){ return p.status === 'done'; }).length;
+    document.getElementById('lpsPpcValue').textContent = Math.round((lastDone / lastWeekPromises.length) * 100) + '%';
+    document.getElementById('lpsPpcNote').textContent = lastDone + ' of ' + lastWeekPromises.length + ' promises complete';
+
+    var scored = thisWeek.filter(function(p){ return p.status === 'done' || p.status === 'missed'; }).length;
+    var done = thisWeek.filter(function(p){ return p.status === 'done'; }).length;
+    document.getElementById('lpsLiveValue').textContent = scored + ' / ' + thisWeek.length;
+    document.getElementById('lpsLiveNote').textContent = done + ' done so far · not scored until the week closes';
+    document.getElementById('lpsBoardLabel').textContent = 'Weekly plan — ' + thisWeek.length + ' promises this week';
+  }
+
+  function renderPromises(){
+    var html = thisWeek.map(function(p){
+      var reasonSelect = p.status === 'missed'
+        ? '<select class="variance-select" data-reason="' + p.id + '">' +
+            '<option value="">Reason…</option>' +
+            VARIANCE_REASONS.map(function(r){ return '<option value="' + esc(r) + '"' + (p.reason === r ? ' selected' : '') + '>' + esc(r) + '</option>'; }).join('') +
+          '</select>'
+        : '';
+      return (
+        '<div class="promise">' +
+          '<div class="promise-top">' +
+            '<div>' +
+              '<div class="promise-title">' + esc(p.title) + '</div>' +
+              '<div class="promise-owner">' + esc(p.owner) + '</div>' +
+            '</div>' +
+            '<div class="promise-controls">' +
+              '<div class="status-btn-row" data-promise="' + p.id + '">' +
+                '<button type="button" class="' + (p.status==='promised'?'active promised':'') + '" data-status="promised">Promised</button>' +
+                '<button type="button" class="' + (p.status==='done'?'active done':'') + '" data-status="done">Done</button>' +
+                '<button type="button" class="' + (p.status==='missed'?'active missed':'') + '" data-status="missed">Missed</button>' +
+              '</div>' +
+              reasonSelect +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+    document.getElementById('lpsPromiseList').innerHTML = html;
+
+    document.querySelectorAll('[data-promise]').forEach(function(row){
+      row.querySelectorAll('button').forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var id = row.getAttribute('data-promise');
+          var item = thisWeek.filter(function(x){ return x.id === id; })[0];
+          item.status = btn.getAttribute('data-status');
+          if (item.status !== 'missed') item.reason = '';
+          renderAll();
+        });
+      });
+    });
+    document.querySelectorAll('[data-reason]').forEach(function(sel){
+      sel.addEventListener('change', function(){
+        var id = sel.getAttribute('data-reason');
+        var item = thisWeek.filter(function(x){ return x.id === id; })[0];
+        item.reason = sel.value;
+        renderVariance();
+      });
+    });
+  }
+
+  function renderVariance(){
+    var counts = {};
+    var total = 0;
+    priorMissedReasons.concat(
+      thisWeek.filter(function(p){ return p.status === 'missed' && p.reason; }).map(function(p){ return p.reason; })
+    ).forEach(function(reason){
+      counts[reason] = (counts[reason] || 0) + 1;
+      total++;
+    });
+    var el = document.getElementById('lpsVarianceBreakdown');
+    if (!total) {
+      el.innerHTML = '<div class="variance-empty">No missed promises with a reason recorded yet.</div>';
+      return;
+    }
+    var rows = Object.keys(counts).sort(function(a, b){ return counts[b] - counts[a]; }).map(function(reason){
+      var pct = Math.round((counts[reason] / total) * 100);
+      return (
+        '<div class="variance-bar-row">' +
+          '<span>' + esc(reason) + '</span>' +
+          '<span class="variance-bar-track"><span class="variance-bar-fill" style="width:' + pct + '%;"></span></span>' +
+          '<span>' + counts[reason] + '</span>' +
+        '</div>'
+      );
+    }).join('');
+    el.innerHTML = rows;
+  }
+
+  function renderAll(){
+    renderPpcHeader();
+    renderPromises();
+    renderVariance();
+  }
+  renderAll();
+})();
+</script>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">The timeline draws itself</span>
+      <h2>One chart, built from the same five conversations</h2>
+    </div>
+    <div class="prose">There's no separate project schedule to keep in sync. The timeline below is
+      generated directly from the milestones, look-ahead items, open constraints, and weekly promises
+      already entered — milestones plot as diamonds on their due date, look-ahead work as bars colored by
+      ready/blocked, open constraints as markers, and weekly promises as dots colored by outcome. Add a
+      row anywhere in the five conversations and the chart already has it; there's nothing else to
+      update.</div>
+    <div class="tl" style="margin-top:30px;">
+      <div class="tl-group">Milestones</div>
+      <div class="tl-row">
+        <div class="tl-label">Panels energized</div>
+        <div class="tl-track">
+          <div class="tl-diamond open" style="left:58%;"></div>
+          <div class="tl-today" style="left:34%;"><span>Today</span></div>
+        </div>
+      </div>
+      <div class="tl-group">Look-ahead</div>
+      <div class="tl-row">
+        <div class="tl-label">Panel T1 install</div>
+        <div class="tl-track"><div class="tl-bar ready" style="left:22%;width:14%;"></div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-label">Sub 12 wiring</div>
+        <div class="tl-track"><div class="tl-bar blocked" style="left:40%;width:12%;"></div></div>
+      </div>
+      <div class="tl-group">Open constraints</div>
+      <div class="tl-row">
+        <div class="tl-label">Access permit</div>
+        <div class="tl-track"><div class="tl-marker" style="left:28%;"></div></div>
+      </div>
+      <div class="tl-group">Weekly promises</div>
+      <div class="tl-row">
+        <div class="tl-label">Panel T1 wiring</div>
+        <div class="tl-track"><div class="tl-dot status-done" style="left:20%;"></div></div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-label">Trench handoff, north run</div>
+        <div class="tl-track"><div class="tl-dot status-pending" style="left:46%;"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-dark" style="padding-top:56px;">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Engineering notes</span>
+      <h2>What made this harder than it sounds</h2>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <span class="note-tag">Metric design</span>
+        <div>
+          <h4>PPC is a lagging measure</h4>
+          <p>Computing PPC off the week still in progress made it look artificially bad every Monday and
+            Tuesday, since most of that week's promises were legitimately still "Promised" and hadn't been
+            evaluated yet. The headline PPC number now always reads the most recently <code>closed</code>
+            week; the running week gets its own live, explicitly-unlabeled-as-PPC progress note instead.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Architecture</span>
+        <div>
+          <h4>A schedule with no file of its own</h4>
+          <p>The timeline isn't a separate document someone maintains — it's a view computed from the same
+            milestone, look-ahead, constraint, and weekly records the five conversations already produce.
+            One source of truth means it's structurally impossible for the chart and the plan to drift
+            apart.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Analysis</span>
+        <div>
+          <h4>Tallied since day one, not a rolling window</h4>
+          <p>Variance reasons are counted across a project's whole history rather than the last N weeks —
+            a new project simply won't have enough missed promises yet for a rolling window to mean
+            anything, and a young project with three misses shouldn't have its one real pattern diluted by
+            an arbitrary empty window.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Scope</span>
+        <div>
+          <h4>A personal layer, kept separate on purpose</h4>
+          <p>This workspace is scoped to one project lead's login and stored client-side, deliberately
+            apart from the shared, database-backed ticket records in the ops console. It's still finding
+            its shape week to week — keeping it out of the shared schema means it can keep changing
+            without migrating data other roles depend on.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <span class="eyebrow">Built with</span>
+    <div class="stack-row">
+      <span class="stack-chip">Vanilla JS</span>
+      <span class="stack-chip">LCI Last Planner method</span>
+      <span class="stack-chip">Client-side, per-user storage</span>
+      <span class="stack-chip">Self-drawn SVG/CSS timeline</span>
+      <span class="stack-chip">No build step</span>
+    </div>
+    <div class="foot-meta">
+      <span>Personal planning layer · kept separate from shared records</span>
+      <span>Companion to Public Lighting Ops Console</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

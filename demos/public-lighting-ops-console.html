@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Lighting Ops Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* ============================================================
+     TOKENS
+     Light: warm dossier paper. Dark: the actual grid at night.
+     Accent is sodium-lamp amber — the literal color of the fixtures
+     this system tracks repairs for, not a picked-for-branding hue.
+     ============================================================ */
+  :root{
+    --ink-950:#12181F;
+    --ink-800:#232E39;
+    --ink-600:#4B5A66;
+    --ink-400:#8695A0;
+    --paper-000:#FFFFFF;
+    --paper-050:#FAF7F1;
+    --paper-100:#F1EBDE;
+    --line:#E2DACB;
+    --line-strong:#CFC4AE;
+    --accent:#C87D1E;
+    --accent-ink:#8F5810;
+    --accent-bg:#FBEFDC;
+    --good:#3F7A52;
+    --good-bg:#E8F2EA;
+    --warn:#B5762B;
+    --warn-bg:#FBF0E1;
+    --bad:#A8442E;
+    --bad-bg:#FAEAE5;
+    --on-accent:#20140A;
+    --shadow:0 18px 44px rgba(18,24,31,0.14);
+    --font-display:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --font-body:'IBM Plex Sans', -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'SF Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink-950:#F5F1E8;
+      --ink-800:#DAD3C3;
+      --ink-600:#A9AFAE;
+      --ink-400:#71787C;
+      --paper-000:#161B21;
+      --paper-050:#12161B;
+      --paper-100:#1D242C;
+      --line:#2B333B;
+      --line-strong:#3A434D;
+      --accent:#E3A34C;
+      --accent-ink:#F4C783;
+      --accent-bg:#2C2110;
+      --good:#6FAE81;
+      --good-bg:#16261B;
+      --warn:#D9A059;
+      --warn-bg:#2A2013;
+      --bad:#D98368;
+      --bad-bg:#2B1912;
+      --shadow:0 18px 44px rgba(0,0,0,0.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink-950:#F5F1E8;
+    --ink-800:#DAD3C3;
+    --ink-600:#A9AFAE;
+    --ink-400:#71787C;
+    --paper-000:#161B21;
+    --paper-050:#12161B;
+    --paper-100:#1D242C;
+    --line:#2B333B;
+    --line-strong:#3A434D;
+    --accent:#E3A34C;
+    --accent-ink:#F4C783;
+    --accent-bg:#2C2110;
+    --good:#6FAE81;
+    --good-bg:#16261B;
+    --warn:#D9A059;
+    --warn-bg:#2A2013;
+    --bad:#D98368;
+    --bad-bg:#2B1912;
+    --shadow:0 18px 44px rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper-050);color:var(--ink-800);
+    font-family:var(--font-body);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:920px;margin:0 auto;padding-inline:24px;}
+  h1,h2,h3{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance;color:var(--ink-950);margin:0;}
+  p{margin:0;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--accent-ink);display:flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:'';width:16px;height:1.5px;background:var(--accent);display:block;}
+  .lede{font-size:18.5px;line-height:1.65;color:var(--ink-600);max-width:62ch;}
+  .lede em{font-style:normal;color:var(--ink-950);font-weight:500;}
+  /* .hero sits on the dark ink ground, so the base rule above (meant
+     for light sections) would be near-invisible here — same color as
+     the background it's sitting on. */
+  .hero .lede em{color:var(--paper-050);}
+
+  /* ---------- Hero / nameplate band ---------- */
+  .hero{
+    background:var(--ink-950);color:var(--paper-050);
+    padding-block:64px 56px;
+    border-bottom:3px solid var(--accent);
+  }
+  .hero h1{
+    color:var(--paper-050);font-size:clamp(40px,6.4vw,64px);line-height:0.96;margin-top:14px;
+  }
+  .hero .lede{color:#C7C2B4;margin-top:18px;}
+  .hero .eyebrow{color:var(--accent);}
+  .hero .eyebrow::before{background:var(--accent);}
+
+  .spec-plate{
+    margin-top:40px;border:1px solid #3A4048;border-radius:3px;
+    display:grid;grid-template-columns:repeat(4,1fr);
+    background:#171D24;
+  }
+  .spec-plate div{padding:16px 18px;border-left:1px solid #3A4048;}
+  .spec-plate div:first-child{border-left:none;}
+  .spec-k{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8B93A0;display:block;}
+  .spec-v{font-family:var(--font-mono);font-size:19px;color:var(--accent);margin-top:6px;display:block;font-variant-numeric:tabular-nums;}
+
+  /* ---------- Section rhythm ---------- */
+  section{padding-block:64px;}
+  section.band-dark{background:var(--ink-950);color:var(--paper-050);}
+  section.band-dark h2{color:var(--paper-050);}
+  section.band-dark .eyebrow{color:var(--accent);}
+  section.band-dark .lede{color:#C7C2B4;}
+  /* .prose strong's base rule (below) sets ink-950 — correct on a
+     light section, invisible on this dark one (same color as the
+     background it'd sit on). One rule here instead of an inline
+     style on every <strong> inside a dark section, after finding
+     this exact bug twice already. */
+  section.band-dark .prose strong{color:var(--paper-050);}
+  .section-head{margin-bottom:34px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,38px);margin-top:10px;}
+  .section-head p{margin-top:12px;}
+
+  .prose{max-width:64ch;font-size:15.5px;color:var(--ink-600);}
+  .prose + .prose{margin-top:14px;}
+  .prose strong{color:var(--ink-950);font-weight:600;}
+
+  /* ---------- Ticket mockup card ---------- */
+  .mock-frame{
+    margin-top:32px;background:var(--paper-000);border:1px solid var(--line-strong);
+    border-radius:6px;box-shadow:var(--shadow);overflow:hidden;
+    /* This card sits on band-dark's own dark ground in one section,
+       which sets color:var(--paper-050) for ITS body text — without
+       resetting it back here, every plain text node inside (ticket
+       values, in particular) would inherit that near-white color
+       straight onto this card's light background and vanish. */
+    color:var(--ink-800);
+  }
+  .mock-frame-bar{
+    display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--paper-100);
+    border-bottom:1px solid var(--line);flex-wrap:wrap;row-gap:6px;
+  }
+  .mock-frame-dot{width:8px;height:8px;border-radius:50%;background:var(--line-strong);flex-shrink:0;}
+  .mock-frame-label{
+    margin-left:6px;flex-shrink:0;font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.05em;
+    text-transform:uppercase;color:var(--ink-400);white-space:nowrap;
+  }
+  .mock-body{padding:22px;}
+  .demo-badge{
+    margin-left:auto;flex-shrink:0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent-bg);border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    border-radius:20px;padding:3px 10px;white-space:nowrap;
+  }
+  .demo-toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+  .role-switch{display:inline-flex;border:1px solid var(--line-strong);border-radius:20px;overflow:hidden;flex-shrink:0;}
+  .role-switch button{font-family:var(--font-mono);font-size:11px;letter-spacing:0.03em;padding:6px 13px;border:none;background:var(--paper-000);color:var(--ink-600);cursor:pointer;}
+  .role-switch button+button{border-left:1px solid var(--line-strong);}
+  .role-switch button.active{background:var(--accent-bg);color:var(--accent-ink);}
+  .chip-row{display:flex;gap:6px;flex-wrap:wrap;}
+  .demo-chip{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:0.03em;padding:6px 11px;border-radius:20px;
+    border:1px solid var(--line-strong);background:var(--paper-000);color:var(--ink-600);cursor:pointer;white-space:nowrap;
+  }
+  .demo-chip.active{background:var(--accent-bg);color:var(--accent-ink);border-color:var(--accent);}
+  .demo-chip:hover:not(.active){border-color:var(--ink-400);}
+  .role-switch button:focus-visible,.demo-chip:focus-visible,.tkt-row:focus-visible,.btn-save:focus-visible{
+    outline:2px solid var(--accent);outline-offset:2px;
+  }
+
+  .tkt{border:1px solid var(--line-strong);border-radius:5px;background:var(--paper-000);overflow:hidden;}
+  .tkt + .tkt{margin-top:10px;}
+  .tkt.urgent{border-color:color-mix(in srgb, var(--bad) 45%, var(--line-strong));}
+  .tkt.urgent .tkt-row{background:var(--bad-bg);}
+  .tkt-row{
+    display:flex;align-items:center;gap:12px;padding:13px 16px;width:100%;
+    border:none;background:none;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  }
+  .tkt-row:hover{background:var(--paper-100);}
+  .tkt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .tkt-row-info{flex:1;min-width:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .tkt-addr{font-size:13px;color:var(--ink-600);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .tkt-row-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .tkt-chev{font-family:var(--font-mono);font-size:14px;color:var(--ink-400);display:inline-block;transition:transform 0.15s ease;}
+  .tkt.expanded .tkt-chev{transform:rotate(90deg);}
+  .tkt-detail{display:none;padding:14px 16px 18px;border-top:1px solid var(--line);}
+  .tkt.expanded .tkt-detail{display:block;}
+  .tkt-num{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--ink-950);}
+  .tkt-tag{
+    font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;
+    padding:3px 8px;border-radius:3px;background:var(--paper-100);color:var(--ink-600);
+  }
+  .tkt-tag.bad{background:var(--bad-bg);color:var(--bad);}
+  .tkt-tag.warn{background:var(--warn-bg);color:var(--warn);}
+  .tkt-tag.good{background:var(--good-bg);color:var(--good);}
+  .tkt-date{font-family:var(--font-mono);font-size:11px;color:var(--ink-400);}
+  .tkt-body{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-size:13.5px;}
+  .tkt-body .full{grid-column:1/-1;}
+  .tkt-k{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;color:var(--ink-400);letter-spacing:0.04em;display:block;margin-bottom:2px;}
+
+  .tkt-editor{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);display:flex;flex-direction:column;gap:12px;}
+  .field-row{display:flex;align-items:flex-start;gap:10px;}
+  .field-row label{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:0.04em;color:var(--ink-400);width:104px;flex-shrink:0;padding-top:8px;}
+  .field-row select,.field-row textarea{
+    flex:1;font-family:var(--font-body);font-size:13px;color:var(--ink-950);background:var(--paper-000);
+    border:1px solid var(--line-strong);border-radius:4px;padding:7px 9px;
+  }
+  .field-row textarea{resize:vertical;min-height:44px;line-height:1.5;}
+  .field-row textarea:disabled{background:var(--paper-100);color:var(--ink-400);cursor:not-allowed;}
+  .field-hint{font-family:var(--font-mono);font-size:10px;color:var(--ink-400);margin-top:5px;}
+  .editor-actions{display:flex;align-items:center;gap:12px;margin-left:114px;}
+  .btn-save{
+    background:var(--accent);color:var(--on-accent);border:none;border-radius:4px;padding:8px 18px;
+    font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;
+  }
+  .btn-save:hover{filter:brightness(1.06);}
+  .save-flash{font-family:var(--font-mono);font-size:11px;color:var(--good);opacity:0;transition:opacity 0.25s ease;}
+  .save-flash.show{opacity:1;}
+  @media(max-width:640px){
+    .field-row{flex-direction:column;}
+    .field-row label{width:auto;padding-top:0;}
+    .editor-actions{margin-left:0;}
+  }
+
+  /* ---------- Three-step flow ---------- */
+  .flow{margin-top:34px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:0;}
+  .flow-step{
+    border:1px solid var(--line-strong);border-radius:6px;background:var(--paper-000);
+    padding:20px 18px;text-align:left;
+  }
+  .flow-step .n{font-family:var(--font-mono);font-size:10.5px;color:var(--accent-ink);letter-spacing:0.06em;}
+  .flow-step h4{font-family:var(--font-display);font-size:19px;text-transform:uppercase;margin:8px 0 6px;color:var(--ink-950);}
+  .flow-step p{font-size:13px;color:var(--ink-600);line-height:1.55;}
+  .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--line-strong);font-size:22px;padding:0 6px;}
+  @media(max-width:720px){
+    .flow{grid-template-columns:1fr;gap:14px;}
+    .flow-arrow{transform:rotate(90deg);padding:0;}
+  }
+
+  /* ---------- Schema diagram (table → view) ---------- */
+  .schema{margin-top:32px;display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:0;}
+  .schema-box{border:1px solid var(--line-strong);border-radius:6px;background:var(--paper-000);padding:18px 20px;}
+  .schema-box .kind{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-ink);}
+  .schema-box h4{font-family:var(--font-mono);font-size:16px;margin:7px 0 12px;color:var(--ink-950);font-weight:600;}
+  .schema-cols{font-family:var(--font-mono);font-size:12px;color:var(--ink-600);line-height:1.95;}
+  .schema-cols .excluded{color:var(--bad);text-decoration:line-through;text-decoration-color:currentColor;opacity:0.7;}
+  .schema-arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--line-strong);font-size:20px;padding:0 16px;}
+  .schema-arrow span{font-family:var(--font-mono);font-size:9.5px;color:var(--ink-400);text-transform:uppercase;letter-spacing:0.05em;text-align:center;white-space:nowrap;}
+  @media(max-width:720px){
+    .schema{grid-template-columns:1fr;gap:14px;}
+    .schema-arrow{flex-direction:row;padding:4px 0;}
+  }
+
+  /* ---------- Engineering notes / hard problems ---------- */
+  .notes{margin-top:34px;display:flex;flex-direction:column;}
+  .note{
+    display:grid;grid-template-columns:120px 1fr;gap:22px;padding-block:22px;
+    border-top:1px solid var(--line);
+  }
+  .note:last-child{border-bottom:1px solid var(--line);}
+  .note-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-ink);padding-top:2px;}
+  .note h4{font-family:var(--font-display);font-size:20px;text-transform:uppercase;color:var(--ink-950);margin-bottom:6px;}
+  .note p{font-size:14px;color:var(--ink-600);line-height:1.6;max-width:56ch;}
+  .note code{font-family:var(--font-mono);font-size:0.92em;color:var(--accent-ink);}
+
+  /* ---------- Colophon ---------- */
+  footer{background:var(--ink-950);color:#8B93A0;padding-block:40px;border-top:1px solid #2B333B;}
+  .stack-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
+  .stack-chip{
+    font-family:var(--font-mono);font-size:11.5px;color:#D3CEC0;border:1px solid #3A4048;
+    border-radius:3px;padding:6px 11px;background:#171D24;
+  }
+  footer .foot-meta{margin-top:28px;font-family:var(--font-mono);font-size:11.5px;color:#5C636C;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  footer .foot-meta a{color:#8B93A0;}
+
+  @media(max-width:640px){
+    .spec-plate{grid-template-columns:1fr 1fr;}
+    .spec-plate div:nth-child(3){border-left:none;}
+    .tkt-body{grid-template-columns:1fr 1fr;}
+    .note{grid-template-columns:1fr;gap:6px;}
+  }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="shell">
+    <span class="eyebrow">Case study — field operations software</span>
+    <h1>Public Lighting<br>Ops Console</h1>
+    <p class="lede">A ticket-to-repair system built for a regional electrical-infrastructure contractor —
+      <em>triage, role-gated dispatch, and a paper-to-digital field report loop</em>,
+      replacing a process that ran on phone calls and loose paper forms.</p>
+    <div class="spec-plate">
+      <div><span class="spec-k">Reports tracked</span><span class="spec-v">Live</span></div>
+      <div><span class="spec-k">Access control</span><span class="spec-v">DB-level</span></div>
+      <div><span class="spec-k">Field reports</span><span class="spec-v">Excel round-trip</span></div>
+      <div><span class="spec-k">Public lookup</span><span class="spec-v">No login</span></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">The starting point</span>
+      <h2>A network held together by phone calls</h2>
+    </div>
+    <div class="prose">Street-lighting faults came in through a public form, then lived in whoever's memory
+      happened to answer the phone. There was no shared view of what was open, what a crew had actually
+      found on-site, or which reports were sitting done-but-undocumented. Two roles needed two different
+      slices of the same list — the intake desk closes a report, the field lead writes up what was done —
+      and neither should be able to quietly do the other's job.</div>
+    <div class="prose">The brief was a single console both roles could work from, with field reporting that
+      didn't force crews to abandon the paper form they already carried on-site.</div>
+  </div>
+</section>
+
+<section class="band-dark">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Triage &amp; dispatch</span>
+      <h2>One list, two roles, no back doors</h2>
+    </div>
+    <div class="prose" style="color:#C7C2B4;">Every report carries a status (open → resolved → report
+      pending) and a type — an <strong style="color:var(--paper-050);">accident</strong> report always
+      surfaces above a routine fault, regardless of when either was filed. The intake role can close a
+      report; only the field-operations lead can write the resolution note. That split isn't just hidden
+      in the UI — it's enforced by a Postgres trigger, so the rule holds even against a direct API call.</div>
+  </div>
+  <div class="shell">
+    <div class="mock-frame" style="margin-top:32px;">
+      <div class="mock-frame-bar">
+        <span class="mock-frame-dot"></span><span class="mock-frame-dot"></span><span class="mock-frame-dot"></span>
+        <span class="mock-frame-label" id="demoStatsLabel">Reports</span>
+        <span class="demo-badge">Interactive</span>
+      </div>
+      <div class="mock-body">
+        <div class="demo-toolbar">
+          <div class="role-switch" role="group" aria-label="Signed in as">
+            <button type="button" id="roleIntake" class="active">Intake</button>
+            <button type="button" id="roleField">Field lead</button>
+          </div>
+          <div class="chip-row" role="group" aria-label="Filter by status">
+            <button type="button" class="demo-chip active" data-filter="all">All</button>
+            <button type="button" class="demo-chip" data-filter="open">Open</button>
+            <button type="button" class="demo-chip" data-filter="report pending">Report pending</button>
+            <button type="button" class="demo-chip" data-filter="resolved">Resolved</button>
+          </div>
+        </div>
+        <div id="demoTicketList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var demoState = {
+    role: 'intake',
+    filter: 'all',
+    expanded: 'T142',
+    tickets: [
+      {id:'T142', num:'TICKET-0142', type:'accident', status:'open', submitted:'2026-09-08', submittedDisplay:'09.08.2026',
+        name:'J. Whitfield', phone:'555 •• ••••', address:'142 Elm Street',
+        desc:'Pole with a visibly detached cable, next to the crosswalk.', note:''},
+      {id:'T139', num:'TICKET-0139', type:'fault', status:'open', submitted:'2026-09-06', submittedDisplay:'09.06.2026',
+        name:'R. Okafor', phone:'555 •• ••••', address:'4 Birchwood Lane',
+        desc:'No light from dusk onward; both neighboring fixtures are unaffected.', note:''},
+      {id:'T135', num:'TICKET-0135', type:'fault', status:'report pending', submitted:'2026-09-03', submittedDisplay:'09.03.2026',
+        name:'D. Marsh', phone:'555 •• ••••', address:'9 Hollow Avenue',
+        desc:'Flickering badly after dark; tripped the breaker once.', note:''},
+      {id:'T128', num:'TICKET-0128', type:'fault', status:'resolved', submitted:'2026-08-29', submittedDisplay:'08.29.2026',
+        name:'S. Byrne', phone:'555 •• ••••', address:'21 Cross Street',
+        desc:'Fixture fully dark for over a week.', note:'Photocell replaced; tested at dusk, confirmed on.'}
+    ]
+  };
+
+  var statusMeta = {
+    'open':            {label:'Open',            dot:'var(--ink-400)', tagClass:''},
+    'report pending':  {label:'Report pending',  dot:'var(--warn)',    tagClass:'warn'},
+    'resolved':        {label:'Resolved',        dot:'var(--good)',    tagClass:'good'}
+  };
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function statsLine(){
+    var c = {open:0,'report pending':0,resolved:0};
+    demoState.tickets.forEach(function(t){ c[t.status]++; });
+    return 'Reports — ' + c.open + ' open · ' + c['report pending'] + ' report pending · ' + c.resolved + ' resolved';
+  }
+
+  function filteredSorted(){
+    var list = demoState.tickets.filter(function(t){
+      return demoState.filter === 'all' || t.status === demoState.filter;
+    });
+    list.sort(function(a,b){
+      var aAcc = (a.type==='accident' && a.status!=='resolved') ? 0 : 1;
+      var bAcc = (b.type==='accident' && b.status!=='resolved') ? 0 : 1;
+      if(aAcc !== bAcc) return aAcc - bAcc;
+      return b.submitted.localeCompare(a.submitted);
+    });
+    return list;
+  }
+
+  function render(){
+    document.getElementById('demoStatsLabel').textContent = statsLine();
+    var list = filteredSorted();
+    var html = list.map(function(t){
+      var meta = statusMeta[t.status];
+      var expanded = demoState.expanded === t.id;
+      var isUrgent = t.type === 'accident' && t.status !== 'resolved';
+      var typeTag = t.type === 'accident' ? '<span class="tkt-tag bad">Accident</span>' : '<span class="tkt-tag">Fault</span>';
+      var statusTag = '<span class="tkt-tag ' + meta.tagClass + '">' + meta.label + '</span>';
+      var noteDisabled = demoState.role !== 'field';
+      return (
+        '<div class="tkt' + (isUrgent?' urgent':'') + (expanded?' expanded':'') + '">' +
+          '<button type="button" class="tkt-row" data-toggle="' + t.id + '" aria-expanded="' + expanded + '">' +
+            '<span class="tkt-dot" style="background:' + meta.dot + ';"></span>' +
+            '<span class="tkt-row-info">' +
+              '<span class="tkt-num">' + t.num + '</span>' + typeTag + statusTag +
+              '<span class="tkt-addr">' + esc(t.address) + '</span>' +
+            '</span>' +
+            '<span class="tkt-row-right">' +
+              '<span class="tkt-date">' + t.submittedDisplay + '</span>' +
+              '<span class="tkt-chev">›</span>' +
+            '</span>' +
+          '</button>' +
+          '<div class="tkt-detail">' +
+            '<div class="tkt-body">' +
+              '<div><span class="tkt-k">Name</span>' + esc(t.name) + '</div>' +
+              '<div><span class="tkt-k">Phone</span>' + esc(t.phone) + '</div>' +
+              '<div><span class="tkt-k">Address</span>' + esc(t.address) + '</div>' +
+              '<div class="full"><span class="tkt-k">Description</span>' + esc(t.desc) + '</div>' +
+            '</div>' +
+            '<div class="tkt-editor">' +
+              '<div class="field-row">' +
+                '<label for="status-' + t.id + '">Status</label>' +
+                '<select id="status-' + t.id + '" data-status="' + t.id + '">' +
+                  '<option value="open"' + (t.status==='open'?' selected':'') + '>Open</option>' +
+                  '<option value="report pending"' + (t.status==='report pending'?' selected':'') + '>Report pending</option>' +
+                  '<option value="resolved"' + (t.status==='resolved'?' selected':'') + '>Resolved</option>' +
+                '</select>' +
+              '</div>' +
+              '<div class="field-row">' +
+                '<label for="note-' + t.id + '">Resolution note</label>' +
+                '<div style="flex:1;">' +
+                  '<textarea id="note-' + t.id + '" data-note="' + t.id + '" rows="2" ' +
+                    (noteDisabled ? 'disabled placeholder="Field lead writes this after the repair."' : 'placeholder="What did the crew do on-site?"') + '>' +
+                    esc(t.note) + '</textarea>' +
+                  (noteDisabled ? '<div class="field-hint">Field-lead only — switch role above to edit.</div>' : '') +
+                '</div>' +
+              '</div>' +
+              '<div class="editor-actions">' +
+                '<button type="button" class="btn-save" data-save="' + t.id + '">Save</button>' +
+                '<span class="save-flash" id="flash-' + t.id + '">Saved</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+    document.getElementById('demoTicketList').innerHTML = html ||
+      '<p style="padding:20px 4px;color:var(--ink-400);font-size:13px;">No reports match this filter.</p>';
+    wireRows();
+  }
+
+  function wireRows(){
+    document.querySelectorAll('[data-toggle]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-toggle');
+        demoState.expanded = (demoState.expanded === id) ? null : id;
+        render();
+      });
+    });
+    document.querySelectorAll('[data-status], [data-note]').forEach(function(el){
+      el.addEventListener('click', function(e){ e.stopPropagation(); });
+    });
+    document.querySelectorAll('[data-save]').forEach(function(el){
+      el.addEventListener('click', function(e){
+        e.stopPropagation();
+        var id = el.getAttribute('data-save');
+        var t = demoState.tickets.filter(function(x){ return x.id === id; })[0];
+        var statusEl = document.getElementById('status-' + id);
+        var noteEl = document.getElementById('note-' + id);
+        if(statusEl) t.status = statusEl.value;
+        if(noteEl && !noteEl.disabled) t.note = noteEl.value;
+        render();
+        var flash = document.getElementById('flash-' + id);
+        if(flash){
+          flash.classList.add('show');
+          setTimeout(function(){ flash.classList.remove('show'); }, 1600);
+        }
+      });
+    });
+  }
+
+  function setRole(r){
+    demoState.role = r;
+    document.getElementById('roleIntake').classList.toggle('active', r === 'intake');
+    document.getElementById('roleField').classList.toggle('active', r === 'field');
+    render();
+  }
+  document.getElementById('roleIntake').addEventListener('click', function(){ setRole('intake'); });
+  document.getElementById('roleField').addEventListener('click', function(){ setRole('field'); });
+
+  document.querySelectorAll('.demo-chip').forEach(function(chip){
+    chip.addEventListener('click', function(){
+      demoState.filter = chip.getAttribute('data-filter');
+      document.querySelectorAll('.demo-chip').forEach(function(c){ c.classList.remove('active'); });
+      chip.classList.add('active');
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Data layer</span>
+      <h2>One table, two very different audiences</h2>
+    </div>
+    <div class="prose">PostgreSQL, via Supabase. Row-Level Security scopes every table to the signed-in
+      account — but the public status lookup has no login at all, and can't just read the same table with
+      a relaxed policy without also handing every visitor a caller's name, phone, and email. It reads from
+      a separate SQL view instead, one that never selects those columns in the first place. The two
+      audiences are separated by the schema itself, not by an application-level check a future edit could
+      forget to keep.</div>
+    <div class="schema">
+      <div class="schema-box">
+        <span class="kind">Table</span>
+        <h4>tickets</h4>
+        <div class="schema-cols">
+          id, ticket_number<br>
+          address, type, status<br>
+          submitted_on, resolved_on<br>
+          <span class="excluded">name, phone, email</span><br>
+          <span class="excluded">resolution_note</span>
+        </div>
+      </div>
+      <div class="schema-arrow">→<span>RLS + view,<br>no login required</span></div>
+      <div class="schema-box">
+        <span class="kind">View</span>
+        <h4>public_tickets</h4>
+        <div class="schema-cols">
+          id, ticket_number<br>
+          address, type, status<br>
+          submitted_on, resolved_on
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-dark">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Field reporting</span>
+      <h2>The paper form stayed. Only the retyping left.</h2>
+    </div>
+    <div class="prose" style="color:#C7C2B4;">Crews already worked from a printed repair sheet, filled in by hand at the pole:
+      which parts came off, which went back on, whether the line was re-energized. Replacing that habit
+      wasn't realistic. Instead, the console exports a print-ready sheet — <strong>same column layout,
+      same grouped headers, same signature line</strong> as the physical form — pre-filled with that day's
+      open tickets. Once it's filled in and scanned back, the same sheet is re-uploaded: rows are matched
+      to tickets by number or by street name, and each crew's checkmarks are turned into a structured
+      resolution note automatically.</div>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="n">01 — EXPORT</span>
+        <h4>Generate</h4>
+        <p>Today's open tickets laid out on the real repair-sheet template, paginated and print-scaled to fit A4.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="n">02 — FIELD</span>
+        <h4>Fill in</h4>
+        <p>Crew marks each repair step by hand, same as they always have — no device, no app, no retraining.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="n">03 — IMPORT</span>
+        <h4>Reconcile</h4>
+        <p>Sheet comes back in. Rows match to tickets automatically; marked steps become one written note per ticket.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Engineering notes</span>
+      <h2>What made this harder than it sounds</h2>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <span class="note-tag">Print math</span>
+        <div>
+          <h4>Deterministic Excel scaling</h4>
+          <p>Letting Excel auto-fit a sheet to one page produces a different result on every renderer.
+            Fixed by computing the scale explicitly — the same <code>7px-per-character</code> approximation
+            Excel itself uses — then deriving row height and page breaks from that one known number instead
+            of hoping the software agrees with itself.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Session state</span>
+        <div>
+          <h4>No page reload, no leftover role</h4>
+          <p>Switching accounts in the same tab left the previous person's role-specific UI on screen for
+            a beat before the new one loaded. Every one-way DOM change from login now has an explicit,
+            reversible undo on logout — nothing assumes it'll never need to run backward.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Layout</span>
+        <div>
+          <h4>Pages packed by real height, not a guess</h4>
+          <p>A hand-filled street name can wrap to two or three lines — Excel never grows a row to fit
+            that on its own. Each row's height is now computed from its own content, and tickets are
+            packed onto a page by actual accumulated height rather than a fixed count per page.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Matching</span>
+        <div>
+          <h4>One ticket, however it's written</h4>
+          <p>A field-typed <code>96</code>, a stored <code>TICKET-0096</code>, and a street name missing
+            its "Str." all have to resolve to the same report. Digit-extraction plus stopword-aware address
+            matching handle both directions with the same rule.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <span class="eyebrow">Built with</span>
+    <div class="stack-row">
+      <span class="stack-chip">Vanilla JS</span>
+      <span class="stack-chip">Supabase · Postgres + RLS</span>
+      <span class="stack-chip">ExcelJS</span>
+      <span class="stack-chip">Chart.js</span>
+      <span class="stack-chip">Service worker + push</span>
+      <span class="stack-chip">PWA</span>
+    </div>
+    <div class="foot-meta">
+      <span>Single-page console · no build step</span>
+      <span>Role rules enforced at the database</span>
+      <span>Companion piece: <a href="last-planner-system.html">Last Planner System</a></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
