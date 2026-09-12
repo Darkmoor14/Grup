@@ -6,7 +6,7 @@
 <title>Public Lighting Ops Console</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   /* ============================================================
      TOKENS
@@ -35,7 +35,7 @@
     --bad-bg:#FAEAE5;
     --on-accent:#20140A;
     --shadow:0 18px 44px rgba(18,24,31,0.14);
-    --font-display:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --font-display:'Fraunces', 'IBM Plex Sans', serif;
     --font-body:'IBM Plex Sans', -apple-system, sans-serif;
     --font-mono:'IBM Plex Mono', 'SF Mono', monospace;
   }
@@ -105,8 +105,18 @@
      the background it's sitting on. */
   .hero .lede em{color:var(--paper-050);}
 
-  /* ---------- Hero / nameplate band ---------- */
+  /* ---------- Hero / nameplate band ----------
+     Pinned to fixed light-mode values, not the swappable tokens —
+     meant to always read as a dark title band, the same in every
+     viewer theme, rather than inverting with page dark mode. */
   .hero{
+    --ink-950:#12181F; --ink-800:#232E39; --ink-600:#4B5A66; --ink-400:#8695A0;
+    --paper-000:#FFFFFF; --paper-050:#FAF7F1; --paper-100:#F1EBDE;
+    --line:#E2DACB; --line-strong:#CFC4AE;
+    --accent:#C87D1E; --accent-ink:#8F5810; --accent-bg:#FBEFDC;
+    --good:#3F7A52; --good-bg:#E8F2EA; --warn:#B5762B; --warn-bg:#FBF0E1;
+    --bad:#A8442E; --bad-bg:#FAEAE5;
+    --shadow:0 18px 44px rgba(18,24,31,0.14);
     background:var(--ink-950);color:var(--paper-050);
     padding-block:64px 56px;
     border-bottom:3px solid var(--accent);
@@ -130,7 +140,19 @@
 
   /* ---------- Section rhythm ---------- */
   section{padding-block:64px;}
-  section.band-dark{background:var(--ink-950);color:var(--paper-050);}
+  /* Same reasoning as .hero — pinned so this always reads as a dark
+     band regardless of the viewer's theme, since everything inside it
+     (the demo mock-up, chips, notes) assumes a fixed dark ground. */
+  section.band-dark{
+    --ink-950:#12181F; --ink-800:#232E39; --ink-600:#4B5A66; --ink-400:#8695A0;
+    --paper-000:#FFFFFF; --paper-050:#FAF7F1; --paper-100:#F1EBDE;
+    --line:#E2DACB; --line-strong:#CFC4AE;
+    --accent:#C87D1E; --accent-ink:#8F5810; --accent-bg:#FBEFDC;
+    --good:#3F7A52; --good-bg:#E8F2EA; --warn:#B5762B; --warn-bg:#FBF0E1;
+    --bad:#A8442E; --bad-bg:#FAEAE5;
+    --shadow:0 18px 44px rgba(18,24,31,0.14);
+    background:var(--ink-950);color:var(--paper-050);
+  }
   section.band-dark h2{color:var(--paper-050);}
   section.band-dark .eyebrow{color:var(--accent);}
   section.band-dark .lede{color:#C7C2B4;}
@@ -286,7 +308,10 @@
   .note code{font-family:var(--font-mono);font-size:0.92em;color:var(--accent-ink);}
 
   /* ---------- Colophon ---------- */
-  footer{background:var(--ink-950);color:#8B93A0;padding-block:40px;border-top:1px solid #2B333B;}
+  footer{
+    --accent:#C87D1E;
+    background:#12181F;color:#8B93A0;padding-block:40px;border-top:1px solid #2B333B;
+  }
   .stack-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
   .stack-chip{
     font-family:var(--font-mono);font-size:11.5px;color:#D3CEC0;border:1px solid #3A4048;
@@ -346,7 +371,7 @@
       pending) and a type — an <strong style="color:var(--paper-050);">accident</strong> report always
       surfaces above a routine fault, regardless of when either was filed. The intake role can close a
       report; only the field-operations lead can write the resolution note. That split isn't just hidden
-      in the UI — it's enforced by a Postgres trigger, so the rule holds even against a direct API call.</div>
+      in the UI — it's enforced as a rule at the database itself, so it holds even against a direct API call.</div>
   </div>
   <div class="shell">
     <div class="mock-frame" style="margin-top:32px;">
@@ -547,8 +572,8 @@
       <span class="eyebrow">Data layer</span>
       <h2>One table, two very different audiences</h2>
     </div>
-    <div class="prose">PostgreSQL, via Supabase. Row-Level Security scopes every table to the signed-in
-      account — but the public status lookup has no login at all, and can't just read the same table with
+    <div class="prose">A managed relational database with row-level access rules scopes every table to
+      the signed-in account — but the public status lookup has no login at all, and can't just read the same table with
       a relaxed policy without also handing every visitor a caller's name, phone, and email. It reads from
       a separate SQL view instead, one that never selects those columns in the first place. The two
       audiences are separated by the schema itself, not by an application-level check a future edit could
@@ -565,7 +590,7 @@
           <span class="excluded">resolution_note</span>
         </div>
       </div>
-      <div class="schema-arrow">→<span>RLS + view,<br>no login required</span></div>
+      <div class="schema-arrow">→<span>Access rule + view,<br>no login required</span></div>
       <div class="schema-box">
         <span class="kind">View</span>
         <h4>public_tickets</h4>
@@ -667,11 +692,11 @@
     <span class="eyebrow">Built with</span>
     <div class="stack-row">
       <span class="stack-chip">Vanilla JS</span>
-      <span class="stack-chip">Supabase · Postgres + RLS</span>
-      <span class="stack-chip">ExcelJS</span>
-      <span class="stack-chip">Chart.js</span>
-      <span class="stack-chip">Service worker + push</span>
-      <span class="stack-chip">PWA</span>
+      <span class="stack-chip">Managed database + row-level rules</span>
+      <span class="stack-chip">Spreadsheet export/import</span>
+      <span class="stack-chip">Charting</span>
+      <span class="stack-chip">Push notifications</span>
+      <span class="stack-chip">Installable phone app</span>
     </div>
     <div class="foot-meta">
       <span>Single-page console · no build step</span>

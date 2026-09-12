@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vila Silvia Booking Console</title>
+<title>Guesthouse Booking Console</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
   /* ============================================================
      TOKENS
@@ -39,7 +39,7 @@
     --blue-bg:#E7EEF6;
     --on-accent:#FBF7EC;
     --shadow:0 18px 44px rgba(20,32,27,0.14);
-    --font-display:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --font-display:'Fraunces', 'IBM Plex Sans', serif;
     --font-body:'IBM Plex Sans', -apple-system, sans-serif;
     --font-mono:'IBM Plex Mono', 'SF Mono', monospace;
   }
@@ -110,8 +110,20 @@
   .lede em{font-style:normal;color:var(--ink-950);font-weight:500;}
   .hero .lede em{color:var(--paper-050);}
 
-  /* ---------- Hero ---------- */
-  .hero{background:var(--ink-950);color:var(--paper-050);padding-block:64px 56px;border-bottom:3px solid var(--accent);}
+  /* ---------- Hero ----------
+     Pinned to fixed light-mode values, not the swappable tokens —
+     this is meant to always read as a dark title band, the same in
+     every viewer theme, rather than inverting with page dark mode. */
+  .hero{
+    --ink-950:#14201B; --ink-800:#26352C; --ink-600:#51624F; --ink-400:#889484;
+    --paper-000:#FFFFFF; --paper-050:#F8F6EF; --paper-100:#EFEADA;
+    --line:#DAD6C4; --line-strong:#C4BFA8;
+    --accent:#8A6D2F; --accent-ink:#5E4A1F; --accent-bg:#F1E9D2;
+    --good:#3F7A52; --good-bg:#E8F2EA; --warn:#B5762B; --warn-bg:#FBF0E1;
+    --bad:#A8442E; --bad-bg:#FAEAE5; --blue:#3B6EA5; --blue-bg:#E7EEF6;
+    --shadow:0 18px 44px rgba(20,32,27,0.14);
+    background:var(--ink-950);color:var(--paper-050);padding-block:64px 56px;border-bottom:3px solid var(--accent);
+  }
   .hero h1{color:var(--paper-050);font-size:clamp(40px,6.4vw,64px);line-height:0.96;margin-top:14px;}
   .hero .lede{color:#C9CFC2;margin-top:18px;}
   .hero .eyebrow{color:var(--accent);}
@@ -124,7 +136,19 @@
 
   /* ---------- Section rhythm ---------- */
   section{padding-block:64px;}
-  section.band-dark{background:var(--ink-950);color:var(--paper-050);}
+  /* Same reasoning as .hero — pinned so this always reads as a dark
+     band regardless of the viewer's theme, since everything inside it
+     (the demo mock-up, stat tiles, notes) assumes a fixed dark ground. */
+  section.band-dark{
+    --ink-950:#14201B; --ink-800:#26352C; --ink-600:#51624F; --ink-400:#889484;
+    --paper-000:#FFFFFF; --paper-050:#F8F6EF; --paper-100:#EFEADA;
+    --line:#DAD6C4; --line-strong:#C4BFA8;
+    --accent:#8A6D2F; --accent-ink:#5E4A1F; --accent-bg:#F1E9D2;
+    --good:#3F7A52; --good-bg:#E8F2EA; --warn:#B5762B; --warn-bg:#FBF0E1;
+    --bad:#A8442E; --bad-bg:#FAEAE5; --blue:#3B6EA5; --blue-bg:#E7EEF6;
+    --shadow:0 18px 44px rgba(20,32,27,0.14);
+    background:var(--ink-950);color:var(--paper-050);
+  }
   section.band-dark h2{color:var(--paper-050);}
   section.band-dark .eyebrow{color:var(--accent);}
   section.band-dark .lede{color:#C9CFC2;}
@@ -230,7 +254,10 @@
   .note code{font-family:var(--font-mono);font-size:0.92em;color:var(--accent-ink);}
 
   /* ---------- Colophon ---------- */
-  footer{background:var(--ink-950);color:#93A08E;padding-block:40px;border-top:1px solid #2B332A;}
+  footer{
+    --accent:#8A6D2F;
+    background:#14201B;color:#93A08E;padding-block:40px;border-top:1px solid #2B332A;
+  }
   .stack-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
   .stack-chip{
     font-family:var(--font-mono);font-size:11.5px;color:#D6D2C2;border:1px solid #3A4438;
@@ -251,7 +278,7 @@
 <div class="hero">
   <div class="shell">
     <span class="eyebrow">Case study — hospitality operations software</span>
-    <h1>Vila Silvia<br>Booking Console</h1>
+    <h1>Guesthouse<br>Booking Console</h1>
     <p class="lede">A booking-to-checkout system built for a family-run mountain guesthouse —
       <em>a rolling room calendar across every channel, automatic room assignment, and per-stay pricing
       that adjusts itself</em>, replacing a routine of Booking.com messages, a paper ledger, and a lot of memory.</p>
@@ -490,8 +517,8 @@
         <div>
           <h4>Useful before the backend existed</h4>
           <p>Built to run standalone on local demo data with no database configured at all, so the front
-            desk could start using the board immediately — then switched over to Supabase once the schema
-            was ready, without changing how the screen worked.</p>
+            desk could start using the board immediately — then switched over to a managed cloud database
+            once the schema was ready, without changing how the screen worked.</p>
         </div>
       </div>
     </div>
@@ -503,9 +530,9 @@
     <span class="eyebrow">Built with</span>
     <div class="stack-row">
       <span class="stack-chip">Vanilla JS</span>
-      <span class="stack-chip">Supabase · Postgres</span>
+      <span class="stack-chip">Managed cloud database</span>
       <span class="stack-chip">Service worker + Web Push</span>
-      <span class="stack-chip">PWA</span>
+      <span class="stack-chip">Installable phone app</span>
       <span class="stack-chip">No build step</span>
     </div>
     <div class="foot-meta">
