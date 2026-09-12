@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" defer></script>
 </head>
 <body>
 
@@ -91,7 +93,7 @@
   </section>
 
   <!-- About -->
-  <section id="about">
+  <section id="about" class="alt-bg">
     <div class="wrap">
       <div class="about-copy" style="max-width:720px;">
         <span class="kicker">SHEET 02 — ABOUT</span>
@@ -104,7 +106,7 @@
   </section>
 
   <!-- Services -->
-  <section id="services" class="alt-bg">
+  <section id="services">
     <div class="wrap">
       <div class="section-head">
         <span class="sheet-no">SHEET&nbsp;03</span>
@@ -223,7 +225,14 @@
         </div>
 
         <div class="form-card" id="contact-form">
-          <form id="contact-form-el">
+          <!--
+            EDIT ME: replace YOUR_FORM_ID below with your real Formspree
+            form ID. Sign up free at https://formspree.io, create a new
+            form pointed at hello@tagstop.com (or whatever address should
+            receive these), and it'll give you an ID like "abcdwxyz" —
+            drop it into the action URL in place of YOUR_FORM_ID.
+          -->
+          <form id="contact-form-el" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
             <div class="form-row">
               <div class="field">
                 <label for="name">Full name</label>
@@ -255,9 +264,18 @@
               <textarea id="message" name="message" required placeholder="Describe the project, timeline and budget range."></textarea>
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send message</button>
-            <p class="form-note">This form is a front-end demo — connect it to your email or a service like Formspree to receive submissions.</p>
+            <p class="form-note">Submissions are emailed directly via Formspree — nothing is stored on this site.</p>
             <p id="form-status"></p>
           </form>
+
+          <div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--line);text-align:center;">
+            <p style="font-size:0.9rem;color:var(--ink-500);margin-bottom:12px;">Prefer to talk it through first?</p>
+            <!--
+              EDIT ME: replace YOUR-USERNAME with your real Calendly link
+              (e.g. calendly.com/your-username or .../30min) once it's set up.
+            -->
+            <a href="#" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/YOUR-USERNAME'}); return false;" class="btn btn-ghost" style="width:100%;justify-content:center;">Book a meeting</a>
+          </div>
         </div>
       </div>
     </div>

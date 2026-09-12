@@ -33,10 +33,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const form = document.getElementById('contact-form-el');
   const status = document.getElementById('form-status');
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    status.textContent = "Thanks — your message has been noted. Replace this form action with your email/service to receive real submissions.";
-    status.classList.add('show', 'ok');
-    form.reset();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    status.classList.remove('show', 'ok', 'error');
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (response.ok) {
+        status.textContent = "Thanks — your message has been sent. Expect a reply within one business day.";
+        status.classList.add('show', 'ok');
+        form.reset();
+      } else {
+        status.textContent = "Something went wrong sending that — please try again or email hello@tagstop.com directly.";
+        status.classList.add('show', 'error');
+      }
+    } catch (err) {
+      status.textContent = "Something went wrong sending that — please try again or email hello@tagstop.com directly.";
+      status.classList.add('show', 'error');
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 });
