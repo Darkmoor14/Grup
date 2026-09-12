@@ -486,11 +486,12 @@
       <div class="note">
         <span class="note-tag">Dates</span>
         <div>
-          <h4>Local dates, never UTC</h4>
-          <p>Parsing a "YYYY-MM-DD" string with <code>new Date(str)</code>, or formatting one with
-            <code>toISOString()</code>, both round-trip through UTC first — which can silently shift a
-            checkout date to the wrong calendar day depending on the guest's timezone and the time of day.
-            Every date in the system is parsed and formatted from its local year/month/day instead.</p>
+          <h4>Dates stay local, on purpose</h4>
+          <p>The obvious way to handle a "YYYY-MM-DD" string — <code>new Date(str)</code> to read it,
+            <code>toISOString()</code> to write it back out — quietly converts through UTC on both ends.
+            Depending on where the guest is and what time they book, that conversion can bump a checkout
+            date onto the wrong day entirely. Every date here is read and written straight from its own
+            year/month/day, with UTC never entering the picture.</p>
         </div>
       </div>
       <div class="note">
