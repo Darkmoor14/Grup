@@ -487,11 +487,11 @@
         <span class="note-tag">Dates</span>
         <div>
           <h4>Dates stay local, on purpose</h4>
-          <p>The obvious way to handle a "YYYY-MM-DD" string — <code>new Date(str)</code> to read it,
-            <code>toISOString()</code> to write it back out — quietly converts through UTC on both ends.
-            Depending on where the guest is and what time they book, that conversion can bump a checkout
-            date onto the wrong day entirely. Every date here is read and written straight from its own
-            year/month/day, with UTC never entering the picture.</p>
+          <p>The obvious way to handle a booking date is to hand the "YYYY-MM-DD" string straight to the
+            browser's built-in date tools, which quietly convert it through a UTC timestamp on the way
+            in and back out again. Depending on where the guest is and what time they book, that hidden
+            conversion can bump a checkout date onto the wrong calendar day entirely. Every date here is
+            read and written straight from its own year/month/day, with no timestamp conversion involved.</p>
         </div>
       </div>
       <div class="note">
