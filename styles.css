@@ -180,28 +180,29 @@ header{
 }
 .hero-plane{
   position:absolute;
-  top:32px;
-  right:36px;
-  width:220px;
+  top:64%;
+  left:36%;
+  transform:translate(-50%,-50%);
+  width:110px;
   height:auto;
   z-index:-1;
-  color:var(--ink-400);
+  color:var(--line-strong);
 }
 .hero-plane .plane-label{
   font-family:var(--mono);
-  font-size:15px;
+  font-size:9px;
   font-weight:600;
-  letter-spacing:0.04em;
-  fill:var(--accent);
+  letter-spacing:0.03em;
+  fill:var(--line-strong);
 }
 .hero-plane .plane-fig{
   font-family:var(--mono);
-  font-size:9px;
-  letter-spacing:0.08em;
-  fill:var(--ink-400);
+  font-size:6px;
+  letter-spacing:0.06em;
+  fill:var(--line-strong);
 }
 @media(max-width:900px){
-  .hero-plane{width:150px; top:24px; right:20px;}
+  .hero-plane{width:80px;}
 }
 @media(max-width:640px){
   .hero-plane{display:none;}
