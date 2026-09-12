@@ -465,8 +465,13 @@ section{padding-block:88px;}
 #form-status.ok{color:var(--blue-ink);}
 #form-status.error{color:var(--accent-600);}
 
-/* CTA band */
+/* CTA band — always dark, so pin its colors instead of the theme-swappable vars */
 .cta-band{
+  --paper:#F2F4F0;
+  --ink-300:#A8B3AC;
+  --line-strong:#AFBBA9;
+  --accent:#E2874A;
+  --accent-600:#EEA46E;
   background:var(--panel-dark);
   color:var(--paper);
   border-radius:4px;
@@ -482,6 +487,7 @@ section{padding-block:88px;}
   font-size:2.3rem;
   font-weight:700;
   max-width:480px;
+  color:var(--paper);
 }
 .cta-band p{color:var(--ink-300); margin-top:10px;}
 .cta-band .btn-primary{background:var(--accent); color:#fff;}
@@ -543,8 +549,12 @@ footer{
   margin-bottom:24px;
 }
 
-/* Cookie consent banner */
+/* Cookie consent banner — always dark, so pin its colors instead of the theme-swappable vars */
 .cookie-banner{
+  --paper:#F2F4F0;
+  --ink-300:#A8B3AC;
+  --line-strong:#AFBBA9;
+  --accent-600:#EEA46E;
   position:fixed;
   left:0; right:0; bottom:0;
   z-index:200;
