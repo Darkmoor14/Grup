@@ -118,11 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
         status.classList.add('show', 'ok');
         form.reset();
       } else {
-        status.textContent = "Something went wrong sending that — please try again or email hello@tagstop.com directly.";
+        status.textContent = "Something went wrong sending that — please try again or email office@tag-stop.de directly.";
         status.classList.add('show', 'error');
       }
     } catch (err) {
-      status.textContent = "Something went wrong sending that — please try again or email hello@tagstop.com directly.";
+      status.textContent = "Something went wrong sending that — please try again or email office@tag-stop.de directly.";
       status.classList.add('show', 'error');
     } finally {
       submitBtn.disabled = false;
