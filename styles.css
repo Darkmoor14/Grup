@@ -291,7 +291,7 @@ section{padding-block:88px;}
   letter-spacing:-0.005em;
   margin-bottom:20px;
 }
-.about-copy p{color:var(--ink-700); margin-bottom:16px;}
+.about-copy p{color:var(--ink-700); font-size:1.15rem; margin-bottom:16px;}
 
 /* Services */
 .services-grid{
@@ -460,7 +460,6 @@ section{padding-block:88px;}
   border-color:var(--accent);
   background:var(--paper-050);
 }
-.form-note{font-size:0.9rem; color:var(--ink-500); margin-top:14px;}
 #form-status{font-size:1rem; margin-top:14px; display:none;}
 #form-status.show{display:block;}
 #form-status.ok{color:var(--blue-ink);}
