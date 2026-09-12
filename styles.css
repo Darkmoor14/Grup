@@ -324,19 +324,6 @@ section{padding-block:88px;}
   margin-bottom:10px;
 }
 .service-card p{font-size:0.9rem;color:var(--ink-700);}
-.service-card ul{margin-top:14px; display:flex; flex-direction:column; gap:7px;}
-.service-card li{
-  font-family:var(--mono);
-  font-size:0.78rem;
-  color:var(--ink-500);
-  padding-left:14px;
-  position:relative;
-}
-.service-card li::before{
-  content:"—";
-  position:absolute;left:0;top:0;
-  color:var(--accent);
-}
 
 /* Skills */
 .skills-grid{
