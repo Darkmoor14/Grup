@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vila Silvia Booking Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* ============================================================
+     TOKENS
+     Same case-study template used across Tag Stop's demos (see the
+     Public Lighting Ops Console / Last Planner System pieces) —
+     kept consistent on purpose, even though this is a different
+     client. Accent is a warm pine/amber, evoking the mountain
+     guesthouse this system runs, not a picked-for-branding hue.
+     ============================================================ */
+  :root{
+    --ink-950:#14201B;
+    --ink-800:#26352C;
+    --ink-600:#51624F;
+    --ink-400:#889484;
+    --paper-000:#FFFFFF;
+    --paper-050:#F8F6EF;
+    --paper-100:#EFEADA;
+    --line:#DAD6C4;
+    --line-strong:#C4BFA8;
+    --accent:#8A6D2F;
+    --accent-ink:#5E4A1F;
+    --accent-bg:#F1E9D2;
+    --good:#3F7A52;
+    --good-bg:#E8F2EA;
+    --warn:#B5762B;
+    --warn-bg:#FBF0E1;
+    --bad:#A8442E;
+    --bad-bg:#FAEAE5;
+    --blue:#3B6EA5;
+    --blue-bg:#E7EEF6;
+    --on-accent:#FBF7EC;
+    --shadow:0 18px 44px rgba(20,32,27,0.14);
+    --font-display:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    --font-body:'IBM Plex Sans', -apple-system, sans-serif;
+    --font-mono:'IBM Plex Mono', 'SF Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink-950:#EFEEE6;
+      --ink-800:#D2D3C6;
+      --ink-600:#9EA79A;
+      --ink-400:#707B6C;
+      --paper-000:#171D18;
+      --paper-050:#121712;
+      --paper-100:#1D251D;
+      --line:#2C352A;
+      --line-strong:#3B4738;
+      --accent:#C9A857;
+      --accent-ink:#E4C57E;
+      --accent-bg:#2A2411;
+      --good:#6FAE81;
+      --good-bg:#16261B;
+      --warn:#D9A059;
+      --warn-bg:#2A2013;
+      --bad:#D98368;
+      --bad-bg:#2B1912;
+      --blue:#7FA9D6;
+      --blue-bg:#15202B;
+      --shadow:0 18px 44px rgba(0,0,0,0.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink-950:#EFEEE6;
+    --ink-800:#D2D3C6;
+    --ink-600:#9EA79A;
+    --ink-400:#707B6C;
+    --paper-000:#171D18;
+    --paper-050:#121712;
+    --paper-100:#1D251D;
+    --line:#2C352A;
+    --line-strong:#3B4738;
+    --accent:#C9A857;
+    --accent-ink:#E4C57E;
+    --accent-bg:#2A2411;
+    --good:#6FAE81;
+    --good-bg:#16261B;
+    --warn:#D9A059;
+    --warn-bg:#2A2013;
+    --bad:#D98368;
+    --bad-bg:#2B1912;
+    --blue:#7FA9D6;
+    --blue-bg:#15202B;
+    --shadow:0 18px 44px rgba(0,0,0,0.45);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper-050);color:var(--ink-800);
+    font-family:var(--font-body);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .shell{max-width:920px;margin:0 auto;padding-inline:24px;}
+  h1,h2,h3{font-family:var(--font-display);font-weight:700;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance;color:var(--ink-950);margin:0;}
+  p{margin:0;}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--accent-ink);display:flex;align-items:center;gap:9px;
+  }
+  .eyebrow::before{content:'';width:16px;height:1.5px;background:var(--accent);display:block;}
+  .lede{font-size:18.5px;line-height:1.65;color:var(--ink-600);max-width:62ch;}
+  .lede em{font-style:normal;color:var(--ink-950);font-weight:500;}
+  .hero .lede em{color:var(--paper-050);}
+
+  /* ---------- Hero ---------- */
+  .hero{background:var(--ink-950);color:var(--paper-050);padding-block:64px 56px;border-bottom:3px solid var(--accent);}
+  .hero h1{color:var(--paper-050);font-size:clamp(40px,6.4vw,64px);line-height:0.96;margin-top:14px;}
+  .hero .lede{color:#C9CFC2;margin-top:18px;}
+  .hero .eyebrow{color:var(--accent);}
+  .hero .eyebrow::before{background:var(--accent);}
+  .spec-plate{margin-top:40px;border:1px solid #3A4438;border-radius:3px;display:grid;grid-template-columns:repeat(4,1fr);background:#1B231B;}
+  .spec-plate div{padding:16px 18px;border-left:1px solid #3A4438;}
+  .spec-plate div:first-child{border-left:none;}
+  .spec-k{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#94A18E;display:block;}
+  .spec-v{font-family:var(--font-mono);font-size:17px;color:var(--accent);margin-top:6px;display:block;font-variant-numeric:tabular-nums;}
+
+  /* ---------- Section rhythm ---------- */
+  section{padding-block:64px;}
+  section.band-dark{background:var(--ink-950);color:var(--paper-050);}
+  section.band-dark h2{color:var(--paper-050);}
+  section.band-dark .eyebrow{color:var(--accent);}
+  section.band-dark .lede{color:#C9CFC2;}
+  section.band-dark .prose strong{color:var(--paper-050);}
+  .section-head{margin-bottom:34px;}
+  .section-head h2{font-size:clamp(28px,3.6vw,38px);margin-top:10px;}
+  .section-head p{margin-top:12px;}
+
+  .prose{max-width:64ch;font-size:15.5px;color:var(--ink-600);}
+  .prose + .prose{margin-top:14px;}
+  .prose strong{color:var(--ink-950);font-weight:600;}
+
+  /* ---------- Booking board demo ---------- */
+  .mock-frame{
+    margin-top:32px;background:var(--paper-000);border:1px solid var(--line-strong);
+    border-radius:6px;box-shadow:var(--shadow);overflow:hidden;color:var(--ink-800);
+  }
+  .mock-frame-bar{
+    display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--paper-100);
+    border-bottom:1px solid var(--line);flex-wrap:wrap;row-gap:6px;
+  }
+  .mock-frame-dot{width:8px;height:8px;border-radius:50%;background:var(--line-strong);flex-shrink:0;}
+  .mock-frame-label{
+    margin-left:6px;flex-shrink:0;font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.05em;
+    text-transform:uppercase;color:var(--ink-400);white-space:nowrap;
+  }
+  .demo-badge{
+    margin-left:auto;flex-shrink:0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.04em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent-bg);border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    border-radius:20px;padding:3px 10px;white-space:nowrap;
+  }
+  .mock-body{padding:22px;}
+
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+  .stat-tile{
+    border:1px solid var(--line-strong);border-radius:6px;padding:12px 14px;background:var(--paper-000);
+    cursor:pointer;text-align:left;font:inherit;color:inherit;transition:border-color .15s,background .15s;
+  }
+  .stat-tile:hover{border-color:var(--ink-400);}
+  .stat-tile.active{background:var(--accent-bg);border-color:var(--accent);}
+  .stat-k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-400);display:block;}
+  .stat-v{font-family:var(--font-mono);font-size:24px;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--ink-950);}
+  .stat-tile.active .stat-v{color:var(--accent-ink);}
+  @media(max-width:640px){.stat-row{grid-template-columns:repeat(2,1fr);}}
+
+  .res{border:1px solid var(--line-strong);border-radius:5px;background:var(--paper-000);overflow:hidden;border-left:4px solid var(--line-strong);}
+  .res + .res{margin-top:10px;}
+  .res.status-checkedin{border-left-color:var(--good);}
+  .res.status-paid{border-left-color:var(--blue);}
+  .res.status-toarrive{border-left-color:var(--warn);}
+  .res.status-notpaid{border-left-color:var(--bad);}
+  .res-row{
+    display:flex;align-items:center;gap:12px;padding:13px 16px;width:100%;
+    border:none;background:none;text-align:left;font:inherit;color:inherit;cursor:pointer;flex-wrap:wrap;
+  }
+  .res-row:hover{background:var(--paper-100);}
+  .res-guest{font-weight:600;color:var(--ink-950);font-size:13.5px;}
+  .res-room{font-family:var(--font-mono);font-size:11px;color:var(--ink-400);}
+  .res-tag{
+    font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;
+    padding:3px 8px;border-radius:3px;background:var(--paper-100);color:var(--ink-600);
+  }
+  .res-tag.src-booking{background:var(--blue-bg);color:var(--blue);}
+  .res-tag.src-direct{background:var(--accent-bg);color:var(--accent-ink);}
+  .res-row-right{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0;}
+  .res-dates{font-family:var(--font-mono);font-size:11px;color:var(--ink-400);}
+  .res-chev{font-family:var(--font-mono);font-size:14px;color:var(--ink-400);display:inline-block;transition:transform 0.15s ease;}
+  .res.expanded .res-chev{transform:rotate(90deg);}
+  .res-detail{display:none;padding:4px 16px 16px;border-top:1px solid var(--line);}
+  .res.expanded .res-detail{display:block;}
+  .res-body{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 20px;font-size:13.5px;margin-top:12px;}
+  .res-body .full{grid-column:1/-1;}
+  .res-k{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;color:var(--ink-400);letter-spacing:0.04em;display:block;margin-bottom:2px;}
+  .res-status-pill{
+    font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.05em;
+    padding:3px 9px;border-radius:20px;
+  }
+  .res.status-checkedin .res-status-pill{background:var(--good-bg);color:var(--good);}
+  .res.status-paid .res-status-pill{background:var(--blue-bg);color:var(--blue);}
+  .res.status-toarrive .res-status-pill{background:var(--warn-bg);color:var(--warn);}
+  .res.status-notpaid .res-status-pill{background:var(--bad-bg);color:var(--bad);}
+  .res-row:focus-visible,.stat-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  /* ---------- Three-step flow ---------- */
+  .flow{margin-top:34px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:0;}
+  .flow-step{border:1px solid var(--line-strong);border-radius:6px;background:var(--paper-000);padding:20px 18px;text-align:left;}
+  .flow-step .n{font-family:var(--font-mono);font-size:10.5px;color:var(--accent-ink);letter-spacing:0.06em;}
+  .flow-step h4{font-family:var(--font-display);font-size:19px;text-transform:uppercase;margin:8px 0 6px;color:var(--ink-950);}
+  .flow-step p{font-size:13px;color:var(--ink-600);line-height:1.55;}
+  .flow-arrow{display:flex;align-items:center;justify-content:center;color:var(--line-strong);font-size:22px;padding:0 6px;}
+  @media(max-width:720px){
+    .flow{grid-template-columns:1fr;gap:14px;}
+    .flow-arrow{transform:rotate(90deg);padding:0;}
+  }
+
+  /* ---------- Engineering notes ---------- */
+  .notes{margin-top:34px;display:flex;flex-direction:column;}
+  .note{display:grid;grid-template-columns:120px 1fr;gap:22px;padding-block:22px;border-top:1px solid #333B30;}
+  .note:last-child{border-bottom:1px solid #333B30;}
+  .note-tag{font-family:var(--font-mono);font-size:10.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent);padding-top:2px;}
+  .note h4{font-family:var(--font-display);font-size:20px;text-transform:uppercase;color:var(--paper-050);margin-bottom:6px;}
+  .note p{font-size:14px;color:#BFC4B5;line-height:1.6;max-width:56ch;}
+  .note code{font-family:var(--font-mono);font-size:0.92em;color:var(--accent-ink);}
+
+  /* ---------- Colophon ---------- */
+  footer{background:var(--ink-950);color:#93A08E;padding-block:40px;border-top:1px solid #2B332A;}
+  .stack-row{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px;}
+  .stack-chip{
+    font-family:var(--font-mono);font-size:11.5px;color:#D6D2C2;border:1px solid #3A4438;
+    border-radius:3px;padding:6px 11px;background:#1B231B;
+  }
+  footer .foot-meta{margin-top:28px;font-family:var(--font-mono);font-size:11.5px;color:#5F6A5A;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+
+  @media(max-width:640px){
+    .spec-plate{grid-template-columns:1fr 1fr;}
+    .spec-plate div:nth-child(3){border-left:none;}
+    .res-body{grid-template-columns:1fr 1fr;}
+    .note{grid-template-columns:1fr;gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="shell">
+    <span class="eyebrow">Case study — hospitality operations software</span>
+    <h1>Vila Silvia<br>Booking Console</h1>
+    <p class="lede">A booking-to-checkout system built for a family-run mountain guesthouse —
+      <em>a rolling room calendar across every channel, automatic room assignment, and per-stay pricing
+      that adjusts itself</em>, replacing a routine of Booking.com messages, a paper ledger, and a lot of memory.</p>
+    <div class="spec-plate">
+      <div><span class="spec-k">Rooms</span><span class="spec-v">9 (7 + 2)</span></div>
+      <div><span class="spec-k">Channels tracked</span><span class="spec-v">Booking.com + Direct</span></div>
+      <div><span class="spec-k">Calendar</span><span class="spec-v">Rolling, no cutoff</span></div>
+      <div><span class="spec-k">Notifications</span><span class="spec-v">Day-ahead push</span></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">The starting point</span>
+      <h2>Nine rooms, one inbox, one memory</h2>
+    </div>
+    <div class="prose">Bookings arrived two ways — a Booking.com message thread, or a direct call or
+      WhatsApp text — and both ended up in the same paper ledger by the front desk. Nothing stopped the
+      same room from being promised twice across those two channels, and there was no shared view of who
+      was actually arriving today, who still owed a deposit, or which rooms needed restocking after a
+      checkout.</div>
+    <div class="prose">The brief was one board that both channels fed into, with a room calendar that
+      couldn't silently double-book, and pricing that didn't need to be recalculated by hand every time a
+      guest extended their stay or a family asked for an extra bed.</div>
+  </div>
+</section>
+
+<section class="band-dark">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Front desk board</span>
+      <h2>Every booking, one board</h2>
+    </div>
+    <div class="prose" style="color:#C9CFC2;">Four counts drive the whole front desk view — <strong style="color:var(--paper-050);">checked-in</strong>,
+      <strong style="color:var(--paper-050);">arriving</strong>, <strong style="color:var(--paper-050);">paid</strong> and
+      <strong style="color:var(--paper-050);">unpaid</strong> — and clicking one filters the list below it instead of
+      opening a separate report. A stay is automatically treated as closed the day after checkout, regardless
+      of its payment status, and moves itself to a separate tab without anyone updating it by hand.</div>
+  </div>
+  <div class="shell">
+    <div class="mock-frame" style="margin-top:32px;">
+      <div class="mock-frame-bar">
+        <span class="mock-frame-dot"></span><span class="mock-frame-dot"></span><span class="mock-frame-dot"></span>
+        <span class="mock-frame-label" id="statsLabel">Front desk — 4 active stays</span>
+        <span class="demo-badge">Interactive</span>
+      </div>
+      <div class="mock-body">
+        <div class="stat-row" role="group" aria-label="Filter by status">
+          <button type="button" class="stat-tile active" data-filter="all">
+            <span class="stat-k">All active</span><span class="stat-v" id="statAll">4</span>
+          </button>
+          <button type="button" class="stat-tile" data-filter="checkedin">
+            <span class="stat-k">Checked-in</span><span class="stat-v" id="statCheckedin">1</span>
+          </button>
+          <button type="button" class="stat-tile" data-filter="toarrive">
+            <span class="stat-k">Arriving</span><span class="stat-v" id="statToarrive">2</span>
+          </button>
+          <button type="button" class="stat-tile" data-filter="notpaid">
+            <span class="stat-k">Unpaid</span><span class="stat-v" id="statNotpaid">1</span>
+          </button>
+        </div>
+        <div id="resList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var state = { filter: 'all', expanded: 'r1' };
+  var reservations = [
+    {id:'r1', guest:'A. Bădescu', source:'direct', room:'Apartament', roomNumber:9, guests:4,
+      checkin:'12.09', checkout:'16.09', status:'checkedin', phone:'07•• ••• •••',
+      extras:['Sauna ×2 — 180 lei'], price:'2,660 lei'},
+    {id:'r2', guest:'M. & J. Keller', source:'booking', room:'Standard, balcony', roomNumber:3, guests:2,
+      checkin:'14.09', checkout:'17.09', status:'toarrive', phone:'07•• ••• •••',
+      extras:[], price:'1,020 lei'},
+    {id:'r3', guest:'Familia Ionescu', source:'direct', room:'Standard, balcony', roomNumber:6, guests:3,
+      checkin:'14.09', checkout:'18.09', status:'toarrive', phone:'07•• ••• •••',
+      extras:['Extra person ×4 nights — 200 lei'], price:'1,560 lei'},
+    {id:'r4', guest:'R. Novak', source:'booking', room:'Standard, no balcony', roomNumber:5, guests:1,
+      checkin:'13.09', checkout:'15.09', status:'notpaid', phone:'07•• ••• •••',
+      extras:['Massage ×1 — 120 lei'], price:'720 lei'}
+  ];
+  var statusLabel = {checkedin:'Checked-in', toarrive:'Arriving', notpaid:'Unpaid'};
+  var sourceLabel = {booking:'Booking.com', direct:'Direct'};
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function updateCounts(){
+    document.getElementById('statAll').textContent = reservations.length;
+    document.getElementById('statCheckedin').textContent = reservations.filter(function(r){return r.status==='checkedin';}).length;
+    document.getElementById('statToarrive').textContent = reservations.filter(function(r){return r.status==='toarrive';}).length;
+    document.getElementById('statNotpaid').textContent = reservations.filter(function(r){return r.status==='notpaid';}).length;
+    document.getElementById('statsLabel').textContent = 'Front desk — ' + reservations.length + ' active stays';
+  }
+
+  function render(){
+    var list = state.filter === 'all' ? reservations : reservations.filter(function(r){ return r.status === state.filter; });
+    var html = list.map(function(r){
+      var expanded = state.expanded === r.id;
+      var payLine = r.status === 'notpaid'
+        ? '<div class="full"><span class="res-k">Balance due</span>' + r.price + '</div>'
+        : '<div class="full"><span class="res-k">Total</span>' + r.price + '</div>';
+      var extrasLine = r.extras.length
+        ? '<div class="full"><span class="res-k">Extras</span>' + r.extras.map(esc).join(', ') + '</div>'
+        : '';
+      return (
+        '<div class="res status-' + r.status + (expanded?' expanded':'') + '">' +
+          '<button type="button" class="res-row" data-toggle="' + r.id + '" aria-expanded="' + expanded + '">' +
+            '<span class="res-guest">' + esc(r.guest) + '</span>' +
+            '<span class="res-tag src-' + r.source + '">' + sourceLabel[r.source] + '</span>' +
+            '<span class="res-room">' + esc(r.room) + ' · No. ' + r.roomNumber + '</span>' +
+            '<span class="res-row-right">' +
+              '<span class="res-dates">' + r.checkin + ' → ' + r.checkout + '</span>' +
+              '<span class="res-chev">›</span>' +
+            '</span>' +
+          '</button>' +
+          '<div class="res-detail">' +
+            '<span class="res-status-pill">' + statusLabel[r.status] + '</span>' +
+            '<div class="res-body">' +
+              '<div><span class="res-k">Phone</span>' + esc(r.phone) + '</div>' +
+              '<div><span class="res-k">Guests</span>' + r.guests + '</div>' +
+              '<div><span class="res-k">Room</span>' + esc(r.room) + '</div>' +
+              extrasLine +
+              payLine +
+            '</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+    document.getElementById('resList').innerHTML = html ||
+      '<p style="padding:20px 4px;color:var(--ink-400);font-size:13px;">No stays match this filter.</p>';
+    wireRows();
+  }
+
+  function wireRows(){
+    document.querySelectorAll('[data-toggle]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-toggle');
+        state.expanded = (state.expanded === id) ? null : id;
+        render();
+      });
+    });
+  }
+
+  document.querySelectorAll('.stat-tile').forEach(function(tile){
+    tile.addEventListener('click', function(){
+      state.filter = tile.getAttribute('data-filter');
+      document.querySelectorAll('.stat-tile').forEach(function(t){ t.classList.remove('active'); });
+      tile.classList.add('active');
+      render();
+    });
+  });
+
+  updateCounts();
+  render();
+})();
+</script>
+
+<section>
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Room assignment</span>
+      <h2>The room assigns itself</h2>
+    </div>
+    <div class="prose">Nine rooms — seven Standard (six with a balcony, one without) and two Apartament
+      units — get matched to a new booking automatically, in a fixed order, rather than left to whoever's
+      at the desk that day.</div>
+    <div class="flow">
+      <div class="flow-step">
+        <span class="n">01 — REPEAT GUEST</span>
+        <h4>Same room again</h4>
+        <p>A returning guest's most recent room of that type is offered first, if it's free for the new dates.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="n">02 — GROUP BLOCK</span>
+        <h4>Rooms kept together</h4>
+        <p>A family or group booking multiple rooms gets a contiguous run of room numbers, not whatever's scattered free.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="n">03 — FIRST FREE</span>
+        <h4>Fallback</h4>
+        <p>Otherwise, the first free room of the right type — skipping anything blocked for maintenance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band-dark" style="padding-top:56px;">
+  <div class="shell">
+    <div class="section-head">
+      <span class="eyebrow">Engineering notes</span>
+      <h2>What made this harder than it sounds</h2>
+    </div>
+    <div class="notes">
+      <div class="note">
+        <span class="note-tag">Dates</span>
+        <div>
+          <h4>Local dates, never UTC</h4>
+          <p>Parsing a "YYYY-MM-DD" string with <code>new Date(str)</code>, or formatting one with
+            <code>toISOString()</code>, both round-trip through UTC first — which can silently shift a
+            checkout date to the wrong calendar day depending on the guest's timezone and the time of day.
+            Every date in the system is parsed and formatted from its local year/month/day instead.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Calendar</span>
+        <div>
+          <h4>A calendar with no edges</h4>
+          <p>A fixed month grid cuts a stay in half the moment it crosses month-end. The room calendar
+            scrolls as a continuous, rolling window instead, so a nine-night stay over a month boundary
+            still reads as one uninterrupted bar.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Pricing</span>
+        <div>
+          <h4>One catalog, two consumers</h4>
+          <p>Room rates and the per-night extra-person charge both read from a single pricing catalog
+            edited in one place. Guest count above a room's base occupancy is priced automatically —
+            change the dates or add a guest, and the surcharge line recalculates itself rather than
+            waiting to be re-entered.</p>
+        </div>
+      </div>
+      <div class="note">
+        <span class="note-tag">Rollout</span>
+        <div>
+          <h4>Useful before the backend existed</h4>
+          <p>Built to run standalone on local demo data with no database configured at all, so the front
+            desk could start using the board immediately — then switched over to Supabase once the schema
+            was ready, without changing how the screen worked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell">
+    <span class="eyebrow">Built with</span>
+    <div class="stack-row">
+      <span class="stack-chip">Vanilla JS</span>
+      <span class="stack-chip">Supabase · Postgres</span>
+      <span class="stack-chip">Service worker + Web Push</span>
+      <span class="stack-chip">PWA</span>
+      <span class="stack-chip">No build step</span>
+    </div>
+    <div class="foot-meta">
+      <span>Single-page console · no build step</span>
+      <span>Room assignment runs client-side, dates handled in local time</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
