@@ -3,28 +3,763 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tag Stop — Project Management & Engineering Consultant</title>
-<meta name="description" content="Tag Stop helps companies deliver complex electrical, mechanical and IT projects on time and on budget — project management, systems integration and engineering consulting.">
+<title>Tag Stop — Engineering Software &amp; Consulting</title>
+<meta name="description" content="Tag Stop builds operational software — OpsDesk, SitePlan and StayDesk — for contractors, construction teams and hospitality businesses, and leads the technical engineering projects that need a seasoned specialist on-site. Based in Halle (Saale), Germany.">
+<link rel="canonical" href="https://www.tag-stop.de/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<style>
+:root{
+  --paper:#F2F4F0;
+  --paper-050:#FFFFFF;
+  --paper-100:#E7EBE5;
+  --ink-900:#16211D;
+  --ink-700:#3C4A43;
+  --ink-500:#6C7A72;
+  --ink-300:#A8B3AC;
+  --line:#CFD7CB;
+  --line-strong:#AFBBA9;
+  --accent:#B5541C;
+  --accent-600:#8F4116;
+  --accent-050:#F7E9DD;
+  --blue-ink:#2C5870;
+  --blue-050:#E4EDF0;
+  --panel-dark:#101A17;
+  --panel-dark-2:#182620;
+  --display:'Barlow Condensed',sans-serif;
+  --body:'IBM Plex Sans',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+:root[data-theme="dark"]{
+  --paper:#0E1613;
+  --paper-050:#131E1A;
+  --paper-100:#1A2622;
+  --ink-900:#EAF0EA;
+  --ink-700:#B7C4BC;
+  --ink-500:#899A90;
+  --ink-300:#3A4842;
+  --line:#28362F;
+  --line-strong:#3A4A42;
+  --accent:#E2874A;
+  --accent-600:#EEA46E;
+  --accent-050:#2A1D12;
+  --blue-ink:#7FB2CC;
+  --blue-050:#16262E;
+  --panel-dark:#08100D;
+  --panel-dark-2:#0F1915;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1613;
+    --paper-050:#131E1A;
+    --paper-100:#1A2622;
+    --ink-900:#EAF0EA;
+    --ink-700:#B7C4BC;
+    --ink-500:#899A90;
+    --ink-300:#3A4842;
+    --line:#28362F;
+    --line-strong:#3A4A42;
+    --accent:#E2874A;
+    --accent-600:#EEA46E;
+    --accent-050:#2A1D12;
+    --blue-ink:#7FB2CC;
+    --blue-050:#16262E;
+    --panel-dark:#08100D;
+    --panel-dark-2:#0F1915;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+}
+body{
+  font-family:var(--body);
+  background:var(--paper);
+  color:var(--ink-900);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+h1,h2,h3,h4{text-wrap:balance;}
+
+.wrap{
+  width:100%;
+  max-width:1120px;
+  margin:0 auto;
+  padding-inline:24px;
+}
+
+/* Header */
+header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-block:15px;
+}
+.brand{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:1.55rem;
+  letter-spacing:0.01em;
+  display:flex;
+  align-items:baseline;
+  gap:9px;
+}
+.brand .brand-sub{
+  font-family:var(--mono);
+  font-weight:500;
+  font-size:0.8rem;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:var(--ink-500);
+}
+.brand span{color:var(--accent);}
+.nav-links{
+  display:flex;
+  gap:26px;
+  align-items:center;
+}
+.nav-links a{
+  font-family:var(--mono);
+  font-size:0.9rem;
+  letter-spacing:0.03em;
+  text-transform:uppercase;
+  font-weight:500;
+  color:var(--ink-700);
+  transition:color .15s;
+}
+.nav-links a:hover{color:var(--accent);}
+.nav-cta{
+  background:var(--ink-900);
+  color:var(--paper) !important;
+  padding:9px 16px;
+  border-radius:3px;
+}
+.theme-toggle{
+  background:var(--paper-100);
+  border:1px solid var(--line);
+  border-radius:3px;
+  width:34px;
+  height:34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  color:var(--ink-700);
+}
+.menu-btn{
+  display:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  color:var(--ink-900);
+  padding:6px;
+}
+.nav-right{display:flex;align-items:center;gap:14px;}
+
+/* Hero — laid out like a drawing-sheet title block */
+.hero{
+  padding-block:56px 0;
+  position:relative;
+}
+.hero-frame{
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+}
+.hero-main{
+  padding:56px 40px 44px;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 27px, color-mix(in srgb, var(--line) 55%, transparent) 28px),
+    repeating-linear-gradient(90deg, transparent, transparent 27px, color-mix(in srgb, var(--line) 55%, transparent) 28px);
+  background-size:28px 28px;
+  background-position:center;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--mono);
+  font-size:0.85rem;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:20px;
+}
+.eyebrow::before{content:"●"; font-size:0.65rem;}
+.hero h1{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(2.2rem, 5.4vw, 3.9rem);
+  letter-spacing:-0.01em;
+  line-height:1.04;
+  max-width:880px;
+}
+.hero h1 em{
+  font-style:normal;
+  color:var(--accent);
+}
+.hero p.lead{
+  margin-top:22px;
+  font-size:1.1rem;
+  color:var(--ink-700);
+  max-width:640px;
+}
+.hero-actions{
+  display:flex;
+  gap:14px;
+  margin-top:34px;
+  flex-wrap:wrap;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:13px 24px;
+  border-radius:3px;
+  font-weight:600;
+  font-size:1.05rem;
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:transform .15s, box-shadow .15s, background .15s;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn-primary{
+  background:var(--accent);
+  color:#fff;
+  box-shadow:0 6px 16px -4px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.btn-primary:hover{background:var(--accent-600);}
+.btn-ghost{
+  background:var(--paper-050);
+  color:var(--ink-900);
+  border:1px solid var(--line-strong);
+}
+.btn-ghost:hover{border-color:var(--ink-500);}
+.btn-block{width:100%;justify-content:center;}
+.btn-sm{padding:9px 16px; font-size:0.9rem;}
+
+/* Section shared */
+section{padding-block:88px;}
+.section-head{
+  max-width:640px;
+  margin-bottom:52px;
+  display:flex;
+  align-items:baseline;
+  gap:16px;
+}
+.sheet-no{
+  font-family:var(--mono);
+  font-size:0.9rem;
+  color:var(--accent);
+  border:1px solid var(--line-strong);
+  border-radius:3px;
+  padding:3px 8px;
+  flex-shrink:0;
+  white-space:nowrap;
+}
+.kicker{
+  font-family:var(--mono);
+  font-size:0.9rem;
+  color:var(--accent);
+  border:1px solid var(--line-strong);
+  border-radius:3px;
+  padding:3px 8px;
+  display:inline-block;
+  margin-bottom:18px;
+}
+.section-head h2{
+  font-family:var(--display);
+  font-size:clamp(2.2rem, 3.9vw, 3rem);
+  font-weight:700;
+  letter-spacing:-0.005em;
+  line-height:1.08;
+}
+.section-head p{
+  margin-top:14px;
+  color:var(--ink-700);
+  font-size:1.15rem;
+  max-width:560px;
+}
+.alt-bg{background:var(--paper-050); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+
+/* About */
+.about-copy h3{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(1.95rem,3.4vw,2.65rem);
+  letter-spacing:-0.005em;
+  margin-bottom:20px;
+}
+.about-copy p{color:var(--ink-700); font-size:1.15rem; margin-bottom:16px;}
+
+/* Services */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+}
+.service-card{
+  padding:28px 22px;
+  background:var(--paper-050);
+  transition:background .15s;
+}
+.service-card:hover{background:color-mix(in srgb, var(--accent-050) 55%, var(--paper-050));}
+.service-card .icon{
+  width:42px;height:42px;
+  border-radius:3px;
+  background:var(--accent-050);
+  color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+}
+.service-card h3{
+  font-family:var(--display);
+  font-size:1.45rem;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.service-card p{font-size:1.05rem;color:var(--ink-700);}
+
+/* Products */
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+.product-card{
+  border:1px solid var(--line);
+  border-radius:4px;
+  overflow:hidden;
+  background:var(--paper-050);
+  display:flex;
+  flex-direction:column;
+}
+.product-body{padding:26px; display:flex; flex-direction:column; gap:6px; flex:1;}
+.product-tag{
+  font-family:var(--mono);
+  font-size:0.8rem;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--accent);
+}
+.product-body h3{font-family:var(--display); font-size:1.65rem; font-weight:700; margin-top:4px;}
+.product-desc{font-size:1rem;color:var(--ink-700); margin-top:6px;}
+.product-audience{
+  font-family:var(--mono);
+  font-size:0.85rem;
+  color:var(--ink-500);
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--line-strong);
+}
+.product-audience strong{color:var(--ink-700); font-weight:600;}
+.product-price{
+  font-family:var(--display);
+  font-size:2.1rem;
+  font-weight:700;
+  color:var(--ink-900);
+  margin-top:16px;
+}
+.product-price span{font-family:var(--mono); font-size:0.95rem; font-weight:500; color:var(--ink-500);}
+.product-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:20px;}
+.product-actions .btn{flex:1; justify-content:center; white-space:nowrap;}
+
+/* Custom development */
+.custom-wrap{
+  display:grid;
+  grid-template-columns:1.05fr 0.95fr;
+  gap:56px;
+  align-items:center;
+}
+.custom-copy h2{
+  font-family:var(--display);
+  font-size:clamp(1.9rem,3.2vw,2.5rem);
+  font-weight:700;
+  letter-spacing:-0.005em;
+  margin-bottom:16px;
+}
+.custom-copy p{color:var(--ink-700); font-size:1.1rem; margin-bottom:26px;}
+.check-list{display:flex; flex-direction:column; gap:14px;}
+.check-list li{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  font-size:1rem;
+  color:var(--ink-700);
+}
+.check-list .check-icon{
+  flex-shrink:0;
+  width:22px;height:22px;
+  border-radius:50%;
+  background:var(--accent-050);
+  color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.custom-card{
+  background:var(--paper-050);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:30px;
+}
+.custom-card h4{
+  font-family:var(--mono);
+  font-size:0.85rem;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  color:var(--ink-500);
+  margin-bottom:18px;
+}
+
+/* Pricing */
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  align-items:stretch;
+}
+.price-card{
+  border:1px solid var(--line);
+  border-radius:4px;
+  background:var(--paper-050);
+  padding:26px 22px;
+  display:flex;
+  flex-direction:column;
+}
+.price-card.is-custom{border-style:dashed; border-color:var(--line-strong); background:transparent;}
+.price-name{font-family:var(--display); font-size:1.3rem; font-weight:700;}
+.price-amount{
+  font-family:var(--display);
+  font-size:2.4rem;
+  font-weight:700;
+  margin-top:10px;
+  color:var(--ink-900);
+}
+.price-amount span{font-family:var(--mono); font-size:0.9rem; font-weight:500; color:var(--ink-500);}
+.price-amount.is-contact{font-size:1.5rem; color:var(--ink-700);}
+.price-features{display:flex; flex-direction:column; gap:10px; margin:22px 0 24px; flex:1;}
+.price-features li{
+  display:flex; align-items:flex-start; gap:9px;
+  font-size:0.92rem; color:var(--ink-700);
+}
+.price-features .check-icon{
+  flex-shrink:0; width:18px;height:18px;
+  border-radius:50%;
+  background:var(--accent-050); color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.price-note{font-family:var(--mono); font-size:0.78rem; color:var(--ink-500); text-align:center; margin-top:10px;}
+
+/* Projects (legacy alias kept for shared list styling) */
+.project-meta{
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--mono);
+  font-size:0.85rem;
+  color:var(--ink-500);
+  padding-top:12px;
+  border-top:1px dashed var(--line-strong);
+  font-variant-numeric:tabular-nums;
+}
+
+/* Process — real sequence, so numbering earns its place */
+.process-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  border-top:1px solid var(--line-strong);
+  position:relative;
+}
+.process-step{
+  padding:24px 22px 0;
+  position:relative;
+  border-right:1px solid var(--line);
+}
+.process-step:last-child{border-right:none;}
+.process-step:first-child::before{
+  content:"";
+  position:absolute;
+  top:-1px; left:0;
+  width:100%; height:2px;
+  background:var(--accent);
+}
+.step-num{
+  font-family:var(--mono);
+  font-size:0.9rem;
+  font-weight:600;
+  color:var(--accent);
+  margin-bottom:14px;
+  display:block;
+}
+.process-step h4{font-family:var(--display); font-size:1.4rem; font-weight:700; margin-bottom:8px;}
+.process-step p{font-size:1rem;color:var(--ink-500);}
+
+/* Contact */
+.contact-wrap{
+  display:grid;
+  grid-template-columns:0.9fr 1.1fr;
+  gap:56px;
+}
+.contact-info h2{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(1.85rem,2.9vw,2.4rem);
+  margin-bottom:8px;
+}
+.contact-info{display:flex; flex-direction:column; gap:20px;}
+.contact-item{display:flex; gap:14px; align-items:flex-start;}
+.contact-item .icon{
+  width:38px;height:38px;flex-shrink:0;
+  border-radius:3px;
+  background:var(--accent-050);
+  color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+}
+.contact-item h4{font-size:1.05rem;font-weight:600;}
+.contact-item p, .contact-item a{font-size:1rem;color:var(--ink-500);}
+
+.form-card{
+  background:var(--paper-050);
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:32px;
+}
+.form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+.field{margin-bottom:18px;}
+.field label{
+  display:block;
+  font-family:var(--mono);
+  font-size:0.85rem;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  font-weight:500;
+  margin-bottom:8px;
+  color:var(--ink-700);
+}
+.field input, .field select, .field textarea{
+  width:100%;
+  padding:11px 13px;
+  border:1px solid var(--line-strong);
+  border-radius:3px;
+  background:var(--paper);
+  color:var(--ink-900);
+  font-family:var(--body);
+  font-size:1.05rem;
+}
+.field textarea{resize:vertical; min-height:110px;}
+.field input:focus, .field select:focus, .field textarea:focus{
+  outline:none;
+  border-color:var(--accent);
+  background:var(--paper-050);
+}
+#form-status{font-size:1rem; margin-top:14px; display:none;}
+#form-status.show{display:block;}
+#form-status.ok{color:var(--blue-ink);}
+#form-status.error{color:var(--accent-600);}
+
+/* CTA band — always dark, so pin its colors instead of the theme-swappable vars */
+.cta-band{
+  --paper:#F2F4F0;
+  --ink-300:#A8B3AC;
+  --line-strong:#AFBBA9;
+  --accent:#E2874A;
+  --accent-600:#EEA46E;
+  background:var(--panel-dark);
+  color:var(--paper);
+  border-radius:4px;
+  padding:52px 44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.cta-band h2{
+  font-family:var(--display);
+  font-size:2.3rem;
+  font-weight:700;
+  max-width:480px;
+  color:var(--paper);
+}
+.cta-band p{color:var(--ink-300); margin-top:10px;}
+.cta-band .btn-primary{background:var(--accent); color:#fff;}
+.cta-band .btn-primary:hover{background:var(--accent-600);}
+
+/* Footer */
+footer{
+  border-top:1px solid var(--line);
+  padding-block:32px;
+}
+.footer-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:14px;
+}
+.footer-row p{font-family:var(--mono); font-size:0.9rem; color:var(--ink-500);}
+.footer-links{display:flex; gap:22px; flex-wrap:wrap;}
+.footer-links a{font-family:var(--mono); font-size:0.9rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-500);}
+.footer-links a:hover{color:var(--accent);}
+
+/* Cookie consent banner — always dark, so pin its colors instead of the theme-swappable vars */
+.cookie-banner{
+  --paper:#F2F4F0;
+  --ink-300:#A8B3AC;
+  --line-strong:#AFBBA9;
+  --accent-600:#EEA46E;
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:200;
+  background:var(--panel-dark);
+  color:var(--paper);
+  border-top:1px solid var(--line-strong);
+  transform:translateY(100%);
+  transition:transform .25s ease;
+}
+.cookie-banner.show{transform:translateY(0);}
+.cookie-banner-inner{
+  padding-block:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.cookie-banner-inner p{font-size:0.95rem; color:var(--ink-300); max-width:640px;}
+.cookie-banner-inner a{color:var(--accent-600); text-decoration:underline; text-underline-offset:2px;}
+.cookie-banner-actions{display:flex; gap:10px; flex-wrap:wrap;}
+.cookie-banner .btn-ghost{background:transparent; color:var(--paper); border-color:var(--line-strong);}
+.cookie-banner .btn-ghost:hover{border-color:var(--paper);}
+
+/* Cookie preferences modal */
+.cookie-modal{
+  position:fixed; inset:0;
+  z-index:210;
+  background:color-mix(in srgb, var(--ink-900) 55%, transparent);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.cookie-modal.show{display:flex;}
+.cookie-modal-card{
+  background:var(--paper-050);
+  border:1px solid var(--line);
+  border-radius:6px;
+  padding:32px;
+  max-width:520px;
+  width:100%;
+  max-height:86vh;
+  overflow-y:auto;
+}
+.cookie-modal-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+.cookie-modal-head h3{font-family:var(--display); font-size:1.5rem; font-weight:700;}
+.cookie-modal-close{
+  background:none; border:none; cursor:pointer;
+  color:var(--ink-500); font-size:1.1rem; line-height:1; padding:4px;
+}
+.cookie-modal-intro{color:var(--ink-700); font-size:0.95rem; margin-bottom:22px;}
+.cookie-cat{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:18px;
+  padding-block:16px;
+  border-top:1px solid var(--line);
+}
+.cookie-cat h4{font-size:1rem; font-weight:600; margin-bottom:4px;}
+.cookie-cat p{font-size:0.9rem; color:var(--ink-500);}
+.cookie-modal-actions{display:flex; justify-content:flex-end; gap:12px; margin-top:24px;}
+
+/* Toggle switch */
+.switch{position:relative; display:inline-block; width:42px; height:24px; flex-shrink:0; margin-top:2px;}
+.switch input{opacity:0; width:0; height:0; position:absolute;}
+.switch-track{
+  position:absolute; inset:0; cursor:pointer;
+  background:var(--line-strong);
+  border-radius:24px;
+  transition:background .15s;
+}
+.switch-track::before{
+  content:""; position:absolute;
+  height:18px; width:18px; left:3px; top:3px;
+  background:#fff;
+  border-radius:50%;
+  transition:transform .15s;
+}
+.switch input:checked + .switch-track{background:var(--accent);}
+.switch input:checked + .switch-track::before{transform:translateX(18px);}
+.switch input:disabled + .switch-track{opacity:0.6; cursor:not-allowed;}
+
+@media (max-width:640px){
+  .cookie-banner-inner{flex-direction:column; align-items:flex-start;}
+  .cookie-banner-actions{width:100%;}
+  .cookie-banner-actions .btn{flex:1;}
+}
+
+/* Responsive */
+@media (max-width: 900px){
+  .nav-links{
+    position:fixed;
+    top:64px; left:0; right:0;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    flex-direction:column;
+    align-items:flex-start;
+    padding:20px 24px;
+    gap:18px;
+    display:none;
+  }
+  .nav-links.open{display:flex;}
+  .menu-btn{display:flex;}
+  .services-grid{grid-template-columns:repeat(2,1fr);}
+  .products-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:repeat(2,1fr);}
+  .process-grid{grid-template-columns:repeat(2,1fr);}
+  .process-step{border-bottom:1px solid var(--line); padding-bottom:20px;}
+  .process-step:nth-child(2n){border-right:none;}
+  .contact-wrap{grid-template-columns:1fr;}
+  .custom-wrap{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .cta-band{flex-direction:column; align-items:flex-start;}
+}
+@media (max-width: 560px){
+  .services-grid{grid-template-columns:1fr;}
+  .process-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  section{padding-block:64px;}
+  .hero-main{padding:40px 22px 32px;}
+}
+</style>
 </head>
 <body>
-
-<!--
-  EDIT ME: replace contact details, project descriptions,
-  testimonials and stats below with your real information.
--->
 
 <header>
   <div class="wrap nav">
     <a href="#top" class="brand">TAG<span> STOP</span><span class="brand-sub">Eng. / PM</span></a>
     <div class="nav-links">
       <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#projects">Projects</a>
-      <a href="#process">Process</a>
+      <a href="#products">Products</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#custom">Custom Work</a>
       <a href="#contact" class="nav-cta">Get in touch</a>
     </div>
     <div class="nav-right">
@@ -44,11 +779,11 @@
       <div class="hero-frame">
         <div class="hero-main">
           <span class="eyebrow">Open for new commissions</span>
-          <h1>Delivering <em>Complex Technical Projects</em> — On Time, On Budget, On Spec.</h1>
-          <p class="lead">Tag Stop is an engineering and project management consultancy that helps organizations plan, integrate, and deliver technical projects — from physical systems and installations to the infrastructure that keeps them running.</p>
+          <h1>Engineering Software &amp; Consulting — <em>Built for Companies That Run on Fieldwork</em></h1>
+          <p class="lead">Tag Stop builds operational software for contractors, construction teams, and hospitality businesses — and leads the technical projects that need a seasoned engineer on-site.</p>
           <div class="hero-actions">
-            <a href="#contact" class="btn btn-primary">Start a project</a>
-            <a href="#projects" class="btn btn-ghost">View past work</a>
+            <a href="#contact-form" class="btn btn-primary">Start a project</a>
+            <a href="#products" class="btn btn-ghost">Explore products</a>
           </div>
         </div>
       </div>
@@ -117,12 +852,12 @@
         <div class="service-card">
           <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
           <h3>Project Management</h3>
-          <p>End-to-end planning and delivery for technical projects, from feasibility to commissioning.</p>
+          <p>End-to-end planning and delivery for technical projects, run with SitePlan — our own scheduling, milestone and constraint-tracking tool — from feasibility to commissioning.</p>
         </div>
         <div class="service-card">
           <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
           <h3>IT Solutions &amp; Integration</h3>
-          <p>Practical IT systems for industrial and commercial environments — built to fit real operations.</p>
+          <p>Field-operations software like OpsDesk, plus custom integrations that connect the tools you already run instead of replacing them.</p>
         </div>
         <div class="service-card">
           <div class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"/></svg></div>
@@ -138,40 +873,146 @@
     </div>
   </section>
 
-  <!-- Projects -->
-  <section id="projects" class="alt-bg">
+  <!-- Products -->
+  <section id="products" class="alt-bg">
     <div class="wrap">
       <div class="section-head">
         <span class="sheet-no">SHEET&nbsp;04</span>
         <div>
-          <h2>Solutions by use case</h2>
-          <p>A sample of the kind of work Tag Stop takes on — replace with your own case studies.</p>
+          <h2>Software for teams that work in the field</h2>
+          <p>Three focused products, each grown out of a real engagement — pick the one that matches how your team runs, or see them live before you talk to us.</p>
         </div>
       </div>
-      <div class="projects-grid">
-        <div class="project-card">
-          <div class="project-body">
-            <span class="project-tag">Case Study</span>
-            <h3>Public Lighting Ops Console</h3>
-            <p>Built a ticket-to-repair console for a regional electrical-infrastructure contractor — role-gated triage, dispatch, and a paper-to-digital field report loop replacing phone calls and paper forms.</p>
-            <div class="project-meta"><a href="demos/public-lighting-ops-console.html" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">View live demo →</a></div>
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-body">
+            <span class="product-tag">SaaS Product</span>
+            <h3>OpsDesk</h3>
+            <p class="product-desc">Field operations and ticket management system for service companies.</p>
+            <p class="product-audience">Best for: <strong>Electrical contractors, utility companies, municipalities</strong></p>
+            <p class="product-price">€99<span>/month</span></p>
+            <div class="product-actions">
+              <a href="https://darkmoor14.github.io/Grup/demos/public-lighting-ops-console.html" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Demo</a>
+              <a href="#contact-form" class="btn btn-primary btn-sm" data-prefill-service="OpsDesk — Free Trial">Start Free Trial</a>
+            </div>
           </div>
         </div>
-        <div class="project-card">
-          <div class="project-body">
-            <span class="project-tag">Case Study</span>
-            <h3>Last Planner System</h3>
-            <p>A weekly promise-and-tracking layer for internal jobs — milestones, look-ahead planning, a constraint log, and PPC scoring, built on Lean Construction's Last Planner method.</p>
-            <div class="project-meta"><a href="demos/last-planner-system.html" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">View live demo →</a></div>
+        <div class="product-card">
+          <div class="product-body">
+            <span class="product-tag">SaaS Product</span>
+            <h3>SitePlan</h3>
+            <p class="product-desc">Lean construction planning and progress tracking.</p>
+            <p class="product-audience">Best for: <strong>Construction project managers</strong></p>
+            <p class="product-price">€49<span>/month</span></p>
+            <div class="product-actions">
+              <a href="https://darkmoor14.github.io/Grup/demos/last-planner-system.html" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Demo</a>
+              <a href="#contact-form" class="btn btn-primary btn-sm" data-prefill-service="SitePlan — Free Trial">Start Free Trial</a>
+            </div>
           </div>
         </div>
-        <div class="project-card">
-          <div class="project-body">
-            <span class="project-tag">Case Study</span>
-            <h3>Guesthouse Booking Console</h3>
-            <p>A booking-to-checkout system for a family-run mountain guesthouse — a rolling room calendar across booking channels, automatic room assignment, and pricing that adjusts itself.</p>
-            <div class="project-meta"><a href="demos/guesthouse-booking-console.html" style="color:var(--accent);text-decoration:underline;text-underline-offset:2px;">View live demo →</a></div>
+        <div class="product-card">
+          <div class="product-body">
+            <span class="product-tag">SaaS Product</span>
+            <h3>StayDesk</h3>
+            <p class="product-desc">Booking and operations console for small hotels and guesthouses.</p>
+            <p class="product-audience">Best for: <strong>Small hotels, guesthouses, B&amp;Bs</strong></p>
+            <p class="product-price">€19<span>/month</span></p>
+            <div class="product-actions">
+              <a href="https://darkmoor14.github.io/Grup/demos/guesthouse-booking-console.html" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">View Demo</a>
+              <a href="#contact-form" class="btn btn-primary btn-sm" data-prefill-service="StayDesk — Free Trial">Start Free Trial</a>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Development -->
+  <section id="custom">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="sheet-no">SHEET&nbsp;05</span>
+        <div>
+          <h2>Custom development</h2>
+        </div>
+      </div>
+      <div class="custom-wrap">
+        <div class="custom-copy">
+          <h2>Need something built for your specific workflow?</h2>
+          <p>If your operations don't fit a standard product, Tag Stop can build a tailored solution. From custom field tools to internal dashboards and integrations — describe your problem and we'll scope a solution together.</p>
+          <a href="#contact-form" class="btn btn-primary" data-prefill-service="Custom Development">Discuss your project</a>
+        </div>
+        <div class="custom-card">
+          <h4>Custom work covers</h4>
+          <ul class="check-list">
+            <li><span class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Custom ticket workflows</li>
+            <li><span class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>System integrations</li>
+            <li><span class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Internal dashboards</li>
+            <li><span class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Data migration</li>
+            <li><span class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>API connections</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="alt-bg">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="sheet-no">SHEET&nbsp;06</span>
+        <div>
+          <h2>Pricing</h2>
+          <p>Every plan starts with a 14-day free trial — no credit card required. Cancel any time.</p>
+        </div>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <span class="price-name">OpsDesk</span>
+          <p class="price-amount">€99<span>/month</span></p>
+          <ul class="price-features">
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Role-gated ticket triage &amp; dispatch</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Paper-to-digital field reports</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Real-time status dashboard</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Installable phone app</li>
+          </ul>
+          <a href="#contact-form" class="btn btn-primary btn-block" data-prefill-service="OpsDesk — Free Trial">Start free trial</a>
+          <p class="price-note">14 days free · no credit card required</p>
+        </div>
+        <div class="price-card">
+          <span class="price-name">SitePlan</span>
+          <p class="price-amount">€49<span>/month</span></p>
+          <ul class="price-features">
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Weekly work planning &amp; PPC scoring</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Look-ahead scheduling</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Constraint log &amp; root-cause tracking</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Installable phone app</li>
+          </ul>
+          <a href="#contact-form" class="btn btn-primary btn-block" data-prefill-service="SitePlan — Free Trial">Start free trial</a>
+          <p class="price-note">14 days free · no credit card required</p>
+        </div>
+        <div class="price-card">
+          <span class="price-name">StayDesk</span>
+          <p class="price-amount">€19<span>/month</span></p>
+          <ul class="price-features">
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Rolling multi-channel room calendar</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Automatic room assignment</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Dynamic pricing rules</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Installable phone app</li>
+          </ul>
+          <a href="#contact-form" class="btn btn-primary btn-block" data-prefill-service="StayDesk — Free Trial">Start free trial</a>
+          <p class="price-note">14 days free · no credit card required</p>
+        </div>
+        <div class="price-card is-custom">
+          <span class="price-name">Custom / Enterprise</span>
+          <p class="price-amount is-contact">Contact for pricing</p>
+          <ul class="price-features">
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Tailored to your exact workflow</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Dedicated onboarding &amp; support</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Custom integrations &amp; API access</li>
+            <li><span class="check-icon"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>Flexible billing terms</li>
+          </ul>
+          <a href="#contact-form" class="btn btn-ghost btn-block" data-prefill-service="Custom Development">Get a quote</a>
         </div>
       </div>
     </div>
@@ -190,9 +1031,9 @@
 
       <div class="contact-wrap">
         <div class="contact-info">
-          <span class="kicker">SHEET 05 — CONTACT</span>
+          <span class="kicker">SHEET 07 — CONTACT</span>
           <h2>Let's talk about your project</h2>
-          <p style="color:var(--ink-700);margin-bottom:10px;">Based in your city, available for on-site and remote engagements.</p>
+          <p style="color:var(--ink-700);margin-bottom:10px;">Based in Halle (Saale), Germany — available on-site and remote worldwide.</p>
 
           <div class="contact-item">
             <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6 12 13 2 6"/><path d="M2 6h20v12H2z"/></svg></div>
@@ -205,7 +1046,7 @@
             <div class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <div>
               <h4>Location</h4>
-              <p>Available on-site &amp; remote worldwide</p>
+              <p>Halle (Saale), Germany — on-site &amp; remote worldwide</p>
             </div>
           </div>
         </div>
@@ -214,9 +1055,9 @@
           <!--
             EDIT ME: replace YOUR_FORM_ID below with your real Formspree
             form ID. Sign up free at https://formspree.io, create a new
-            form pointed at office@tag-stop.de (or whatever address should
-            receive these), and it'll give you an ID like "abcdwxyz" —
-            drop it into the action URL in place of YOUR_FORM_ID.
+            form pointed at office@tag-stop.de, and it'll give you an ID
+            like "abcdwxyz" — drop it into the action URL in place of
+            YOUR_FORM_ID.
           -->
           <form id="contact-form-el" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
             <div class="form-row">
@@ -235,8 +1076,12 @@
                 <input id="company" name="company" type="text" placeholder="Company name">
               </div>
               <div class="field">
-                <label for="service">Service needed</label>
+                <label for="service">What do you need?</label>
                 <select id="service" name="service">
+                  <option>OpsDesk — Free Trial</option>
+                  <option>SitePlan — Free Trial</option>
+                  <option>StayDesk — Free Trial</option>
+                  <option>Custom Development</option>
                   <option>Project Management</option>
                   <option>IT Solutions &amp; Integration</option>
                   <option>Electrical Engineering</option>
@@ -249,7 +1094,7 @@
               <label for="message">Project details</label>
               <textarea id="message" name="message" required placeholder="Describe the project, timeline and budget range."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Send message</button>
+            <button type="submit" class="btn btn-primary btn-block">Send message</button>
             <p id="form-status"></p>
           </form>
         </div>
@@ -261,11 +1106,12 @@
 
 <footer>
   <div class="wrap footer-row">
-    <p>© <span id="year"></span> Tag Stop. All rights reserved.</p>
+    <p>© <span id="year"></span> Tag Stop. All rights reserved. · <a href="mailto:office@tag-stop.de" style="color:inherit;">office@tag-stop.de</a></p>
     <div class="footer-links">
       <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#projects">Projects</a>
+      <a href="#products">Products</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#custom">Custom Work</a>
       <a href="#contact">Contact</a>
       <a href="legal/impressum.html">Impressum</a>
       <a href="legal/datenschutz.html">Privacy Policy</a>
@@ -326,6 +1172,149 @@
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const menuBtn = document.querySelector('.menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  menuBtn?.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // --- Cookie consent (TTDSG / GDPR) ---
+  const CONSENT_KEY = 'ts_cookie_consent';
+  const getConsent = () => {
+    try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); } catch (e) { return null; }
+  };
+  const setConsent = (consent) => {
+    try { localStorage.setItem(CONSENT_KEY, JSON.stringify(consent)); } catch (e) {}
+  };
+  const hasFunctionalConsent = () => !!getConsent()?.functional;
+
+  const root = document.documentElement;
+  const themeToggle = document.querySelector('.theme-toggle');
+  const applyIcon = () => {
+    const isDark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (themeToggle) themeToggle.textContent = isDark ? '☀' : '☾';
+  };
+  if (hasFunctionalConsent()) {
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved) root.setAttribute('data-theme', saved);
+    } catch (e) {}
+  }
+  applyIcon();
+  themeToggle?.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    if (hasFunctionalConsent()) {
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    }
+    applyIcon();
+  });
+
+  const cookieBanner = document.getElementById('cookie-banner');
+  const cookieModal = document.getElementById('cookie-modal');
+  const functionalToggle = document.getElementById('cookie-functional');
+  const analyticsToggle = document.getElementById('cookie-analytics');
+
+  const showBanner = () => cookieBanner?.classList.add('show');
+  const hideBanner = () => cookieBanner?.classList.remove('show');
+  const openModal = () => {
+    const c = getConsent() || {};
+    if (functionalToggle) functionalToggle.checked = !!c.functional;
+    if (analyticsToggle) analyticsToggle.checked = !!c.analytics;
+    cookieModal?.classList.add('show');
+  };
+  const closeModal = () => cookieModal?.classList.remove('show');
+
+  const applyConsent = (consent) => {
+    if (!consent.functional) {
+      try { localStorage.removeItem('theme'); } catch (e) {}
+    }
+  };
+
+  if (!getConsent()) showBanner();
+
+  document.getElementById('cookie-accept-all')?.addEventListener('click', () => {
+    const consent = { necessary: true, functional: true, analytics: true, ts: Date.now() };
+    setConsent(consent);
+    applyConsent(consent);
+    hideBanner();
+  });
+  document.getElementById('cookie-reject')?.addEventListener('click', () => {
+    const consent = { necessary: true, functional: false, analytics: false, ts: Date.now() };
+    setConsent(consent);
+    applyConsent(consent);
+    hideBanner();
+  });
+  document.getElementById('cookie-manage')?.addEventListener('click', openModal);
+  document.getElementById('footer-cookie-settings')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();
+  });
+  document.getElementById('cookie-modal-close')?.addEventListener('click', closeModal);
+  document.getElementById('cookie-modal-cancel')?.addEventListener('click', closeModal);
+  document.getElementById('cookie-save')?.addEventListener('click', () => {
+    const consent = {
+      necessary: true,
+      functional: !!functionalToggle?.checked,
+      analytics: !!analyticsToggle?.checked,
+      ts: Date.now()
+    };
+    setConsent(consent);
+    applyConsent(consent);
+    closeModal();
+    hideBanner();
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Pre-fill the "What do you need?" field when a product/CTA button is clicked
+  const serviceSelect = document.getElementById('service');
+  document.querySelectorAll('[data-prefill-service]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const value = btn.getAttribute('data-prefill-service');
+      if (!serviceSelect || !value) return;
+      const opt = Array.from(serviceSelect.options).find(o => o.value === value);
+      if (opt) serviceSelect.value = opt.value;
+    });
+  });
+
+  const form = document.getElementById('contact-form-el');
+  const status = document.getElementById('form-status');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    status.classList.remove('show', 'ok', 'error');
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (response.ok) {
+        status.textContent = "Thanks — your message has been sent. Expect a reply within one business day.";
+        status.classList.add('show', 'ok');
+        form.reset();
+      } else {
+        status.textContent = "Something went wrong sending that — please try again or email office@tag-stop.de directly.";
+        status.classList.add('show', 'error');
+      }
+    } catch (err) {
+      status.textContent = "Something went wrong sending that — please try again or email office@tag-stop.de directly.";
+      status.classList.add('show', 'error');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+});
+</script>
 </body>
 </html>
